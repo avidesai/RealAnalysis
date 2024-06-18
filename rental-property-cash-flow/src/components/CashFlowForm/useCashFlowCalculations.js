@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState({
@@ -25,12 +25,19 @@ const useCashFlowCalculations = () => {
     mortgageRate: 0.072,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || 0,
+      replacementReserve: Math.round(prevData.squareFeet / 12),
     }));
+  }, [formData.squareFeet]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || 0,
+    });
   };
 
   const formatNumberWithCommas = (x) => {
@@ -45,7 +52,6 @@ const useCashFlowCalculations = () => {
   const calculateValues = () => {
     const {
       purchasePrice,
-      squareFeet,
       monthlyRentPerUnit,
       numberOfUnits,
       propertyTaxRate,
