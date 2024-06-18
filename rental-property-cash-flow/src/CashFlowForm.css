@@ -24,7 +24,7 @@ body {
 h1, h2, h3 {
   text-align: center;
   color: #00b2fe;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   letter-spacing: 2px;
 }
 
@@ -95,7 +95,8 @@ h3 {
 .result-item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-size: 1.1rem;
 }
 

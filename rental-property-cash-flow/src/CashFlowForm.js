@@ -171,6 +171,7 @@ const CashFlowForm = () => {
             <strong>{formatCurrency(results.annualCashFlow)}</strong>
           </span>
         </div>
+        <div className="form-divider"></div>
 
         <h2>Monthly Gross Income</h2>
         <div className="result-item">
@@ -261,7 +262,7 @@ const CashFlowForm = () => {
         <h2>Cap Rate and Valuation</h2>
         <div className="form-group">
           <label>Desired Cap Rate (%): </label>
-          <input type="number" step="0.10" name="desiredCapRate" value={(formData.desiredCapRate * 100).toFixed(2)} onChange={(e) => handleChange({ target: { name: 'desiredCapRate', value: (e.target.value / 100).toFixed(4) } })} />
+          <input type="number" step="0.50" name="desiredCapRate" value={(formData.desiredCapRate * 100).toFixed(2)} onChange={(e) => handleChange({ target: { name: 'desiredCapRate', value: (e.target.value / 100).toFixed(4) } })} />
         </div>
         <div className="result-item">
           <span>Property Valuation (Offer Price):</span> <span><strong>{formatCurrency(results.propertyValuation)}</strong></span>
