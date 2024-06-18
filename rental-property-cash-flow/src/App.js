@@ -1,11 +1,11 @@
 import React from 'react';
-import CashFlowAnalysis from './CashFlowAnalysis';
+import CashFlowForm from './CashFlowForm';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <CashFlowAnalysis />
+      <CashFlowForm />
     </div>
   );
 }
