@@ -1,6 +1,7 @@
 // CashFlowForm.js
 
 import React, { useState } from 'react';
+import cashImg from './assets/cash.png';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
@@ -130,7 +131,10 @@ const CashFlowForm = () => {
 
   return (
     <div className="container">
-      <h1>CashFlow.io</h1>
+      <div className='header'>
+        <h1>CashFlow.io</h1>
+        <img src={cashImg} alt="Cash Flow Logo" className="logo" />
+      </div>
       <form className="form">
         <div className="form-group">
           <label>Purchase Price: </label>

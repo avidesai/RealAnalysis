@@ -1,0 +1,44 @@
+/* Navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #0d1117; /* Match background with the rest of the website */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Increase shadow for a more futuristic look */
+    margin-bottom: 20px;
+    color: #e1e1e1; /* Lighten the color of the text */
+}
+
+.navbar-logo {
+    width: 40px;
+    height: auto;
+}
+
+.navbar-right {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-button {
+    background-color: #0061fe; /* Bright button color for contrast */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to buttons */
+}
+
+.navbar-button:hover {
+    background-color: #008bbf;
+    transform: translateY(-2px); /* Add a slight lift on hover */
+}
+
+.navbar-button:focus {
+    outline: none;
+}
