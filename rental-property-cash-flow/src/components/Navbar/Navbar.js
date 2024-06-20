@@ -1,6 +1,5 @@
-// Navbar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import cashImg from '../../assets/cash.png';
 import './Navbar.css';
 
@@ -8,9 +7,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/">
+        <NavLink to="/">
           <img src={cashImg} alt="Cash Flow Logo" className="navbar-logo" />
-        </Link>
+        </NavLink>
       </div>
       <div className="navbar-right">
         <button className="navbar-button">Account</button>

@@ -6,7 +6,7 @@ import CashFlowForm from './components/CashFlowForm/CashFlowForm';
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/RealAnalysis">
       <div>
         <Navbar />
         <Routes>
