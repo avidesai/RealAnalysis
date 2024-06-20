@@ -1,3 +1,5 @@
+// CashFlowForm.js
+
 import React from 'react';
 import useCashFlowCalculations from './useCashFlowCalculations';
 import './CashFlowForm.css';
@@ -157,6 +159,9 @@ const CashFlowForm = () => {
         <div className="form-divider"></div>
         <div className="result-item">
           <span>Cap Rate:</span> <span><strong>{(results.capRate * 100).toFixed(2)}%</strong></span>
+        </div>
+        <div className="result-item">
+          <span>Dollar per Square Foot:</span> <span><strong>{formatCurrency(results.dollarPerSquareFoot)}</strong></span>
         </div>
 
         <h2>Loan Information</h2>

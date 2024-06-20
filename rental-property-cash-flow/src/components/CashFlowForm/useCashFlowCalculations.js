@@ -1,3 +1,5 @@
+// useCashFlowCalculations.js
+
 import { useState, useEffect } from 'react';
 
 const useCashFlowCalculations = () => {
@@ -52,6 +54,7 @@ const useCashFlowCalculations = () => {
   const calculateValues = () => {
     const {
       purchasePrice,
+      squareFeet,
       monthlyRentPerUnit,
       numberOfUnits,
       propertyTaxRate,
@@ -107,6 +110,7 @@ const useCashFlowCalculations = () => {
 
     const capRate = annualNetOperatingIncome / purchasePrice;
     const propertyValuation = annualNetOperatingIncome / desiredCapRate;
+    const dollarPerSquareFoot = purchasePrice / squareFeet;
 
     const monthlyCashFlow = monthlyGrossIncome - monthlyOperatingExpenses - monthlyMortgagePayment;
     const annualCashFlow = monthlyCashFlow * 12;
@@ -130,7 +134,8 @@ const useCashFlowCalculations = () => {
       propertyTax,
       monthlyGrossIncome,
       vacancyLoss,
-      monthlyRentalIncome
+      monthlyRentalIncome,
+      dollarPerSquareFoot
     };
   };
 

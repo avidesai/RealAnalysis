@@ -48,7 +48,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .form {
@@ -61,7 +61,8 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .form-group label {
@@ -81,8 +82,9 @@ h3 {
   outline: none;
   transition: background 0.3s ease;
   text-align: center;
-  flex: 0.5; /* Decrease this value */
-  margin-left: 10px;
+  flex: 0.3; /* Decrease this value */
+  max-width: 125px;
+  padding-left: 20px;
 }
 
 .form-group input:focus {
