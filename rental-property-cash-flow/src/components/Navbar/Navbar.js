@@ -1,3 +1,5 @@
+// Navbar.js
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import cashImg from '../../assets/cash.png';
@@ -12,9 +14,9 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-right">
+        <button className="navbar-button premium-button">Premium</button>
+        <button className="navbar-button">About</button>
         <button className="navbar-button">Account</button>
-        <button className="navbar-button">Login</button>
-        <button className="navbar-button">Signup</button>
       </div>
     </nav>
   );
