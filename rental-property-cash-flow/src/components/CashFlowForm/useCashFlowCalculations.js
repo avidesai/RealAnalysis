@@ -1,5 +1,3 @@
-// useCashFlowCalculations.js
-
 import { useState, useEffect } from 'react';
 
 const useCashFlowCalculations = () => {
@@ -36,10 +34,10 @@ const useCashFlowCalculations = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || 0,
-    });
+    }));
   };
 
   const formatNumberWithCommas = (x) => {

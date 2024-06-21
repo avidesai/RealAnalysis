@@ -1,3 +1,5 @@
+/* CashFlowForm.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;700&display=swap');
 
 body {
@@ -72,7 +74,12 @@ h3 {
   flex: 4; /* Increase this value */
 }
 
-.form-group input {
+.formatted-number-input {
+  display: flex;
+  align-items: center;
+}
+
+.formatted-number-input input {
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -82,13 +89,36 @@ h3 {
   outline: none;
   transition: background 0.3s ease;
   text-align: center;
-  flex: 0.3; /* Decrease this value */
-  max-width: 125px;
-  padding-left: 20px;
+  flex: 0.8;
+  max-width: 150px;
 }
 
-.form-group input:focus {
+.formatted-number-input input:focus {
   background: #161b22;
+}
+
+.step-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: -30px;
+}
+
+.step-buttons button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c9d1d9;
+  font-size: 12px;
+  padding: 2px;
+  transition: color 0.3s ease;
+}
+
+.step-buttons button:hover {
+  color: #00b2fe;
+}
+
+.step-buttons button:focus {
+  outline: none;
 }
 
 .results {
