@@ -1,8 +1,10 @@
 // App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CashFlowForm from './components/CashFlowForm/CashFlowForm';
+import CashFlowFormPremium from './components/CashFlowPremium/CashFlowFormPremium';
 
 const App = () => {
   return (
@@ -11,7 +13,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<CashFlowForm />} />
-          {/* Add more routes as needed */}
+          <Route path="/premium" element={<CashFlowFormPremium />} />
         </Routes>
       </div>
     </Router>

@@ -14,7 +14,7 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-right">
-        <button className="navbar-button premium-button">Premium</button>
+        <NavLink to="/premium" className="navbar-button premium-button">Premium</NavLink>
         <button className="navbar-button">About</button>
         <button className="navbar-button">Account</button>
       </div>
