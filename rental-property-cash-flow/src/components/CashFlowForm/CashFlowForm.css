@@ -10,67 +10,57 @@ body {
 
 .container {
   max-width: 600px;
-  margin: 40px auto;
-  padding: 45px 45px 30px 45px;
+  margin: 20px auto;
+  padding: 25px 25px 15px 25px; /* Slightly more compact padding */
   background: #161b22;
-  border-radius: 25px;
-  box-shadow: 0 15px 30px rgba(50, 50, 50, 0.1);
+  border-radius: 12px; /* More modern radius */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Softer shadow for a sleek look */
 }
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 15px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 2.5rem;
-  line-height: 1;
+  font-size: 24px; /* Standardized font size */
+  line-height: 1.2;
 }
 
 .logo {
-  width: 50px;
+  width: 35px; /* Adjusted for balance */
   height: auto;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 h2, h3, h4 {
   text-align: center;
   color: #00b2fe;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-}
-
-h2 {
-  font-size: 1.8rem;
-}
-
-h3 {
-  margin: 0;
-  font-size: 1.4rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px; /* Subtle letter spacing for a sleek look */
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 10px; /* Reduced gap for compactness */
 }
 
 .form-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 4px 0;
 }
 
 .form-group label {
-  font-size: 1.1rem;
+  font-size: 16px; /* Standardized font size */
   font-weight: 600;
   color: #cbd4de;
-  flex: 4; /* Increase this value */
+  flex: 4;
 }
 
 .formatted-number-input {
@@ -79,47 +69,47 @@ h3 {
 }
 
 .formatted-number-input input {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
+  padding: 10px; /* Comfortable padding */
+  border: 1px solid #30363d; /* Subtle border */
+  border-radius: 8px; /* Modern border radius */
+  font-size: 16px; /* Standardized font size */
   background: #0d1117;
   color: #c9d1d9;
   outline: none;
-  transition: background 0.3s ease;
+  transition: border-color 0.3s ease;
   text-align: center;
-  flex: 0.8;
-  max-width: 150px;
+  flex: 1; /* Adjusted for wider inputs */
+  max-width: 140px; /* Increased width */
 }
 
 .formatted-number-input input:focus {
+  border-color: #00b2fe; /* Highlight focus */
   background: #161b22;
 }
 
 .calculate-button {
-  background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%); /* Blue to purple gradient */
+  background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
   color: #fff;
   font-weight: 700;
   border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 1.1rem;
+  border-radius: 8px; /* Modern border radius */
+  padding: 10px; /* Comfortable padding */
+  font-size: 16px; /* Standardized font size */
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+  transition: background-color 0.3s ease, transform 0.3s ease;
   text-align: center;
-  margin: 20px 0;
+  margin: 12px 0;
 }
 
 .calculate-button:hover {
   background: linear-gradient(135deg, #6f42c1 0%, #007bff 100%);
-  box-shadow: 0 0 5px #007bff, 0 0 5px #6f42c1; /* Glowing effect */
-  transform: scale(1.02); /* Slightly increase the size */
+  transform: translateY(-2px); /* Subtle lift effect */
 }
 
 .step-buttons {
   display: flex;
   flex-direction: column;
-  margin-left: -30px;
+  margin-left: -25px;
 }
 
 .step-buttons button {
@@ -127,7 +117,7 @@ h3 {
   border: none;
   cursor: pointer;
   color: #c9d1d9;
-  font-size: 12px;
+  font-size: 14px; /* Sleek font size */
   padding: 2px;
   transition: color 0.3s ease;
 }
@@ -136,24 +126,19 @@ h3 {
   color: #00b2fe;
 }
 
-.step-buttons button:focus {
-  outline: none;
-}
-
 .results {
   background: #161b22;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+  padding: 12px; /* Optimized padding */
+  border-radius: 8px; /* Modern border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-top: 12px;
 }
 
 .result-item {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
+  margin: 4px 0;
+  font-size: 16px; /* Standardized font size */
 }
 
 .result-item span {
@@ -173,6 +158,6 @@ h3 {
 }
 
 .form-divider {
-  border-top: 2px solid #30363d;
-  margin: 20px 0;
+  border-top: 1px solid #30363d; /* Sleeker divider */
+  margin: 12px 0;
 }

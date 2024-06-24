@@ -10,7 +10,7 @@ const useCashFlowCalculations = () => {
     vacancyRate: 0.1,
     propertyManagementRate: 0.1,
     landlordInsurance: 120,
-    replacementReserve: 208,
+    replacementReserve: Math.round(2500 / 12),
     hoaFees: 0,
     waterAndSewer: 200,
     gasAndElectricity: 0,
@@ -115,11 +115,6 @@ const useCashFlowCalculations = () => {
     const monthlyCashFlow = monthlyGrossIncome - monthlyOperatingExpenses - monthlyMortgagePayment;
     const annualCashFlow = monthlyCashFlow * 12;
     const cashOnCashReturn = annualCashFlow / downPayment;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      replacementReserve: Math.round(squareFeet / 12),
-    }));
 
     setResults({
       capRate,

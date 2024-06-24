@@ -35,10 +35,7 @@ const CashFlowForm = () => {
           <label>Number of Units: </label>
           <FormattedNumberInput step="1" name="numberOfUnits" value={formData.numberOfUnits} onChange={handleChange} />
         </div>
-        <div className="form-group">
-          <label>Property Tax Rate (%): </label>
-          <FormattedPercentInput step="0.05" name="propertyTaxRate" value={formData.propertyTaxRate} onChange={handleChange} />
-        </div>
+        
         <button type="button" className="calculate-button" onClick={calculateValues}>Calculate</button>
         <div className="form-divider"></div>
         <div className="result-item">
@@ -85,6 +82,10 @@ const CashFlowForm = () => {
         <div className="result-item">
           <span>Property Management Fees:</span> <span><strong>{results.propertyManagementFees !== undefined ? formatCurrency(results.propertyManagementFees) : ''}</strong></span>
         </div>
+        <div className="form-group">
+          <label>Property Tax Rate (%): </label>
+          <FormattedPercentInput step="0.05" name="propertyTaxRate" value={formData.propertyTaxRate} onChange={handleChange} />
+        </div>
         <div className="result-item">
           <span>Property Tax:</span> <span><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>
         </div>
@@ -101,7 +102,7 @@ const CashFlowForm = () => {
           <FormattedNumberInput step="10" name="hoaFees" value={formData.hoaFees} onChange={handleChange} />
         </div>
         
-        <h3>Utilities + Other</h3>
+        <h3>Utilities + Other Expenses</h3>
         <div className="form-group">
           <label>Water and Sewer: </label>
           <FormattedNumberInput step="10" name="waterAndSewer" value={formData.waterAndSewer} onChange={handleChange} />
