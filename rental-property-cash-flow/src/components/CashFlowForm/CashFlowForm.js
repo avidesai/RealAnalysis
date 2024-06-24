@@ -18,6 +18,7 @@ const CashFlowForm = () => {
       <div className='header'>
         <h1>CashFlow.io</h1>
       </div>
+      <div className="form-divider"></div>
       <form className="form">
         <div className="form-group">
           <label>Purchase Price: </label>
@@ -73,6 +74,7 @@ const CashFlowForm = () => {
         <div className="result-item">
           <span>Monthly Gross Income:</span> <span className="positive"><strong>{results.monthlyGrossIncome !== undefined ? formatCurrency(results.monthlyGrossIncome) : ''}</strong></span>
         </div>
+        <div className="form-divider"></div>
 
         <h2>Monthly Operating Expenses</h2>
         <div className="form-group">
@@ -87,7 +89,7 @@ const CashFlowForm = () => {
           <FormattedPercentInput step="0.05" name="propertyTaxRate" value={formData.propertyTaxRate} onChange={handleChange} />
         </div>
         <div className="result-item">
-          <span>Property Tax:</span> <span><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>
+          <span>Property Taxes:</span> <span><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>
         </div>
         <div className="form-group">
           <label>Landlord Insurance: </label>
@@ -102,7 +104,7 @@ const CashFlowForm = () => {
           <FormattedNumberInput step="10" name="hoaFees" value={formData.hoaFees} onChange={handleChange} />
         </div>
         
-        <h3>Utilities + Other Expenses</h3>
+        <h3>Utilities + Other Monthly Expenses</h3>
         <div className="form-group">
           <label>Water and Sewer: </label>
           <FormattedNumberInput step="10" name="waterAndSewer" value={formData.waterAndSewer} onChange={handleChange} />
@@ -135,6 +137,7 @@ const CashFlowForm = () => {
         <div className="result-item">
           <span>Monthly Operating Expenses:</span> <span className="negative"><strong>{results.monthlyOperatingExpenses !== undefined ? formatCurrency(results.monthlyOperatingExpenses) : ''}</strong></span>
         </div>
+        <div className="form-divider"></div>
 
         <h2>Net Operating Income</h2>
         <div className="result-item">
@@ -147,25 +150,27 @@ const CashFlowForm = () => {
         <div className="result-item">
           <span>Monthly Net Operating Income:</span> <span className="positive"><strong>{results.monthlyGrossIncome !== undefined && results.monthlyOperatingExpenses !== undefined ? formatCurrency(results.monthlyGrossIncome - results.monthlyOperatingExpenses) : ''}</strong></span>
         </div>
+        <div className="form-divider"></div>
 
         <h2>Cap Rate and Valuation</h2>
-        <div className="form-group">
-          <label>Desired Cap Rate (%): </label>
-          <FormattedPercentInput step="1.00" name="desiredCapRate" value={formData.desiredCapRate} onChange={handleChange} decimalPlaces={0} />
-        </div>
-        <div className="result-item">
-          <span>Property Valuation (Potential Offer Price):</span> <span><strong>{results.propertyValuation !== undefined ? formatCurrency(results.propertyValuation) : ''}</strong></span>
-        </div>
         <div className="result-item">
           <span>Purchase Price:</span> <span>{formatCurrency(formData.purchasePrice)}</span>
-        </div>
-        <div className="form-divider"></div>
-        <div className="result-item">
-          <span>Cap Rate:</span> <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
         </div>
         <div className="result-item">
           <span>Dollar per Square Foot:</span> <span><strong>{results.dollarPerSquareFoot !== undefined ? formatCurrency(results.dollarPerSquareFoot) : ''}</strong></span>
         </div>
+        <div className="form-group">
+          <label>Desired Cap Rate (%): </label>
+          <FormattedPercentInput step="1.00" name="desiredCapRate" value={formData.desiredCapRate} onChange={handleChange} decimalPlaces={0} />
+        </div>
+        <div className="form-divider"></div>
+        <div className="result-item">
+          <span>Property Valuation (Ideal Offer Price):</span> <span><strong>{results.propertyValuation !== undefined ? formatCurrency(results.propertyValuation) : ''}</strong></span>
+        </div>
+        <div className="result-item">
+          <span>Cap Rate:</span> <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
+        </div>
+        <div className="form-divider"></div>
 
         <h2>Loan Information</h2>
         <div className="form-group">
@@ -190,6 +195,7 @@ const CashFlowForm = () => {
         <div className="result-item">
           <span>Monthly Mortgage Payment:</span> <span className="negative"><strong>{results.monthlyMortgagePayment !== undefined ? formatCurrency(results.monthlyMortgagePayment) : ''}</strong></span>
         </div>
+        <div className="form-divider"></div>
 
         <h2>Cash Flow and ROI</h2>
         <button type="button" className="calculate-button" onClick={calculateValues}>Calculate</button>
@@ -209,6 +215,7 @@ const CashFlowForm = () => {
             <strong>{results.annualCashFlow !== undefined ? formatCurrency(results.annualCashFlow) : ''}</strong>
           </span>
         </div>
+        <div className="form-divider"></div>
       </form>
     </div>
   );

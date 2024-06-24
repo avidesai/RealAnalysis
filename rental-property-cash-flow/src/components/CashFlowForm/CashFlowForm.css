@@ -1,20 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;700&display=swap');
 
 body {
-  background-color: #03033c;
   color: #e1e1e1;
   font-family: 'Lato', sans-serif;
   margin: 0;
   padding: 0;
+  background: #0a0524; /* Dark black background */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 0),
+            radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
+  background-size: 30px 30px, 60px 60px; /* Adjust the size of the stardust */
+  background-position: 0 0, 30px 30px;
+  background-repeat: repeat;
 }
 
 .container {
   max-width: 600px;
-  margin: 20px auto;
+  margin: 45px auto;
   padding: 25px 25px 15px 25px; /* Slightly more compact padding */
-  background: #161b22;
+  background: rgb(19, 23, 32); /* Match background with the rest of the website */
   border-radius: 12px; /* More modern radius */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Softer shadow for a sleek look */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Softer shadow for a sleek look */
 }
 
 .header {
@@ -25,7 +30,7 @@ body {
 }
 
 .header h1 {
-  margin: 0;
+  margin: 10px;
   font-size: 24px; /* Standardized font size */
   line-height: 1.2;
 }
@@ -39,7 +44,7 @@ body {
 h2, h3, h4 {
   text-align: center;
   color: #00b2fe;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   letter-spacing: 0.5px; /* Subtle letter spacing for a sleek look */
 }
 
@@ -58,7 +63,6 @@ h2, h3, h4 {
 
 .form-group label {
   font-size: 16px; /* Standardized font size */
-  font-weight: 600;
   color: #cbd4de;
   flex: 4;
 }
@@ -98,7 +102,8 @@ h2, h3, h4 {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-align: center;
-  margin: 12px 0;
+  margin: 10px;
+  margin-bottom: 5px;
 }
 
 .calculate-button:hover {
@@ -142,7 +147,6 @@ h2, h3, h4 {
 }
 
 .result-item span {
-  font-weight: 500;
 }
 
 .result-item span:last-child {

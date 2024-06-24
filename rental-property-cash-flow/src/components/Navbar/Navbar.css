@@ -3,8 +3,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: #0d1117; /* Match background with the rest of the website */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Increase shadow for a more futuristic look */
+    background: rgb(19, 23, 32); /* Match background with the rest of the website */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Increase shadow for a more futuristic look */
     margin-bottom: 20px;
     color: #e1e1e1; /* Lighten the color of the text */
 }
