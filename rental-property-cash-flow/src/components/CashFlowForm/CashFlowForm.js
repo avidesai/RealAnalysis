@@ -1,7 +1,7 @@
 import React from 'react';
-import useCashFlowCalculations from './useCashFlowCalculations';
-import FormattedNumberInput from './FormattedNumberInput';
-import FormattedPercentInput from './FormattedPercentInput';
+import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
+import FormattedNumberInput from './helper_files/FormattedNumberInput';
+import FormattedPercentInput from './helper_files/FormattedPercentInput';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
