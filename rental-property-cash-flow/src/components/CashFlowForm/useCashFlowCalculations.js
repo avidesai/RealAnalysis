@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState({
-    purchasePrice: 120000,
-    squareFeet: 2100,
-    monthlyRentPerUnit: 1250,
-    numberOfUnits: 2,
-    propertyTaxRate: 0.0285,
+    purchasePrice: 400000,
+    squareFeet: 2500,
+    monthlyRentPerUnit: 1300,
+    numberOfUnits: 4,
+    propertyTaxRate: 0.0200,
     vacancyRate: 0.1,
     propertyManagementRate: 0.1,
     landlordInsurance: 120,
-    replacementReserve: 175,
+    replacementReserve: 208,
     hoaFees: 0,
     waterAndSewer: 200,
     gasAndElectricity: 0,
@@ -19,11 +19,13 @@ const useCashFlowCalculations = () => {
     cablePhoneInternet: 0,
     pestControl: 20,
     accountingAdvertisingLegal: 20,
-    desiredCapRate: 0.08,
+    desiredCapRate: 0.10,
     downPaymentPercentage: 0.25,
     lengthOfMortgage: 30,
     mortgageRate: 0.072,
   });
+
+  const [results, setResults] = useState({});
 
   useEffect(() => {
     setFormData((prevData) => ({
@@ -36,7 +38,7 @@ const useCashFlowCalculations = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || 0,
+      [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || value,
     }));
   };
 
@@ -114,13 +116,18 @@ const useCashFlowCalculations = () => {
     const annualCashFlow = monthlyCashFlow * 12;
     const cashOnCashReturn = annualCashFlow / downPayment;
 
-    return {
+    setFormData((prevData) => ({
+      ...prevData,
+      replacementReserve: Math.round(squareFeet / 12),
+    }));
+
+    setResults({
       capRate,
       propertyValuation,
       cashOnCashReturn,
       monthlyCashFlow,
       annualCashFlow,
-      replacementReserve,
+      replacementReserve: Math.round(squareFeet / 12),
       monthlyOperatingExpenses,
       annualOperatingIncome,
       annualOperatingExpenses,
@@ -134,17 +141,17 @@ const useCashFlowCalculations = () => {
       vacancyLoss,
       monthlyRentalIncome,
       dollarPerSquareFoot
-    };
+    });
   };
-
-  const results = calculateValues();
 
   return {
     formData,
     handleChange,
+    setFormData,
     results,
     formatCurrency,
     formatNumberWithCommas,
+    calculateValues,
   };
 };
 

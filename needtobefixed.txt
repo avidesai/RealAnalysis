@@ -1,0 +1,21 @@
+1. Bug with property tax input field
+    - Likely need to create a new input field.js file for just the property tax with its own rules
+2. New calculate button logic is not updating calculated fields like replacement reserve
+    - Rather than having replacement reserve be recalculated / redisplayed upon sqft change ater calculate is clicked, have it change live when the sqft is changed.
+3. Log total number of free calculate button calls hit, and warning at 2 left, shut off at 0 left
+4. Help information bubbles for different fields
+5. Autofill mortgage rate daily
+
+Premium:
+- Get address field working with google maps API autocomplete
+- Enter button for address after filled in, to search rentcastAPI
+    - Autofill rent, units, square footage, property tax Rate
+- Save analysis button
+
+General:
+- About page
+- Server + backend setup
+- Login / create account setup (with confirmation email, forgot password, authentication, google account login)
+- User account backend routes, middleware, etc for saved analyses + user form form data
+- Premium account sign up pages + payments infrastructure
+- User account page with save analysis button 

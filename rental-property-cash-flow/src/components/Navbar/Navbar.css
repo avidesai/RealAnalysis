@@ -43,7 +43,14 @@
 }
 
 .premium-button {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Updated gradient color */
+    background: linear-gradient(135deg, #ff416c 0%, #f58c02 100%); /* Vibrant gradient */
     color: #fff;
     font-weight: 700;
+    transition: background 0.5s ease; /* Smooth transition for hover effect */
+}
+
+.premium-button:hover {
+    background: linear-gradient(135deg, #ffa32b 0%, #ff416c 100%);
+    box-shadow: 0 0 5px #ff416c, 0 0 5px #ffa32b; /* Glowing effect */
+    transform: scale(1.01); /* Slightly increase the size */
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const formatNumberWithCommas = (value) => {
   if (!value) return '';
@@ -7,6 +7,10 @@ const formatNumberWithCommas = (value) => {
 
 const FormattedNumberInput = ({ name, value, onChange, step }) => {
   const [inputValue, setInputValue] = useState(formatNumberWithCommas(value));
+
+  useEffect(() => {
+    setInputValue(formatNumberWithCommas(value));
+  }, [value]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
