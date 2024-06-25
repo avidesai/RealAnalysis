@@ -1,12 +1,21 @@
+:root {
+    --navbar-background-color: #121212; /* Darker shade for a noir look */
+    --button-color: #333333; /* Darker shade for contrast */
+    --button-hover-color: #444444; /* Slightly lighter for hover effect */
+    --text-color: #e0e0e0; /* Light text for contrast */
+    --shadow-color: rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+}
+
 .navbar {
+    font-family: 'Nunito', sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background: rgb(19, 23, 32); /* Match background with the rest of the website */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Increase shadow for a more futuristic look */
+    padding: 10px 20px;
+    background: var(--navbar-background-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
     margin-bottom: 20px;
-    color: #e1e1e1; /* Lighten the color of the text */
+    color: var(--text-color);
 }
 
 .navbar-logo {
@@ -20,37 +29,37 @@
 }
 
 .navbar-button {
-    background-color: #0061fe; /* Bright button color for contrast */
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--button-color);
     border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 1rem;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
     font-weight: 500;
-    color: #fff;
+    color: #e0e0e0; /* Light text for contrast */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to buttons */
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px var(--shadow-color);
     text-decoration: none;
 }
 
 .navbar-button:hover {
-    background-color: #008bbf;
-    transform: translateY(-2px); /* Add a slight lift on hover */
-}
-
-.navbar-button:focus {
-    outline: none;
+    background-color: var(--button-hover-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .premium-button {
-    background: linear-gradient(135deg, #ff416c 0%, #f58c02 100%); /* Vibrant gradient */
-    color: #fff;
-    font-weight: 700;
-    transition: background 0.5s ease; /* Smooth transition for hover effect */
+    background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+    color: #e0e0e0; /* Ensures text contrast against the dark gradient */
+    font-weight: 800;
+    transition: background 0.4s ease;
 }
 
 .premium-button:hover {
-    background: linear-gradient(135deg, #ffa32b 0%, #ff416c 100%);
-    box-shadow: 0 0 5px #ff416c, 0 0 5px #ffa32b; /* Glowing effect */
-    transform: scale(1.01); /* Slightly increase the size */
+    /* Slightly lighter gradient for hover for a subtle interactive effect */
+    background: linear-gradient(135deg, #3391ff 0%, #8057d5 100%);
+    /* Enhanced shadow for depth, using colors from the gradient */
+    box-shadow: 0 0 4px #3391ff, 0 0 6px #8057d5;
+    transform: scale(1.02); /* Slight increase in size for interactive feedback */
 }
