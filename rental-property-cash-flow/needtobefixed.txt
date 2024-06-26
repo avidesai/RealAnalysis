@@ -1,7 +1,3 @@
-1. Bug with property tax input field
-    - Likely need to create a new input field.js file for just the property tax with its own rules
-2. New calculate button logic is not updating calculated fields like replacement reserve
-    - Rather than having replacement reserve be recalculated / redisplayed upon sqft change ater calculate is clicked, have it change live when the sqft is changed.
 3. Log total number of free calculate button calls hit, and warning at 2 left, shut off at 0 left
 4. Help information bubbles for different fields
 5. Autofill mortgage rate daily
