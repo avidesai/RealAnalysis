@@ -138,15 +138,15 @@ h2, h3, h4 {
   padding: 12px; /* Optimized padding */
   border-radius: 8px; /* Modern border radius */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .result-item {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 18px; /* Standardized font size */
 }
 

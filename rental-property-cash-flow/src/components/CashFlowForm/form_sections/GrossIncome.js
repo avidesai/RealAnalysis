@@ -1,5 +1,6 @@
 import React from 'react';
 import FormattedPercentInput from '../helper_files/FormattedPercentInput';
+import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
 const GrossIncome = ({ formData, handleChange, results, formatCurrency }) => (
   <div className="form-section">
@@ -8,7 +9,10 @@ const GrossIncome = ({ formData, handleChange, results, formatCurrency }) => (
       <span>Monthly Rental Income:</span> <span className='positive'><strong>{results.monthlyRentalIncome !== undefined ? formatCurrency(results.monthlyRentalIncome) : ''}</strong></span>
     </div>
     <div className="form-group">
-      <label>Vacancy Rate (%)</label>
+      <label>
+        Vacancy Rate (%)
+        <InfoTooltip description="The percentage of time the property is expected to be vacant." />
+      </label>
       <FormattedPercentInput step="1.00" name="vacancyRate" value={formData.vacancyRate} onChange={handleChange} decimalPlaces={0} />
     </div>
     <div className="result-item">
