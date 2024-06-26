@@ -1,30 +1,31 @@
 import { useState, useEffect } from 'react';
 
-const useCashFlowCalculations = () => {
-  const [formData, setFormData] = useState({
-    purchasePrice: 400000,
-    squareFeet: 2500,
-    monthlyRentPerUnit: 1300,
-    numberOfUnits: 4,
-    propertyTaxRate: 0.0200,
-    vacancyRate: 0.1,
-    propertyManagementRate: 0.1,
-    landlordInsurance: 120,
-    replacementReserve: Math.round(2500 / 12),
-    hoaFees: 0,
-    waterAndSewer: 200,
-    gasAndElectricity: 0,
-    garbage: 30,
-    snowRemoval: 0,
-    cablePhoneInternet: 0,
-    pestControl: 20,
-    accountingAdvertisingLegal: 20,
-    desiredCapRate: 0.10,
-    downPaymentPercentage: 0.25,
-    lengthOfMortgage: 30,
-    mortgageRate: 0.072,
-  });
+const initialFormData = {
+  purchasePrice: 400000,
+  squareFeet: 2500,
+  monthlyRentPerUnit: 1300,
+  numberOfUnits: 4,
+  propertyTaxRate: 0.0200,
+  vacancyRate: 0.1,
+  propertyManagementRate: 0.1,
+  landlordInsurance: 120,
+  replacementReserve: Math.round(2500 / 12),
+  hoaFees: 0,
+  waterAndSewer: 200,
+  gasAndElectricity: 0,
+  garbage: 30,
+  snowRemoval: 0,
+  cablePhoneInternet: 0,
+  pestControl: 20,
+  accountingAdvertisingLegal: 20,
+  desiredCapRate: 0.10,
+  downPaymentPercentage: 0.25,
+  lengthOfMortgage: 30,
+  mortgageRate: 0.072,
+};
 
+const useCashFlowCalculations = () => {
+  const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
 
   useEffect(() => {
@@ -40,6 +41,11 @@ const useCashFlowCalculations = () => {
       ...prevData,
       [name]: value === '' ? '' : parseFloat(value.replace(/,/g, '')) || value,
     }));
+  };
+
+  const resetForm = () => {
+    setFormData(initialFormData);
+    setResults({});
   };
 
   const formatNumberWithCommas = (x) => {
@@ -142,7 +148,7 @@ const useCashFlowCalculations = () => {
   return {
     formData,
     handleChange,
-    setFormData,
+    resetForm,
     results,
     formatCurrency,
     formatNumberWithCommas,

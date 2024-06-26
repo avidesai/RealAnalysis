@@ -1,5 +1,3 @@
-// CashFlowForm.js
-
 import React from 'react';
 import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
 import PropertyInformation from './form_sections/PropertyInformation';
@@ -15,6 +13,7 @@ const CashFlowForm = () => {
   const {
     formData,
     handleChange,
+    resetForm, // Add the resetForm function
     results,
     formatCurrency,
     calculateValues,
@@ -27,13 +26,13 @@ const CashFlowForm = () => {
       </div>
       <div className="form-divider"></div>
       <form className="form">
-        <PropertyInformation formData={formData} handleChange={handleChange} calculateValues={calculateValues} results={results} formatCurrency={formatCurrency} />
+        <PropertyInformation formData={formData} handleChange={handleChange} calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} />
         <GrossIncome formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <OperatingExpenses formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <NetOperatingIncome results={results} formatCurrency={formatCurrency} />
         <CapRateAndValuation formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <LoanInformation formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
-        <CashFlowAndROI calculateValues={calculateValues} results={results} formatCurrency={formatCurrency} />
+        <CashFlowAndROI calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} />
       </form>
     </div>
   );

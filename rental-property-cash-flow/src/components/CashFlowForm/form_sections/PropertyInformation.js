@@ -2,7 +2,7 @@ import React from 'react';
 import FormattedNumberInput from '../helper_files/FormattedNumberInput';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
-const PropertyInformation = ({ formData, handleChange, calculateValues, results, formatCurrency }) => (
+const PropertyInformation = ({ formData, handleChange, calculateValues, resetForm, results, formatCurrency }) => (
   <div className="form-section">
     <div className="form-group">
       <label>
@@ -32,7 +32,10 @@ const PropertyInformation = ({ formData, handleChange, calculateValues, results,
       </label>
       <FormattedNumberInput step="1" name="numberOfUnits" value={formData.numberOfUnits} onChange={handleChange} />
     </div>
-    <button type="button" className="calculate-button" onClick={calculateValues}>Calculate</button>
+    <div className="button-container">
+      <button type="button" className="calculate-button" onClick={calculateValues}>Calculate</button>
+      <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
+    </div>
     <div className="form-divider"></div>
     <div className="result-item-bottom">
       <span>Cap Rate</span> <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
