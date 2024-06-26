@@ -9,12 +9,12 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
       <label>Property Management Rate (%)</label>
       <FormattedPercentInput step="1.00" name="propertyManagementRate" value={formData.propertyManagementRate} onChange={handleChange} decimalPlaces={0} />
     </div>
-    <div className="result-item">
-      <span>Property Management Fees</span> <span><strong>{results.propertyManagementFees !== undefined ? formatCurrency(results.propertyManagementFees) : ''}</strong></span>
-    </div>
     <div className="form-group">
       <label>Property Tax Rate (%)</label>
       <FormattedPercentInput step="0.05" name="propertyTaxRate" value={formData.propertyTaxRate} onChange={handleChange} />
+    </div>
+    <div className="result-item">
+      <span>Property Management Fees</span> <span><strong>{results.propertyManagementFees !== undefined ? formatCurrency(results.propertyManagementFees) : ''}</strong></span>
     </div>
     <div className="result-item">
       <span>Property Taxes</span> <span><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>

@@ -1,9 +1,9 @@
 :root {
-    --navbar-background-color: #121212; /* Darker shade for a noir look */
-    --button-color: #333333; /* Darker shade for contrast */
-    --button-hover-color: #444444; /* Slightly lighter for hover effect */
-    --text-color: #e0e0e0; /* Light text for contrast */
-    --shadow-color: rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+    --navbar-background-color: #121212; /* Enhanced for a deeper noir look */
+    --button-color: #333333; /* Adjusted for better contrast */
+    --button-hover-color: #444444; /* Fine-tuned for a smoother hover effect */
+    --text-color: #e0e0e0; /* Optimized for readability */
+    --shadow-color: rgba(0, 0, 0, 0.5); /* Refined for a more pronounced depth */
 }
 
 .navbar {
@@ -16,11 +16,21 @@
     box-shadow: 0 2px 4px var(--shadow-color);
     margin-bottom: 20px;
     color: var(--text-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for background and shadow */
+}
+
+.navbar:hover {
+    box-shadow: 0 10px 16px var(--shadow-color); /* Enhanced shadow for depth */
 }
 
 .navbar-logo {
     width: 40px;
     height: auto;
+    transition: transform 0.3s ease; /* Smooth logo animation */
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1); /* Slight increase in size for interactive feedback */
 }
 
 .navbar-right {
@@ -36,7 +46,7 @@
     padding: 8px 12px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: #e0e0e0; /* Light text for contrast */
+    color: #e0e0e0;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px var(--shadow-color);
@@ -45,21 +55,19 @@
 
 .navbar-button:hover {
     background-color: var(--button-hover-color);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px var(--shadow-color);
+    transform: translateY(-2px); /* More pronounced lift */
+    box-shadow: 0 5px 10px var(--shadow-color); /* Enhanced shadow for depth */
 }
 
 .premium-button {
     background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
-    color: #e0e0e0; /* Ensures text contrast against the dark gradient */
+    color: #e0e0e0;
     font-weight: 800;
-    transition: background 0.4s ease;
+    transition: background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease; /* Smooth transition for all properties */
 }
 
 .premium-button:hover {
-    /* Slightly lighter gradient for hover for a subtle interactive effect */
     background: linear-gradient(135deg, #3391ff 0%, #8057d5 100%);
-    /* Enhanced shadow for depth, using colors from the gradient */
-    box-shadow: 0 0 4px #3391ff, 0 0 6px #8057d5;
-    transform: scale(1.02); /* Slight increase in size for interactive feedback */
+    box-shadow: 0 0 8px #3391ff, 0 0 12px #8057d5; /* More pronounced shadow for interactive feedback */
+    transform: scale(1.05); /* Slightly larger scale for emphasis */
 }

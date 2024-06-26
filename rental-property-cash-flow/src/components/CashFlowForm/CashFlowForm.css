@@ -40,7 +40,7 @@ body {
 
 h2, h3, h4 {
   text-align: center;
-  color: #00b2fe;
+  color: rgb(0, 178, 254);
   margin-bottom: 40px;
   letter-spacing: 0.5px; /* Subtle letter spacing for a sleek look */
 }
@@ -93,7 +93,7 @@ h2, h3, h4 {
 .calculate-button {
   font-family: 'Nunito', sans-serif;
   width: 100%; /* Make the button as wide as its container */
-  background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+  background: rgb(16, 121, 252);
   color: #fff;
   font-weight: 700;
   border: none;
@@ -107,8 +107,10 @@ h2, h3, h4 {
 }
 
 .calculate-button:hover {
-  background: linear-gradient(135deg, #6f42c1 0%, #007bff 100%);
-  transform: translateY(-2px); /* Subtle lift effect */
+  background: rgb(14, 110, 230); /* Slightly darker shade for depth */
+  transform: translateY(-4px); /* More noticeable lift */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for all properties */
 }
 
 .step-buttons {
@@ -143,8 +145,8 @@ h2, h3, h4 {
 .result-item {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   font-size: 18px; /* Standardized font size */
 }
 

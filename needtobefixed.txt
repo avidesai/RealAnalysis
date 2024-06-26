@@ -6,6 +6,8 @@
 4. Help information bubbles for different fields
 5. Autofill mortgage rate daily
 
+Add animations! To form number changes as well as button hovers, calculation button clicking new number loading animations, numbers being loaded like a running animation to the final number, and more.
+
 Premium:
 - Get address field working with google maps API autocomplete
 - Enter button for address after filled in, to search rentcastAPI
