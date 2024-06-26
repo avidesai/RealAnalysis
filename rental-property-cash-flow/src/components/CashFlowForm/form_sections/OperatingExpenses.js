@@ -65,35 +65,35 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
     <div className="form-group">
       <label>
         Garbage
-        <InfoTooltip description="Monthly garbage collection expenses." />
+        <InfoTooltip description="Monthly garbage collection expenses" />
       </label>
       <FormattedNumberInput step="5" name="garbage" value={formData.garbage} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Snow Removal
-        <InfoTooltip description="Monthly expenses for snow removal, if applicable." />
+        <InfoTooltip description="Monthly snow removal expenses (if applicable)" />
       </label>
       <FormattedNumberInput step="5" name="snowRemoval" value={formData.snowRemoval} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Cable, Phone, Internet
-        <InfoTooltip description="Monthly expenses for cable, phone, and internet services." />
+        <InfoTooltip description="Monthly cable, phone, and internet expenses (if applicable)" />
       </label>
       <FormattedNumberInput step="5" name="cablePhoneInternet" value={formData.cablePhoneInternet} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Pest Control
-        <InfoTooltip description="Monthly pest control expenses." />
+        <InfoTooltip description="Monthly pest control expenses (if applicable)" />
       </label>
       <FormattedNumberInput step="5" name="pestControl" value={formData.pestControl} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Accounting, Advertising, and Legal
-        <InfoTooltip description="Monthly expenses for accounting, advertising, and legal services." />
+        <InfoTooltip description="Monthly real estate business expenses (accounting, advertising, and legal services)" />
       </label>
       <FormattedNumberInput step="5" name="accountingAdvertisingLegal" value={formData.accountingAdvertisingLegal} onChange={handleChange} />
     </div>

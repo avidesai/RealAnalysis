@@ -9,7 +9,7 @@ const LoanInformation = ({ formData, handleChange, results, formatCurrency }) =>
     <div className="form-group">
       <label>
         Down Payment Percentage (%)
-        <InfoTooltip description="The percentage of the purchase price to be paid upfront as a down payment." />
+        <InfoTooltip description="Percentage of the purchase price to be paid as down payment (25% is standard for investment properties)" />
       </label>
       <FormattedPercentInput step="5.00" name="downPaymentPercentage" value={formData.downPaymentPercentage} onChange={handleChange} decimalPlaces={0} />
     </div>
@@ -28,14 +28,14 @@ const LoanInformation = ({ formData, handleChange, results, formatCurrency }) =>
     <div className="form-group">
       <label>
         Length of Mortgage (years)
-        <InfoTooltip description="The duration of the mortgage loan in years." />
+        <InfoTooltip description="Duration of the mortgage loan in years" />
       </label>
       <FormattedNumberInput step="1" name="lengthOfMortgage" value={formData.lengthOfMortgage} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Mortgage Rate (%)
-        <InfoTooltip description="The annual interest rate of the mortgage." />
+        <InfoTooltip description="Annual interest rate of the mortgage loan" />
       </label>
       <FormattedPercentInput step="0.10" name="mortgageRate" value={formData.mortgageRate} onChange={handleChange} />
     </div>
@@ -43,7 +43,7 @@ const LoanInformation = ({ formData, handleChange, results, formatCurrency }) =>
     <div className="result-item-bottom">
       <span>
         Monthly Mortgage Payment
-        <InfoTooltip description="The monthly payment made towards the mortgage." />
+        <InfoTooltip description="Monthly payment required for the mortgage loan" />
       </span>
       <span className="negative"><strong>{results.monthlyMortgagePayment !== undefined ? formatCurrency(results.monthlyMortgagePayment) : ''}</strong></span>
     </div>

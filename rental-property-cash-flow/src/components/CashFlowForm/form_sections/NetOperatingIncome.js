@@ -6,15 +6,15 @@ const NetOperatingIncome = ({ results, formatCurrency }) => (
     <h2>Net Operating Income</h2>
     <div className="result-item">
       <span>
-        Monthly Operating Income
-        <InfoTooltip description="The total monthly income after accounting for vacancy losses." />
+        Monthly Gross Income
+        <InfoTooltip description="Monthly rental income minus vacancy losses" />
       </span>
       <span className='positive'><strong>{results.monthlyGrossIncome !== undefined ? formatCurrency(results.monthlyGrossIncome) : ''}</strong></span>
     </div>
     <div className="result-item">
       <span>
         Monthly Operating Expenses
-        <InfoTooltip description="The total monthly expenses to operate the property." />
+        <InfoTooltip description="Monthly costs to operate the rental property" />
       </span>
       <span className='negative'><strong>{results.monthlyOperatingExpenses !== undefined ? formatCurrency(results.monthlyOperatingExpenses) : ''}</strong></span>
     </div>
@@ -22,7 +22,7 @@ const NetOperatingIncome = ({ results, formatCurrency }) => (
     <div className="result-item-bottom">
       <span>
         Monthly Net Operating Income
-        <InfoTooltip description="The difference between the monthly operating income and expenses." />
+        <InfoTooltip description="Gross income minus operating expenses" />
       </span>
       <span className="positive"><strong>{results.monthlyGrossIncome !== undefined && results.monthlyOperatingExpenses !== undefined ? formatCurrency(results.monthlyGrossIncome - results.monthlyOperatingExpenses) : ''}</strong></span>
     </div>
