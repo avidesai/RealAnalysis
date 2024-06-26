@@ -11,7 +11,7 @@ const GrossIncome = ({ formData, handleChange, results, formatCurrency }) => (
     <div className="form-group">
       <label>
         Vacancy Rate (%)
-        <InfoTooltip description="The percentage of time the property is expected to be vacant." />
+        <InfoTooltip description="Percent of time the property is expected to be vacant (in between tenants)" />
       </label>
       <FormattedPercentInput step="1.00" name="vacancyRate" value={formData.vacancyRate} onChange={handleChange} decimalPlaces={0} />
     </div>

@@ -7,28 +7,28 @@ const PropertyInformation = ({ formData, handleChange, calculateValues, resetFor
     <div className="form-group">
       <label>
         Purchase Price
-        <InfoTooltip description="The total cost to purchase the property." />
+        <InfoTooltip description="The price paid for the property" />
       </label>
       <FormattedNumberInput step="10000" name="purchasePrice" value={formData.purchasePrice} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Square Feet
-        <InfoTooltip description="Total building square footage." />
+        <InfoTooltip description="Total building square footage" />
       </label>
       <FormattedNumberInput step="100" name="squareFeet" value={formData.squareFeet} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Monthly Rent per Unit
-        <InfoTooltip description="The average monthly rental income per unit." />
+        <InfoTooltip description="Average monthly rent per unit" />
       </label>
       <FormattedNumberInput step="100" name="monthlyRentPerUnit" value={formData.monthlyRentPerUnit} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Number of Units
-        <InfoTooltip description="The number of units being rented." />
+        <InfoTooltip description="Number of units being rented out" />
       </label>
       <FormattedNumberInput step="1" name="numberOfUnits" value={formData.numberOfUnits} onChange={handleChange} />
     </div>
