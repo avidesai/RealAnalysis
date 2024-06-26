@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/RealAnalysis/static/css/main.0739d264.css",
+    "main.css": "/RealAnalysis/static/css/main.5f028189.css",
     "main.js": "/RealAnalysis/static/js/main.65404d61.js",
     "static/media/cash.png": "/RealAnalysis/static/media/cash.b1859100adebaff474a3.png",
     "index.html": "/RealAnalysis/index.html",
-    "main.0739d264.css.map": "/RealAnalysis/static/css/main.0739d264.css.map",
+    "main.5f028189.css.map": "/RealAnalysis/static/css/main.5f028189.css.map",
     "main.65404d61.js.map": "/RealAnalysis/static/js/main.65404d61.js.map"
   },
   "entrypoints": [
-    "static/css/main.0739d264.css",
+    "static/css/main.5f028189.css",
     "static/js/main.65404d61.js"
   ]
 }
