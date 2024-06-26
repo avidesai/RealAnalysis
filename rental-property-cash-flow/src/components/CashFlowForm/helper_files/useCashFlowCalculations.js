@@ -38,7 +38,7 @@ const useCashFlowCalculations = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value === "" ? "" : parseFloat(value.replace(/,/g, '')) || value,
+      [name]: value === '' ? '' : parseFloat(value.replace(/,/g, '')) || value,
     }));
   };
 

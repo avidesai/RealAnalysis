@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from 'react';
 
 const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 }) => {
-  const [inputValue, setInputValue] = useState((value * 100).toFixed(decimalPlaces)); // Convert initial value to percentage
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    setInputValue((value * 100).toFixed(decimalPlaces)); // Update inputValue whenever the value prop changes
+    if (value !== '') {
+      setInputValue((value * 100).toFixed(decimalPlaces)); // Convert initial value to percentage
+    } else {
+      setInputValue('');
+    }
   }, [value, decimalPlaces]);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
-    const numericValue = value.replace(/,/g, '');
-    if (!isNaN(numericValue)) {
+    const numericValue = value.replace(/,/g, '').replace(/%/g, '');
+    if (numericValue === '' || (!isNaN(numericValue) && numericValue !== '-')) {
       setInputValue(numericValue);
-      onChange({ target: { name, value: (parseFloat(numericValue) / 100).toFixed(4) } });
-    } else {
+      if (numericValue !== '') {
+        onChange({ target: { name, value: (parseFloat(numericValue) / 100).toFixed(4) } });
+      } else {
+        onChange({ target: { name, value: '' } });
+      }
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { value } = e.target;
+    if (value === '') {
       setInputValue('');
-      onChange({ target: { name, value: '' } });
+    } else {
+      const formattedValue = parseFloat(value.replace(/,/g, '').replace(/%/g, '')).toFixed(decimalPlaces);
+      setInputValue(formattedValue);
     }
   };
 
   const handleStep = (increment) => {
-    const numericValue = (parseFloat(inputValue.replace(/,/g, '')) + increment).toFixed(decimalPlaces); // Step the value
+    let numericValue = parseFloat(inputValue.replace(/,/g, '').replace(/%/g, '')) || 0;
+    numericValue = (numericValue + increment).toFixed(decimalPlaces);
     setInputValue(numericValue);
     onChange({ target: { name, value: (numericValue / 100).toFixed(4) } });
   };
@@ -32,8 +48,8 @@ const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 
         name={name}
         value={inputValue}
         onChange={handleInputChange}
-        onBlur={(e) => setInputValue(parseFloat(e.target.value).toFixed(decimalPlaces))} // Ensure value is formatted correctly on blur
-        onFocus={(e) => e.target.select()} // Select input text on focus
+        onBlur={handleBlur}
+        onFocus={(e) => e.target.select()}
       />
       <div className="step-buttons">
         <button type="button" onClick={() => handleStep(parseFloat(step))}>▲</button>
