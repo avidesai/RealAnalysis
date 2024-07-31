@@ -9,7 +9,7 @@ const LoanInformation = ({ formData, handleChange, results, formatCurrency }) =>
     <div className="form-group">
       <label>
         Down Payment Percentage (%)
-        <InfoTooltip description="Percentage of the purchase price to be paid as down payment (25% is standard for investment properties)" />
+        <InfoTooltip description="Percentage of purchase price as down payment (Enter 100% if buying in cash)" />
       </label>
       <FormattedPercentInput step="5.00" name="downPaymentPercentage" value={formData.downPaymentPercentage} onChange={handleChange} decimalPlaces={0} />
     </div>
@@ -27,7 +27,7 @@ const LoanInformation = ({ formData, handleChange, results, formatCurrency }) =>
     </div>
     <div className="form-group">
       <label>
-        Length of Mortgage (years)
+        Mortgage Length (Years)
         <InfoTooltip description="Duration of the mortgage loan in years" />
       </label>
       <FormattedNumberInput step="1" name="lengthOfMortgage" value={formData.lengthOfMortgage} onChange={handleChange} />

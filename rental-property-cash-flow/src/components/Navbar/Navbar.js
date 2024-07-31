@@ -14,9 +14,11 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-right">
-        <NavLink to="/premium" className="navbar-button premium-button">Upgrade to Premium</NavLink>
-        <button className="navbar-button">Learn More</button>
-        <button className="navbar-button">My Account</button>
+        <div className="navbar-buttons">
+          <NavLink to="/premium" className="navbar-button premium-button">Upgrade to Premium</NavLink>
+          <button className="navbar-button">Learn More</button>
+          <button className="navbar-button">My Account</button>
+        </div>
       </div>
     </nav>
   );

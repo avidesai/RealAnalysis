@@ -2,21 +2,23 @@ body {
   color: #e1e1e1;
   margin: 0;
   padding: 0;
-  background: #0a0524; /* Dark black background */
+  background: #000000;; /* Dark black background */
   background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 0),
                     radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
   background-size: 30px 30px, 60px 60px; /* Adjust the size of the stardust */
   background-position: 0 0, 30px 30px;
   background-repeat: repeat;
+  --shadow-color: rgba(0, 0, 0, 0.9); /* Refined for a more pronounced depth */
 }
 
 .container {
   max-width: 550px;
   margin: 45px auto;
   padding: 25px 40px 25px 40px; /* Slightly more compact padding */
-  background: #191f2c; /* Match background with the rest of the website */
-  border-radius: 12px; /* More modern radius */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Softer shadow for a sleek look */
+  background: #000000; /* Match background with the rest of the website */
+  border: #6b6b6b solid 2px; /* Match border with the rest of the website */
+  border-radius: 10px; /* More modern radius */
+  box-shadow: 0 10px 16px var(--shadow-color); /* Enhanced shadow for depth */
 }
 
 .header {
