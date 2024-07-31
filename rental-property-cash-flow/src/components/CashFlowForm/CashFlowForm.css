@@ -14,9 +14,9 @@ body {
   max-width: 550px;
   margin: 45px auto;
   padding: 25px 40px 25px 40px; /* Slightly more compact padding */
-  background: rgb(19, 23, 32); /* Match background with the rest of the website */
+  background: #191f2c; /* Match background with the rest of the website */
   border-radius: 12px; /* More modern radius */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Softer shadow for a sleek look */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Softer shadow for a sleek look */
 }
 
 .header {
@@ -62,12 +62,13 @@ h2, h3, h4 {
 .form-group label {
   font-size: 18px; /* Standardized font size */
   color: #cbd4de;
-  flex: 4;
+  flex: 2.5;
 }
 
 .formatted-number-input {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .formatted-number-input input {
@@ -93,8 +94,8 @@ h2, h3, h4 {
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .calculate-button {
@@ -128,15 +129,15 @@ h2, h3, h4 {
 }
 
 .calculate-button:hover {
-  background: rgb(100, 74, 202); /* Slightly darker shade for depth */
-  transform: translateY(-4px); /* More noticeable lift */
+  background: rgb(52, 153, 102); /* Slightly darker shade for depth */
+  transform: translateY(-2px); /* More noticeable lift */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for all properties */
 }
 
 .reset-button:hover {
   background: rgb(200, 53, 69); /* Slightly darker shade for depth */
-  transform: translateY(-4px); /* More noticeable lift */
+  transform: translateY(-2px); /* More noticeable lift */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for all properties */
 }
@@ -145,13 +146,19 @@ h2, h3, h4 {
   display: flex;
   flex-direction: column;
   margin-left: -25px;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.formatted-number-input:hover .step-buttons {
+  opacity: 1; /* Fade in on hover */
 }
 
 .step-buttons button {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #c9d1d9;
+  color: #afb8c2;
   font-size: 12px; /* Sleek font size */
   padding: 2px;
   transition: color 0.3s ease;

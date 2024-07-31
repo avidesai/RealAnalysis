@@ -5,7 +5,7 @@ import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
 const LoanInformation = ({ formData, handleChange, results, formatCurrency }) => (
   <div className="form-section">
-    <h2>Loan Information</h2>
+    <h2>Financing</h2>
     <div className="form-group">
       <label>
         Down Payment Percentage (%)

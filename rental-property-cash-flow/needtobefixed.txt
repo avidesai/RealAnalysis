@@ -1,3 +1,4 @@
+1. Add GRM statistic, 1% rule, 50% rule, somewhere (Cap rate and valuation section)
 1. Log total number of free calculate button calls hit, and warning at 2 left, shut off at 0 left
 2. Add animations! To form number changes as well as button hovers, calculation button clicking new number loading animations, numbers being loaded like a running animation to the final number, and more.
 3. Mobile friendly navbar + cash flow form
@@ -11,6 +12,7 @@ General:
 - User account backend routes, middleware, etc for saved analyses + user form form data
 
 Premium:
+- Unlimited calculations
 - Get address field working with google maps API autocomplete
 - Enter button for address after filled in, to search rentcastAPI
     - Autofill rent, units, square footage, property tax Rate
@@ -18,7 +20,24 @@ Premium:
 - Premium account sign up pages
 - payments infrastructure
 
+Investment Analysis Tab (Pro):
+- Add an investment analysis tab for premium users
+- Enter an address and see the location zoomed in on google maps on the left side
+- Have some quick stats on the left side (price appreciation, rent growth, inventory YoY, days on market, average sales price)
+- In depth area statistics (poverty rate, crime rate, median yearly income, demographic, rental population %)
+- Integrated CMA tool to determine property fair value range
 
-
+- On the right side, have the cash flow calculator + extras
+    - Rent growth input
+    - IRR calculation
+    - Renovations / improvements addition to cost + increase in property value calculation (fix and flip)
+    - More....
+    - Autofill rent, units, square footage, property tax Rate
+    - Cash flow over the years calculated, displayed and visualized with rental rate growth included
+    - Cash flow calculator with mulitiple proposed scenarios (multiple variables can be changed) and their ROI's
+        - Show cash flow and ROI with 3 different:
+            - Rental rates
+            - Purchase prices
+            - Mortgage rates
 
 

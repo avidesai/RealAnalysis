@@ -1,39 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const initialFormData = {
-  purchasePrice: 400000,
-  squareFeet: 2500,
-  monthlyRentPerUnit: 1300,
-  numberOfUnits: 4,
+  purchasePrice: 600000,
+  squareFeet: 2000,
+  monthlyRentPerUnit: 3000,
+  numberOfUnits: 2,
   propertyTaxRate: 0.0200,
-  vacancyRate: 0.1,
+  vacancyRate: 0.05,
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
-  replacementReserve: Math.round(2500 / 12),
   hoaFees: 0,
   waterAndSewer: 200,
   gasAndElectricity: 0,
   garbage: 30,
   snowRemoval: 0,
   cablePhoneInternet: 0,
-  pestControl: 20,
-  accountingAdvertisingLegal: 20,
+  pestControl: 0,
+  accountingAdvertisingLegal: 0,
   desiredCapRate: 0.10,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
-  mortgageRate: 0.072,
+  mortgageRate: 0.068,
 };
 
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
-
-  useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      replacementReserve: Math.round(prevData.squareFeet / 12),
-    }));
-  }, [formData.squareFeet]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,7 +71,6 @@ const useCashFlowCalculations = () => {
       downPaymentPercentage,
       lengthOfMortgage,
       mortgageRate,
-      replacementReserve
     } = formData;
 
     const monthlyRentalIncome = monthlyRentPerUnit * numberOfUnits;
@@ -99,8 +90,7 @@ const useCashFlowCalculations = () => {
       snowRemoval +
       cablePhoneInternet +
       pestControl +
-      accountingAdvertisingLegal +
-      replacementReserve;
+      accountingAdvertisingLegal;
 
     const annualOperatingIncome = monthlyGrossIncome * 12;
     const annualOperatingExpenses = monthlyOperatingExpenses * 12;
@@ -117,6 +107,7 @@ const useCashFlowCalculations = () => {
     const capRate = annualNetOperatingIncome / purchasePrice;
     const propertyValuation = annualNetOperatingIncome / desiredCapRate;
     const dollarPerSquareFoot = purchasePrice / squareFeet;
+    const grossRentMultiplier = purchasePrice / (monthlyRentalIncome * 12);
 
     const monthlyCashFlow = monthlyGrossIncome - monthlyOperatingExpenses - monthlyMortgagePayment;
     const annualCashFlow = monthlyCashFlow * 12;
@@ -128,7 +119,6 @@ const useCashFlowCalculations = () => {
       cashOnCashReturn,
       monthlyCashFlow,
       annualCashFlow,
-      replacementReserve: Math.round(squareFeet / 12),
       monthlyOperatingExpenses,
       annualOperatingIncome,
       annualOperatingExpenses,
@@ -141,7 +131,8 @@ const useCashFlowCalculations = () => {
       monthlyGrossIncome,
       vacancyLoss,
       monthlyRentalIncome,
-      dollarPerSquareFoot
+      dollarPerSquareFoot,
+      grossRentMultiplier, // Add GRM to results
     });
   };
 

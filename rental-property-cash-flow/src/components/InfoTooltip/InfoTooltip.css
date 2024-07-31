@@ -8,9 +8,9 @@
 
 .info-icon {
   display: inline-block;
-  color: rgb(185, 185, 185);
+  color: #afb8c2;
   font-size: 1rem;
-  margin-left: 10px;
+  margin-left: 1rem;
   user-select: none;
   transition: color 0.3s ease;
 }

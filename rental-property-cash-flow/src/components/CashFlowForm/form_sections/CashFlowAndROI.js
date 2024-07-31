@@ -8,7 +8,7 @@ const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency })
     <div className="result-item-bottom">
       <span>
         Cash on Cash Return (ROI)
-        <InfoTooltip description="Return on investment (Annual cash flow / Down payment)" />
+        <InfoTooltip description="Annual return on investment (Annual Cash Flow / Down Payment)" />
       </span>
       <span><strong>{results.cashOnCashReturn !== undefined ? (results.cashOnCashReturn * 100).toFixed(2) + '%' : ''}</strong></span>
     </div>

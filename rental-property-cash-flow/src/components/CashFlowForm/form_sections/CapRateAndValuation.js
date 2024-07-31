@@ -12,13 +12,6 @@ const CapRateAndValuation = ({ formData, handleChange, results, formatCurrency }
       </span>
       <span>{formatCurrency(formData.purchasePrice)}</span>
     </div>
-    <div className="result-item">
-      <span>
-        Dollar per Square Foot
-        <InfoTooltip description="Purchase price divided by building square footage" />
-      </span>
-      <span><strong>{results.dollarPerSquareFoot !== undefined ? formatCurrency(results.dollarPerSquareFoot) : ''}</strong></span>
-    </div>
     <div className="form-group">
       <label>
         Desired Cap Rate (%)
@@ -26,18 +19,18 @@ const CapRateAndValuation = ({ formData, handleChange, results, formatCurrency }
       </label>
       <FormattedPercentInput step="1.00" name="desiredCapRate" value={formData.desiredCapRate} onChange={handleChange} decimalPlaces={0} />
     </div>
+    <div className="result-item">
+      <span>
+        Property Valuation
+        <InfoTooltip description="Valuation based on desired cap rate (Ideal offer price for property)" />
+      </span>
+      <span>{results.propertyValuation !== undefined ? formatCurrency(results.propertyValuation) : ''}</span>
+    </div>
     <div className="form-divider"></div>
     <div className="result-item-bottom">
       <span>
-        Property Valuation (Ideal Offer Price)
-        <InfoTooltip description="Valuation of the property based on the desired cap rate" />
-      </span>
-      <span><strong>{results.propertyValuation !== undefined ? formatCurrency(results.propertyValuation) : ''}</strong></span>
-    </div>
-    <div className="result-item-bottom">
-      <span>
         Cap Rate
-        <InfoTooltip description="Yearly ROI of property if bought with cash (Yearly net operating income / Purchase price) " />
+        <InfoTooltip description="Yearly ROI of property if bought with cash (Yearly net operating income / Purchase price)" />
       </span>
       <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
     </div>

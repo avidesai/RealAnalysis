@@ -38,19 +38,48 @@ const PropertyInformation = ({ formData, handleChange, calculateValues, resetFor
     </div>
     <div className="form-divider"></div>
     <div className="result-item-bottom">
-      <span>Cap Rate</span> <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
+      <span>
+        Cap Rate
+        <InfoTooltip description="Yearly ROI of property if bought with cash (Yearly net operating income / Purchase price)" />
+      </span>
+      <span><strong>{results.capRate !== undefined ? (results.capRate * 100).toFixed(2) + '%' : ''}</strong></span>
     </div>
     <div className="result-item-bottom">
-      <span>Cash on Cash Return (ROI)</span> <span><strong>{results.cashOnCashReturn !== undefined ? (results.cashOnCashReturn * 100).toFixed(2) + '%' : ''}</strong></span>
+      <span>
+        Gross Rent Multiplier
+        <InfoTooltip description="Ratio of purchase price to gross rental income (Purchase price / Annual gross rental income)" />
+      </span>
+      <span><strong>{results.grossRentMultiplier !== undefined ? results.grossRentMultiplier.toFixed(2) : ''}</strong></span>
     </div>
     <div className="result-item-bottom">
-      <span>Monthly Cash Flow</span> 
+      <span>
+        Dollar per Square Foot
+        <InfoTooltip description="Purchase price divided by building square footage" />
+      </span>
+      <span><strong>{results.dollarPerSquareFoot !== undefined ? formatCurrency(results.dollarPerSquareFoot) : ''}</strong></span>
+    </div>
+    <div className="form-divider"></div>
+    <div className="result-item-bottom">
+      <span>
+        Cash on Cash Return (ROI)
+        <InfoTooltip description="Annual return on investment (Annual Cash Flow / Down Payment)" />
+      </span>
+      <span><strong>{results.cashOnCashReturn !== undefined ? (results.cashOnCashReturn * 100).toFixed(2) + '%' : ''}</strong></span>
+    </div>
+    <div className="result-item-bottom">
+      <span>
+        Monthly Cash Flow
+        <InfoTooltip description="Cash flow generated each month after expenses" />
+      </span>
       <span className={results.monthlyCashFlow >= 0 ? 'positive' : 'negative'}>
         <strong>{results.monthlyCashFlow !== undefined ? formatCurrency(results.monthlyCashFlow) : ''}</strong>
       </span>
     </div>
     <div className="result-item-bottom">
-      <span>Annual Cash Flow</span> 
+      <span>
+        Annual Cash Flow
+        <InfoTooltip description="Cash flow generated each year after expenses" />
+      </span>
       <span className={results.annualCashFlow >= 0 ? 'positive' : 'negative'}>
         <strong>{results.annualCashFlow !== undefined ? formatCurrency(results.annualCashFlow) : ''}</strong>
       </span>

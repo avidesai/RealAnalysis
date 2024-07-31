@@ -13,6 +13,9 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
       </label>
       <FormattedPercentInput step="1.00" name="propertyManagementRate" value={formData.propertyManagementRate} onChange={handleChange} decimalPlaces={0} />
     </div>
+    <div className="result-item">
+      <span>Property Management Fees</span> <span className='negative'><strong>{results.propertyManagementFees !== undefined ? formatCurrency(results.propertyManagementFees) : ''}</strong></span>
+    </div>
     <div className="form-group">
       <label>
         Property Tax Rate (%)
@@ -21,28 +24,18 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
       <FormattedPercentInput step="0.05" name="propertyTaxRate" value={formData.propertyTaxRate} onChange={handleChange} />
     </div>
     <div className="result-item">
-      <span>Property Management Fees</span> <span><strong>{results.propertyManagementFees !== undefined ? formatCurrency(results.propertyManagementFees) : ''}</strong></span>
-    </div>
-    <div className="result-item">
-      <span>Property Taxes</span> <span><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>
+      <span>Property Taxes</span> <span className='negative'><strong>{results.propertyTax !== undefined ? formatCurrency(results.propertyTax) : ''}</strong></span>
     </div>
     <div className="form-group">
       <label>
-        Landlord Insurance
+        Insurance
         <InfoTooltip description="Monthly cost of insurance for the property (contact insurance agent for estimate)" />
       </label>
       <FormattedNumberInput step="10" name="landlordInsurance" value={formData.landlordInsurance} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
-        Replacement Reserve
-        <InfoTooltip description="Monthly allocation for future major repairs and replacements. Calculation: $1 per square foot every year divided by 12 months" />
-      </label>
-      <FormattedNumberInput step="10" name="replacementReserve" value={formData.replacementReserve} onChange={handleChange} />
-    </div>
-    <div className="form-group">
-      <label>
-        HOA Fees
+        HOA Dues
         <InfoTooltip description="Monthly fees paid to the homeowners association (if applicable)" />
       </label>
       <FormattedNumberInput step="10" name="hoaFees" value={formData.hoaFees} onChange={handleChange} />
@@ -51,14 +44,14 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
     <div className="form-group">
       <label>
         Water and Sewer
-        <InfoTooltip description="Monthly water and sewer expenses (usually paid by landlord)" />
+        <InfoTooltip description="Monthly water and sewer expenses (verify who pays this)" />
       </label>
       <FormattedNumberInput step="10" name="waterAndSewer" value={formData.waterAndSewer} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
         Gas and Electricity
-        <InfoTooltip description="Monthly gas and electricity expenses (usually paid by tenants, important to verify)" />
+        <InfoTooltip description="Monthly gas and electricity expenses (verify who pays this)" />
       </label>
       <FormattedNumberInput step="10" name="gasAndElectricity" value={formData.gasAndElectricity} onChange={handleChange} />
     </div>
@@ -71,17 +64,17 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
     </div>
     <div className="form-group">
       <label>
-        Snow Removal
-        <InfoTooltip description="Monthly snow removal expenses (if applicable)" />
-      </label>
-      <FormattedNumberInput step="5" name="snowRemoval" value={formData.snowRemoval} onChange={handleChange} />
-    </div>
-    <div className="form-group">
-      <label>
         Cable, Phone, Internet
         <InfoTooltip description="Monthly cable, phone, and internet expenses (if applicable)" />
       </label>
       <FormattedNumberInput step="5" name="cablePhoneInternet" value={formData.cablePhoneInternet} onChange={handleChange} />
+    </div>
+    <div className="form-group">
+      <label>
+        Accounting, Advertising, and Legal
+        <InfoTooltip description="Monthly real estate business expenses (accounting, advertising, and legal services)" />
+      </label>
+      <FormattedNumberInput step="5" name="accountingAdvertisingLegal" value={formData.accountingAdvertisingLegal} onChange={handleChange} />
     </div>
     <div className="form-group">
       <label>
@@ -92,10 +85,10 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
     </div>
     <div className="form-group">
       <label>
-        Accounting, Advertising, and Legal
-        <InfoTooltip description="Monthly real estate business expenses (accounting, advertising, and legal services)" />
+        Other Expenses
+        <InfoTooltip description="Lawn care, snow removal, and other monthly expenses." />
       </label>
-      <FormattedNumberInput step="5" name="accountingAdvertisingLegal" value={formData.accountingAdvertisingLegal} onChange={handleChange} />
+      <FormattedNumberInput step="5" name="snowRemoval" value={formData.snowRemoval} onChange={handleChange} />
     </div>
     <div className="form-divider"></div>
     <div className="result-item-bottom">

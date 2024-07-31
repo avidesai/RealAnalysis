@@ -1,5 +1,5 @@
 :root {
-    --navbar-background-color: #121212; /* Enhanced for a deeper noir look */
+    --navbar-background-color: #191f2c; /* Enhanced for a deeper noir look */
     --button-color: #333333; /* Adjusted for better contrast */
     --button-hover-color: #444444; /* Fine-tuned for a smoother hover effect */
     --text-color: #e0e0e0; /* Optimized for readability */
@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0.5rem 2rem;
     background: var(--navbar-background-color);
     box-shadow: 0 2px 4px var(--shadow-color);
     margin-bottom: 20px;
@@ -24,7 +24,8 @@
 }
 
 .navbar-logo {
-    width: 40px;
+    padding-top: 0.3rem;
+    width: 45px;
     height: auto;
     transition: transform 0.3s ease; /* Smooth logo animation */
 }
