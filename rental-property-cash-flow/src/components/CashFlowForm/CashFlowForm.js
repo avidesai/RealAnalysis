@@ -21,10 +21,6 @@ const CashFlowForm = () => {
 
   return (
     <div className="container">
-      <div className='header'>
-        <h1>CashFlow.io</h1>
-      </div>
-      <div className="form-divider"></div>
       <form className="form">
         <PropertyInformation formData={formData} handleChange={handleChange} calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} />
         <GrossIncome formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />

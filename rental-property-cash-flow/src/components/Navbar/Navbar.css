@@ -1,5 +1,5 @@
 :root {
-    --navbar-background-color: #000000;; /* Enhanced for a deeper noir look */
+    --navbar-background-color: #000000; /* Enhanced for a deeper noir look */
     --button-color: #333333; /* Adjusted for better contrast */
     --button-hover-color: #444444; /* Fine-tuned for a smoother hover effect */
     --text-color: #e0e0e0; /* Optimized for readability */
@@ -11,17 +11,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 2rem;
+    padding: 1rem 2.5rem;
     background: var(--navbar-background-color);
     border-bottom: #6b6b6b solid 2px; /* Match border with the rest of the website */
     box-shadow: 0 10px 16px var(--shadow-color); /* Enhanced shadow for depth */
-    margin-bottom: 20px;
     color: var(--text-color);
     transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for background and shadow */
 }
 
+.navbar-left {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.navbar-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
 .navbar-logo {
-    padding-top: 0.3rem;
     width: 45px;
     height: auto;
     transition: transform 0.3s ease; /* Smooth logo animation */
@@ -31,13 +40,20 @@
     transform: scale(1.1); /* Slight increase in size for interactive feedback */
 }
 
+.navbar-title {
+    margin-left: 15px; /* Space between logo and text */
+    font-size: 1.4rem;
+    color: #ffffff; /* White text color */
+    font-weight: 700;
+}
+
 .navbar-right {
     display: flex;
 }
 
 .navbar-buttons {
     display: flex;
-    gap: 1.25rem; /* Increased horizontal spacing */
+    gap: 1.2rem; /* Increased horizontal spacing */
 }
 
 .navbar-button {
@@ -45,15 +61,14 @@
     background-color: var(--button-color);
     border: none;
     border-radius: 4px;
-    padding: 8px 12px;
+    padding: 8px 16px;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 700;
     color: #e0e0e0;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px var(--shadow-color);
     text-decoration: none;
-    font-weight: 600;
 }
 
 .navbar-button:hover {
@@ -72,4 +87,34 @@
     background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
     box-shadow: 0 0 3px #3391ff, 0 0 6px #8057d5; /* More pronounced shadow for interactive feedback */
     transform: scale(1.05); /* Slightly larger scale for emphasis */
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+
+    .navbar-title {
+        font-size: 1.2rem;
+    }
+
+    .navbar-button, .premium-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 1rem 1rem;
+    }
+
+    .navbar-title {
+        font-size: 1rem;
+    }
+
+    .navbar-button, .premium-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }

@@ -13,16 +13,21 @@ const FormattedNumberInput = ({ name, value, onChange, step }) => {
   }, [value]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     const numericValue = value.replace(/,/g, '');
-    setInputValue(formatNumberWithCommas(numericValue));
+    setInputValue(value); // Set the raw input value without formatting
     onChange({ target: { name, value: numericValue } });
+  };
+
+  const handleBlur = (e) => {
+    const { value } = e.target;
+    setInputValue(formatNumberWithCommas(value)); // Format the value with commas on blur
   };
 
   const handleStep = (increment) => {
     const numericValue = parseFloat(value) + increment;
     setInputValue(formatNumberWithCommas(numericValue));
-    onChange({ target: { name, value: numericValue.toString() } }); // Ensure the value is a string
+    onChange({ target: { name, value: numericValue.toString() } });
   };
 
   return (
@@ -32,8 +37,8 @@ const FormattedNumberInput = ({ name, value, onChange, step }) => {
         name={name}
         value={inputValue}
         onChange={handleInputChange}
-        onBlur={(e) => handleInputChange(e)} // Ensure value is updated without commas
-        onFocus={(e) => e.target.select()} // Select input text on focus
+        onBlur={handleBlur}
+        onFocus={(e) => e.target.select()}
       />
       <div className="step-buttons">
         <button type="button" onClick={() => handleStep(parseFloat(step))}>▲</button>

@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background: #000000;; /* Dark black background */
-  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 0),
+  background-image: radial-gradient(rgba(255, 255, 255, 0.20) 1.5px, transparent 0),
                     radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
   background-size: 30px 30px, 60px 60px; /* Adjust the size of the stardust */
   background-position: 0 0, 30px 30px;
@@ -12,9 +12,10 @@ body {
 }
 
 .container {
-  max-width: 550px;
+  max-width: 600px;
   margin: 45px auto;
-  padding: 25px 40px 25px 40px; /* Slightly more compact padding */
+  padding-top: 0px;
+  padding: 1rem 2.5rem; /* Slightly more compact padding */
   background: #000000; /* Match background with the rest of the website */
   border: #6b6b6b solid 2px; /* Match border with the rest of the website */
   border-radius: 10px; /* More modern radius */
@@ -38,6 +39,10 @@ body {
   width: 35px; /* Adjusted for balance */
   height: auto;
   margin-left: 8px;
+}
+
+h3 {
+  margin-top: 2rem;
 }
 
 h2, h3, h4 {
@@ -96,8 +101,8 @@ h2, h3, h4 {
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .calculate-button {
@@ -131,7 +136,7 @@ h2, h3, h4 {
 }
 
 .calculate-button:hover {
-  background: rgb(52, 153, 102); /* Slightly darker shade for depth */
+  background: #6f42c1; /* Slightly darker shade for depth */
   transform: translateY(-2px); /* More noticeable lift */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for all properties */

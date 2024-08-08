@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+const formatPercent = (value) => {
+  if (!value) return '';
+  return value.toString().replace(/\.?0+$/, ''); // Remove trailing zeros
+};
+
 const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (value !== '') {
-      setInputValue((value * 100).toFixed(decimalPlaces)); // Convert initial value to percentage
+      setInputValue(formatPercent((value * 100).toFixed(decimalPlaces))); // Convert initial value to percentage without trailing zeros
     } else {
       setInputValue('');
     }
@@ -15,9 +20,9 @@ const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 
     const { value } = e.target;
     const numericValue = value.replace(/,/g, '').replace(/%/g, '');
     if (numericValue === '' || (!isNaN(numericValue) && numericValue !== '-')) {
-      setInputValue(numericValue);
+      setInputValue(value); // Set the raw input value without formatting
       if (numericValue !== '') {
-        onChange({ target: { name, value: (parseFloat(numericValue) / 100).toFixed(4) } });
+        onChange({ target: { name, value: (parseFloat(numericValue) / 100).toFixed(decimalPlaces) } });
       } else {
         onChange({ target: { name, value: '' } });
       }
@@ -26,19 +31,19 @@ const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 
 
   const handleBlur = (e) => {
     const { value } = e.target;
-    if (value === '') {
-      setInputValue('');
+    const numericValue = parseFloat(value.replace(/,/g, '').replace(/%/g, ''));
+    if (!isNaN(numericValue)) {
+      setInputValue(formatPercent(numericValue.toFixed(decimalPlaces))); // Format the value with fixed decimal places on blur
     } else {
-      const formattedValue = parseFloat(value.replace(/,/g, '').replace(/%/g, '')).toFixed(decimalPlaces);
-      setInputValue(formattedValue);
+      setInputValue('');
     }
   };
 
   const handleStep = (increment) => {
     let numericValue = parseFloat(inputValue.replace(/,/g, '').replace(/%/g, '')) || 0;
     numericValue = (numericValue + increment).toFixed(decimalPlaces);
-    setInputValue(numericValue);
-    onChange({ target: { name, value: (numericValue / 100).toFixed(4) } });
+    setInputValue(formatPercent(numericValue)); // Remove trailing zeros
+    onChange({ target: { name, value: (numericValue / 100).toFixed(decimalPlaces) } });
   };
 
   return (
