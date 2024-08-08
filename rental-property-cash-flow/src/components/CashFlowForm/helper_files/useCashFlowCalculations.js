@@ -26,6 +26,8 @@ const initialFormData = {
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
+  const [clickCount, setClickCount] = useState(0);
+  const [isCalculateDisabled, setIsCalculateDisabled] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +40,7 @@ const useCashFlowCalculations = () => {
   const resetForm = () => {
     setFormData(initialFormData);
     setResults({});
+    setClickCount(0); // Reset click count on form reset
   };
 
   const formatNumberWithCommas = (x) => {
@@ -50,6 +53,16 @@ const useCashFlowCalculations = () => {
   };
 
   const calculateValues = () => {
+    if (clickCount >= 5) {
+      console.log("Upgrade to Pro for unlimited calculations");
+      return;
+    }
+
+    setClickCount(clickCount + 1);
+    if (clickCount + 1 >= 5) {
+      setIsCalculateDisabled(true);
+    }
+
     const {
       purchasePrice,
       squareFeet,
@@ -144,6 +157,8 @@ const useCashFlowCalculations = () => {
     formatCurrency,
     formatNumberWithCommas,
     calculateValues,
+    clickCount,
+    isCalculateDisabled, // Return the new state variables
   };
 };
 

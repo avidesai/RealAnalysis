@@ -13,22 +13,24 @@ const CashFlowForm = () => {
   const {
     formData,
     handleChange,
-    resetForm, // Add the resetForm function
+    resetForm,
     results,
     formatCurrency,
     calculateValues,
+    clickCount,
+    isCalculateDisabled, // Add the new state variables
   } = useCashFlowCalculations();
 
   return (
     <div className="container">
       <form className="form">
-        <PropertyInformation formData={formData} handleChange={handleChange} calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} />
+        <PropertyInformation formData={formData} handleChange={handleChange} calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} isCalculateDisabled={isCalculateDisabled} />
         <GrossIncome formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <OperatingExpenses formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <NetOperatingIncome results={results} formatCurrency={formatCurrency} />
         <CapRateAndValuation formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <LoanInformation formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
-        <CashFlowAndROI calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} />
+        <CashFlowAndROI calculateValues={calculateValues} resetForm={resetForm} results={results} formatCurrency={formatCurrency} isCalculateDisabled={isCalculateDisabled} />
       </form>
     </div>
   );
