@@ -1,3 +1,5 @@
+// CashFlowForm.js
+
 import React from 'react';
 import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
 import PropertyInformation from './form_sections/PropertyInformation';
@@ -17,8 +19,7 @@ const CashFlowForm = () => {
     results,
     formatCurrency,
     calculateValues,
-    clickCount,
-    isCalculateDisabled, // Add the new state variables
+    isCalculateDisabled,
   } = useCashFlowCalculations();
 
   return (

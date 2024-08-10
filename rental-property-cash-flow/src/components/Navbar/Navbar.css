@@ -1,12 +1,14 @@
+/* Navbar.css */
+
 :root {
-    --navbar-background-color: #000000; /* Enhanced for a deeper noir look */
+    --navbar-background-color: #000000; /* Darker background for the navbar */
     --button-color: #333333; /* Adjusted for better contrast */
     --button-hover-color: #444444; /* Fine-tuned for a smoother hover effect */
     --text-color: #e0e0e0; /* Optimized for readability */
     --shadow-color: rgba(0, 0, 0, 0.9); /* Refined for a more pronounced depth */
-}
-
-.navbar {
+  }
+  
+  .navbar {
     font-family: 'Nunito', sans-serif;
     display: flex;
     justify-content: space-between;
@@ -15,48 +17,49 @@
     background: var(--navbar-background-color);
     border-bottom: #6b6b6b solid 2px; /* Match border with the rest of the website */
     box-shadow: 0 10px 16px var(--shadow-color); /* Enhanced shadow for depth */
+    margin-bottom: 0; /* Remove margin-bottom to eliminate space */
     color: var(--text-color);
     transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for background and shadow */
-}
-
-.navbar-left {
+  }
+  
+  .navbar-left {
     display: flex;
     align-items: center; /* Center items vertically */
-}
-
-.navbar-logo-link {
+  }
+  
+  .navbar-logo-link {
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-.navbar-logo {
+  }
+  
+  .navbar-logo {
     width: 45px;
     height: auto;
     transition: transform 0.3s ease; /* Smooth logo animation */
-}
-
-.navbar-logo:hover {
+  }
+  
+  .navbar-logo:hover {
     transform: scale(1.1); /* Slight increase in size for interactive feedback */
-}
-
-.navbar-title {
+  }
+  
+  .navbar-title {
     margin-left: 15px; /* Space between logo and text */
     font-size: 1.4rem;
     color: #ffffff; /* White text color */
     font-weight: 700;
-}
-
-.navbar-right {
+  }
+  
+  .navbar-right {
     display: flex;
-}
-
-.navbar-buttons {
+  }
+  
+  .navbar-buttons {
     display: flex;
     gap: 1.2rem; /* Increased horizontal spacing */
-}
-
-.navbar-button {
+  }
+  
+  .navbar-button {
     font-family: 'Nunito', sans-serif;
     background-color: var(--button-color);
     border: none;
@@ -69,52 +72,53 @@
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px var(--shadow-color);
     text-decoration: none;
-}
-
-.navbar-button:hover {
+  }
+  
+  .navbar-button:hover {
     background-color: var(--button-hover-color);
     transform: scale(1.05);
     box-shadow: 0 5px 10px var(--shadow-color); /* Enhanced shadow for depth */
-}
-
-.premium-button {
+  }
+  
+  .premium-button {
     background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
     color: #e0e0e0;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for all properties */
-}
-
-.premium-button:hover {
+  }
+  
+  .premium-button:hover {
     background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
     box-shadow: 0 0 3px #3391ff, 0 0 6px #8057d5; /* More pronounced shadow for interactive feedback */
     transform: scale(1.05); /* Slightly larger scale for emphasis */
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .navbar {
-        padding: 1rem 1.5rem;
+      padding: 1rem 1.5rem;
     }
-
+  
     .navbar-title {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
-
+  
     .navbar-button, .premium-button {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
     }
-}
-
-@media (max-width: 480px) {
+  }
+  
+  @media (max-width: 480px) {
     .navbar {
-        padding: 1rem 1rem;
+      padding: 1rem 1rem;
     }
-
+  
     .navbar-title {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
+  
     .navbar-button, .premium-button {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
     }
-}
+  }
+  

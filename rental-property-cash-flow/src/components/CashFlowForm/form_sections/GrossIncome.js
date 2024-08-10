@@ -13,7 +13,7 @@ const GrossIncome = ({ formData, handleChange, results, formatCurrency }) => (
         Vacancy Rate (%)
         <InfoTooltip description="Percent of time the property is expected to be vacant (in between tenants)" />
       </label>
-      <FormattedPercentInput step="1.00" name="vacancyRate" value={formData.vacancyRate} onChange={handleChange} decimalPlaces={0} />
+      <FormattedPercentInput step="1" name="vacancyRate" value={formData.vacancyRate} onChange={handleChange} decimalPlaces={1} />
     </div>
     <div className="result-item">
       <span>Vacancy Loss</span> <span className='negative'><strong>{results.vacancyLoss !== undefined ? formatCurrency(results.vacancyLoss) : ''}</strong></span>

@@ -1,3 +1,5 @@
+// FormattedNumberInput.js
+
 import React, { useState, useEffect } from 'react';
 
 const formatNumberWithCommas = (value) => {
@@ -13,21 +15,25 @@ const FormattedNumberInput = ({ name, value, onChange, step }) => {
   }, [value]);
 
   const handleInputChange = (e) => {
-    const { value } = e.target;
-    const numericValue = value.replace(/,/g, '');
-    setInputValue(value); // Set the raw input value without formatting
-    onChange({ target: { name, value: numericValue } });
+    setInputValue(e.target.value);
   };
 
-  const handleBlur = (e) => {
-    const { value } = e.target;
-    setInputValue(formatNumberWithCommas(value)); // Format the value with commas on blur
+  const handleBlur = () => {
+    const numericValue = parseFloat(inputValue.replace(/,/g, ''));
+    if (!isNaN(numericValue)) {
+      setInputValue(formatNumberWithCommas(numericValue));
+      onChange({ target: { name, value: numericValue.toString() } });
+    } else {
+      setInputValue('');
+      onChange({ target: { name, value: '' } });
+    }
   };
 
   const handleStep = (increment) => {
-    const numericValue = parseFloat(value) + increment;
-    setInputValue(formatNumberWithCommas(numericValue));
-    onChange({ target: { name, value: numericValue.toString() } });
+    const numericValue = parseFloat(inputValue.replace(/,/g, '')) || 0;
+    const newValue = numericValue + increment;
+    setInputValue(formatNumberWithCommas(newValue));
+    onChange({ target: { name, value: newValue.toString() } });
   };
 
   return (

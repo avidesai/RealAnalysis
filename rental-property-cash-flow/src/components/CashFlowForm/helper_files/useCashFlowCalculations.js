@@ -1,3 +1,5 @@
+// useCashFlowCalculations.js
+
 import { useState } from 'react';
 
 const initialFormData = {
@@ -5,7 +7,7 @@ const initialFormData = {
   squareFeet: 2000,
   monthlyRentPerUnit: 3000,
   numberOfUnits: 2,
-  propertyTaxRate: 0.0200,
+  propertyTaxRate: 0.02,
   vacancyRate: 0.05,
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
@@ -17,7 +19,7 @@ const initialFormData = {
   cablePhoneInternet: 0,
   pestControl: 0,
   accountingAdvertisingLegal: 0,
-  desiredCapRate: 0.10,
+  desiredCapRate: 0.1,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
   mortgageRate: 0.068,
@@ -28,19 +30,21 @@ const useCashFlowCalculations = () => {
   const [results, setResults] = useState({});
   const [clickCount, setClickCount] = useState(0);
   const [isCalculateDisabled, setIsCalculateDisabled] = useState(false);
+  const [hasAlerted, setHasAlerted] = useState(false); // New state to track if alert has been shown
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value === '' ? '' : parseFloat(value.replace(/,/g, '')) || value,
+      [name]: value === '' ? '' : parseFloat(value),
     }));
   };
 
   const resetForm = () => {
     setFormData(initialFormData);
     setResults({});
-    setClickCount(0); // Reset click count on form reset
+    setClickCount(0);
+    setHasAlerted(false); // Reset alert state
   };
 
   const formatNumberWithCommas = (x) => {
@@ -53,12 +57,15 @@ const useCashFlowCalculations = () => {
   };
 
   const calculateValues = () => {
-    if (clickCount >= 5) {
-      console.log("Upgrade to Pro for unlimited calculations");
+    if (isCalculateDisabled) {
+      if (!hasAlerted) {
+        alert("You've reached your daily limit of 5 calculations. Upgrade to the Premium Plan for unlimited calculations.");
+        setHasAlerted(true);
+      }
       return;
     }
 
-    setClickCount(clickCount + 1);
+    setClickCount((prevCount) => prevCount + 1);
     if (clickCount + 1 >= 5) {
       setIsCalculateDisabled(true);
     }
@@ -145,7 +152,7 @@ const useCashFlowCalculations = () => {
       vacancyLoss,
       monthlyRentalIncome,
       dollarPerSquareFoot,
-      grossRentMultiplier, // Add GRM to results
+      grossRentMultiplier,
     });
   };
 
@@ -158,7 +165,7 @@ const useCashFlowCalculations = () => {
     formatNumberWithCommas,
     calculateValues,
     clickCount,
-    isCalculateDisabled, // Return the new state variables
+    isCalculateDisabled,
   };
 };
 

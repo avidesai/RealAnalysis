@@ -1,7 +1,7 @@
 import React from 'react';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
-const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency }) => (
+const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency, isCalculateDisabled }) => (
   <div className="form-section">
     <h2>Cash Flow and ROI</h2>
     <div className="form-divider"></div>
@@ -32,7 +32,14 @@ const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency })
     </div>
     <div className="form-divider"></div>
     <div className="button-container">
-      <button type="button" className="calculate-button" onClick={calculateValues}>Calculate</button>
+      <button
+          type="button"
+          className={`calculate-button ${isCalculateDisabled ? 'disabled' : ''}`}
+          onClick={calculateValues}
+          disabled={isCalculateDisabled}
+        >
+          {isCalculateDisabled ? 'Upgrade for More' : 'Calculate'}
+      </button>
       <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
     </div>
   </div>
