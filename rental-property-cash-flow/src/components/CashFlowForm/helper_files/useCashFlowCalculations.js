@@ -8,7 +8,7 @@ const initialFormData = {
   monthlyRentPerUnit: 3000,
   numberOfUnits: 2,
   propertyTaxRate: 0.02,
-  vacancyRate: 0.05,
+  vacancyRate: 0.05,  // Stored as 0.05 (5%)
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
   hoaFees: 0,
@@ -22,7 +22,7 @@ const initialFormData = {
   desiredCapRate: 0.1,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
-  mortgageRate: 0.068,
+  mortgageRate: 0.068,  // Stored as 0.068 (6.8%)
 };
 
 const useCashFlowCalculations = () => {
@@ -30,13 +30,13 @@ const useCashFlowCalculations = () => {
   const [results, setResults] = useState({});
   const [clickCount, setClickCount] = useState(0);
   const [isCalculateDisabled, setIsCalculateDisabled] = useState(false);
-  const [hasAlerted, setHasAlerted] = useState(false); // New state to track if alert has been shown
+  const [hasAlerted, setHasAlerted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value === '' ? '' : parseFloat(value),
+      [name]: value === '' ? 0 : parseFloat(value),
     }));
   };
 
@@ -44,12 +44,10 @@ const useCashFlowCalculations = () => {
     setFormData(initialFormData);
     setResults({});
     setClickCount(0);
-    setHasAlerted(false); // Reset alert state
+    setHasAlerted(false);
   };
 
-  const formatNumberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  const formatNumberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   const formatCurrency = (value) => {
     const formattedValue = formatNumberWithCommas(Math.abs(value).toFixed(0));

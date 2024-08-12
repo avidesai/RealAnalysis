@@ -1,8 +1,6 @@
-// FormattedPercentInput.js
-
 import React, { useState, useEffect } from 'react';
 
-const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 }) => {
+const FormattedPercentInput = ({ name, value, onChange, step = 1, decimalPlaces = 2 }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -14,15 +12,18 @@ const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 
   }, [value, decimalPlaces]);
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    const newValue = e.target.value;
+    if (/^\d*\.?\d*$/.test(newValue)) {
+      setInputValue(newValue);
+    }
   };
 
   const handleBlur = () => {
-    const numericValue = parseFloat(inputValue);
+    let numericValue = parseFloat(inputValue);
     if (!isNaN(numericValue)) {
-      const formattedValue = numericValue.toFixed(decimalPlaces);
-      setInputValue(formattedValue);
-      onChange({ target: { name, value: (numericValue / 100).toFixed(decimalPlaces) } });
+      const adjustedValue = parseFloat((numericValue / 100).toFixed(decimalPlaces));
+      setInputValue((adjustedValue * 100).toFixed(decimalPlaces));
+      onChange({ target: { name, value: adjustedValue } });
     } else {
       setInputValue('');
       onChange({ target: { name, value: '' } });
@@ -30,10 +31,12 @@ const FormattedPercentInput = ({ name, value, onChange, step, decimalPlaces = 2 
   };
 
   const handleStep = (increment) => {
-    const numericValue = parseFloat(inputValue) || 0;
-    const newValue = numericValue + increment;
-    setInputValue(newValue.toFixed(decimalPlaces));
-    onChange({ target: { name, value: (newValue / 100).toFixed(decimalPlaces) } });
+    let numericValue = parseFloat(inputValue);
+    if (isNaN(numericValue)) numericValue = 0;
+    const newValue = (numericValue + increment).toFixed(decimalPlaces);
+    setInputValue(newValue);
+    const adjustedValue = parseFloat(newValue) / 100;
+    onChange({ target: { name, value: adjustedValue } });
   };
 
   return (

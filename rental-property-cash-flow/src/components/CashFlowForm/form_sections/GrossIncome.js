@@ -1,3 +1,5 @@
+// GrossIncome.js
+
 import React from 'react';
 import FormattedPercentInput from '../helper_files/FormattedPercentInput';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
