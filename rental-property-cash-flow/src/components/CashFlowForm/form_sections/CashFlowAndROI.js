@@ -44,7 +44,6 @@ const CashFlowAndROI = ({
         type="button"
         className={`calculate-button ${isCalculateDisabled ? 'disabled' : ''}`}
         onClick={calculateValues}
-        disabled={isCalculateDisabled}
       >
         {isCalculateDisabled ? 'Upgrade for More' : 'Calculate'}
       </button>
