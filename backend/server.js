@@ -9,6 +9,7 @@ require('dotenv').config();
 const propertyRoutes = require('./routes/propertyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const calculationRoutes = require('./routes/calculationRoutes');
+const stripeRoutes = require('./routes/stripeRoutes'); // Import the new stripeRoutes
 
 // Create Express app
 const app = express();
@@ -29,6 +30,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/properties', propertyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/calculations', calculationRoutes);
+app.use('/api/stripe', stripeRoutes); // Use the Stripe routes
 
 // Start the server
 const PORT = process.env.PORT || 8000;
