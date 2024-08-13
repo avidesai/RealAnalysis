@@ -1,7 +1,7 @@
 // CashFlowForm.js
 
 import React from 'react';
-import useIpBasedCalculationLimit from './helper_files/useIpBasedCalculationLimit'; // Import the new hook
+import useIpBasedCalculationLimit from './helper_files/useIpBasedCalculationLimit';
 import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
 import PropertyInformation from './form_sections/PropertyInformation';
 import GrossIncome from './form_sections/GrossIncome';
@@ -10,12 +10,10 @@ import NetOperatingIncome from './form_sections/NetOperatingIncome';
 import CapRateAndValuation from './form_sections/CapRateAndValuation';
 import LoanInformation from './form_sections/LoanInformation';
 import CashFlowAndROI from './form_sections/CashFlowAndROI';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
-  const navigate = useNavigate(); // Initialize navigate
-  const { isCalculateDisabled, clickCount, incrementCalculationCount } = useIpBasedCalculationLimit(); // Use the new hook
+  const { isCalculateDisabled, clickCount, incrementCalculationCount } = useIpBasedCalculationLimit();
 
   const {
     formData,
@@ -26,10 +24,9 @@ const CashFlowForm = () => {
     calculateValues: originalCalculateValues,
   } = useCashFlowCalculations();
 
-  // Wrap the original calculate function to include the increment logic
   const calculateValues = () => {
     if (isCalculateDisabled) {
-      navigate('/premium'); // Navigate to the premium page if the limit is reached
+      // No need to navigate, the button will handle the upgrade
     } else {
       incrementCalculationCount();
       originalCalculateValues();
