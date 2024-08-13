@@ -17,8 +17,8 @@
   
   .signup-form h2 {
     text-align: center;
-    color: rgb(0, 178, 254);
-    margin-bottom: 0.5rem;
+    color: rgb(255, 255, 255);
+    margin-bottom: 0rem;
   }
   
   .signup-form-group {
@@ -78,7 +78,8 @@
 
   .login-link {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   
   .login-link a {

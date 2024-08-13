@@ -81,7 +81,7 @@
   }
   
   .premium-button {
-    background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+    background: linear-gradient(135deg, #007bff 0%, rgb(111, 66, 193) 100%);
     color: #e0e0e0;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for all properties */
   }

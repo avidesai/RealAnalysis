@@ -6,8 +6,7 @@ body {
   padding: 0;
   background-color: #000000; /* Deep black background */
   background-image: 
-    radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    radial-gradient(circle, rgba(0, 155, 255, 0.28) 1.2px, transparent 0.2px);
   background-size: 8px 8px, 10px 10px; /* Adjust the size of the stars */
   background-position: 0 0, 10px; /* Offset the second layer */
   background-repeat: repeat; /* Repeat the pattern */

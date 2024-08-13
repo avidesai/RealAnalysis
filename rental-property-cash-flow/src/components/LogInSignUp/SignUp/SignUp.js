@@ -1,3 +1,5 @@
+// SignUp.js
+
 import React, { useState, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
@@ -23,13 +25,14 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/users/register', {
+      const response = await fetch('http://localhost:8000/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error('Failed to sign up');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to sign up');
       }
       await login(formData.email, formData.password); // Automatically log the user in after sign up
       navigate('/');
@@ -113,7 +116,6 @@ const SignUp = () => {
           />
         </div>
         <button type="submit" className="signup-button">Sign Up</button>
-
       </form>
     </div>
   );

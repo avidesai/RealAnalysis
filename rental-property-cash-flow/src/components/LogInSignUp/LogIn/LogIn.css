@@ -17,8 +17,8 @@
   
   .login-form h2 {
     text-align: center;
-    color: rgb(0, 178, 254);
-    margin-bottom: 40px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 0.5rem;
   }
   
   .login-form-group {

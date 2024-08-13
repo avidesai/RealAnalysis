@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         <NavLink to="/" className="navbar-logo-link">
-          <span className="navbar-title">caprate.io</span>
+          <span className="navbar-title">CapRate.io</span>
         </NavLink>
       </div>
       <div className="navbar-right">
