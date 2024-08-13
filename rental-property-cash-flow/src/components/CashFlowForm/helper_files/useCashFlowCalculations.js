@@ -8,7 +8,7 @@ const initialFormData = {
   monthlyRentPerUnit: 3000,
   numberOfUnits: 2,
   propertyTaxRate: 0.02,
-  vacancyRate: 0.05,  // Stored as 0.05 (5%)
+  vacancyRate: 0.05,
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
   hoaFees: 0,
@@ -22,16 +22,12 @@ const initialFormData = {
   desiredCapRate: 0.1,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
-  mortgageRate: 0.068,  // Stored as 0.068 (6.8%)
+  mortgageRate: 0.068,
 };
 
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
-  const [clickCount, setClickCount] = useState(0);
-  const [isCalculateDisabled, setIsCalculateDisabled] = useState(false);
-  const [hasAlerted, setHasAlerted] = useState(false);
-  const calculationLimit = 5;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +40,6 @@ const useCashFlowCalculations = () => {
   const resetForm = () => {
     setFormData(initialFormData);
     setResults({});
-    // Notice that `clickCount`, `isCalculateDisabled`, and `hasAlerted` are not reset
   };
 
   const formatNumberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -55,19 +50,6 @@ const useCashFlowCalculations = () => {
   };
 
   const calculateValues = () => {
-    if (isCalculateDisabled) {
-      if (!hasAlerted) {
-        alert("You've reached your daily limit of 5 calculations. Upgrade to the Premium Plan for unlimited calculations.");
-        setHasAlerted(true);
-      }
-      return;
-    }
-
-    setClickCount((prevCount) => prevCount + 1);
-    if (clickCount + 1 >= calculationLimit) {
-      setIsCalculateDisabled(true);
-    }
-
     const {
       purchasePrice,
       squareFeet,
@@ -162,9 +144,6 @@ const useCashFlowCalculations = () => {
     formatCurrency,
     formatNumberWithCommas,
     calculateValues,
-    clickCount,
-    isCalculateDisabled,
-    calculationLimit,
   };
 };
 

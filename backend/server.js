@@ -8,12 +8,16 @@ require('dotenv').config();
 
 const propertyRoutes = require('./routes/propertyRoutes');
 const userRoutes = require('./routes/userRoutes');
+const calculationRoutes = require('./routes/calculationRoutes');
 
 // Create Express app
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Frontend URL
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // MongoDB connection
@@ -24,6 +28,7 @@ mongoose.connect(process.env.MONGO_URI)
 // Use Routes
 app.use('/api/properties', propertyRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/calculations', calculationRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 8000;

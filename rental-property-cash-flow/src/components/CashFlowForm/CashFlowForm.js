@@ -1,6 +1,7 @@
 // CashFlowForm.js
 
 import React from 'react';
+import useIpBasedCalculationLimit from './helper_files/useIpBasedCalculationLimit'; // Import the new hook
 import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
 import PropertyInformation from './form_sections/PropertyInformation';
 import GrossIncome from './form_sections/GrossIncome';
@@ -12,17 +13,24 @@ import CashFlowAndROI from './form_sections/CashFlowAndROI';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
+  const { isCalculateDisabled, clickCount, incrementCalculationCount } = useIpBasedCalculationLimit(); // Use the new hook
+
   const {
     formData,
     handleChange,
     resetForm,
     results,
     formatCurrency,
-    calculateValues,
-    isCalculateDisabled,
-    clickCount,
-    calculationLimit,
+    calculateValues: originalCalculateValues,
   } = useCashFlowCalculations();
+
+  // Wrap the original calculate function to include the increment logic
+  const calculateValues = () => {
+    if (!isCalculateDisabled) {
+      incrementCalculationCount();
+      originalCalculateValues();
+    }
+  };
 
   return (
     <div className="container">
@@ -36,7 +44,7 @@ const CashFlowForm = () => {
           formatCurrency={formatCurrency} 
           isCalculateDisabled={isCalculateDisabled} 
           clickCount={clickCount} 
-          calculationLimit={calculationLimit} 
+          calculationLimit={5} 
         />
         <GrossIncome formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
         <OperatingExpenses formData={formData} handleChange={handleChange} results={results} formatCurrency={formatCurrency} />
@@ -49,8 +57,8 @@ const CashFlowForm = () => {
           results={results}
           formatCurrency={formatCurrency}
           isCalculateDisabled={isCalculateDisabled}
-          clickCount={clickCount}        // Pass the prop here
-          calculationLimit={calculationLimit}  // Pass the prop here
+          clickCount={clickCount}
+          calculationLimit={5}
         />
       </form>
     </div>

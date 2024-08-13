@@ -5,12 +5,12 @@ import CashFlowForm from './components/CashFlowForm/CashFlowForm';
 import LogIn from './components/LogInSignUp/LogIn/LogIn';
 import SignUp from './components/LogInSignUp/SignUp/SignUp';
 import MyAccount from './components/MyAccount/MyAccount';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute'; // Ensure this file exists
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import './App.css';
 
 const App = () => {
   return (
-    <Router basename="/home">
+    <Router>
       <div>
         <Navbar />
         <Routes>

@@ -1,7 +1,15 @@
 import React from 'react';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
-const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency, isCalculateDisabled, clickCount, calculationLimit }) => (
+const CashFlowAndROI = ({
+  calculateValues,
+  resetForm,
+  results,
+  formatCurrency,
+  isCalculateDisabled,
+  clickCount,
+  calculationLimit,
+}) => (
   <div className="form-section">
     <h2>Cash Flow and ROI</h2>
     <div className="form-divider"></div>
@@ -33,17 +41,19 @@ const CashFlowAndROI = ({ calculateValues, resetForm, results, formatCurrency, i
     <div className="form-divider"></div>
     <div className="button-container">
       <button
-          type="button"
-          className={`calculate-button ${isCalculateDisabled ? 'disabled' : ''}`}
-          onClick={calculateValues}
-          disabled={isCalculateDisabled}
-        >
-          {isCalculateDisabled ? 'Upgrade for More' : 'Calculate'}
+        type="button"
+        className={`calculate-button ${isCalculateDisabled ? 'disabled' : ''}`}
+        onClick={calculateValues}
+        disabled={isCalculateDisabled}
+      >
+        {isCalculateDisabled ? 'Upgrade for More' : 'Calculate'}
       </button>
       <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
     </div>
-    <div className={`calculations-left ${calculationLimit - clickCount === 0 ? 'zero' : ''}`}>
-      <strong className="count">{calculationLimit - clickCount}</strong> calculations left
+    <div className={`calculations-left ${isCalculateDisabled ? 'zero' : ''}`}>
+      <strong className="count">
+        {isCalculateDisabled ? 'No calculations left' : `${calculationLimit - clickCount} calculations left`}
+      </strong>
     </div>
   </div>
 );

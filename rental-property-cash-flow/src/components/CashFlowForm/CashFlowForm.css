@@ -69,6 +69,7 @@ h2, h3, h4 {
   font-size: 16px; /* Font size consistent with form labels */
   font-weight: 700; /* Slightly bold for emphasis */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-top: -0.5rem;
   margin-bottom: 1rem;
   display: inline-block; /* Inline-block to keep it compact */
   text-align: center; /* Center text alignment */
@@ -83,8 +84,6 @@ h2, h3, h4 {
 .calculations-left.zero {
   color: rgb(200, 53, 69); /* Red color when count is zero */
 }
-
-
 
 .form-group {
   display: flex;
