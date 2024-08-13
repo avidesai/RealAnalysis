@@ -2,7 +2,7 @@ import React from 'react';
 import FormattedNumberInput from '../helper_files/FormattedNumberInput';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
 
-const PropertyInformation = ({ formData, handleChange, calculateValues, resetForm, results, formatCurrency, isCalculateDisabled, clickCount, calculationLimit }) => (
+const PropertyInformation = ({ formData, handleChange, calculateValues, resetForm, results, formatCurrency, isCalculateDisabled }) => (
   <div className="form-section">
     <div className="form-group">
       <label>
@@ -42,9 +42,6 @@ const PropertyInformation = ({ formData, handleChange, calculateValues, resetFor
           {isCalculateDisabled ? 'Upgrade for More' : 'Calculate'}
       </button>
       <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
-    </div>
-    <div className={`calculations-left ${calculationLimit - clickCount === 0 ? 'zero' : ''}`}>
-      <strong className="count">{calculationLimit - clickCount}</strong> calculations left
     </div>
     <div className="form-divider"></div>
     <div className="result-item-bottom">

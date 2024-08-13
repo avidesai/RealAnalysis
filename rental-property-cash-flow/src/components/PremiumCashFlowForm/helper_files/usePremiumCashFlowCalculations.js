@@ -1,5 +1,3 @@
-// useCashFlowCalculations.js
-
 import { useState } from 'react';
 
 const initialFormData = {
@@ -25,13 +23,9 @@ const initialFormData = {
   mortgageRate: 0.068,  // Stored as 0.068 (6.8%)
 };
 
-const useCashFlowCalculations = () => {
+const usePremiumCashFlowCalculations = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
-  const [clickCount, setClickCount] = useState(0);
-  const [isCalculateDisabled, setIsCalculateDisabled] = useState(false);
-  const [hasAlerted, setHasAlerted] = useState(false);
-  const calculationLimit = 5;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +38,6 @@ const useCashFlowCalculations = () => {
   const resetForm = () => {
     setFormData(initialFormData);
     setResults({});
-    // Notice that `clickCount`, `isCalculateDisabled`, and `hasAlerted` are not reset
   };
 
   const formatNumberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -55,19 +48,6 @@ const useCashFlowCalculations = () => {
   };
 
   const calculateValues = () => {
-    if (isCalculateDisabled) {
-      if (!hasAlerted) {
-        alert("You've reached your daily limit of 5 calculations. Upgrade to the Premium Plan for unlimited calculations.");
-        setHasAlerted(true);
-      }
-      return;
-    }
-
-    setClickCount((prevCount) => prevCount + 1);
-    if (clickCount + 1 >= calculationLimit) {
-      setIsCalculateDisabled(true);
-    }
-
     const {
       purchasePrice,
       squareFeet,
@@ -162,10 +142,7 @@ const useCashFlowCalculations = () => {
     formatCurrency,
     formatNumberWithCommas,
     calculateValues,
-    clickCount,
-    isCalculateDisabled,
-    calculationLimit,
   };
 };
 
-export default useCashFlowCalculations;
+export default usePremiumCashFlowCalculations;
