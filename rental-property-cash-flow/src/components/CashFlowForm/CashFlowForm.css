@@ -170,16 +170,12 @@ h2, h3, h4 {
 }
 
 .calculate-button.disabled {
-  background: linear-gradient(135deg, #007bff 0%, rgb(111, 66, 193) 100%);
-  color: #e0e0e0;
-  cursor: pointer; /* Change cursor to indicate interactivity */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slight shadow */
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.calculate-button.disabled:hover {
-  background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
-  transform: translateY(-2px); /* More noticeable lift */
+  background: #6c757d; /* Default dark background for disabled state */
+  color: #e0e0e0; /* Light gray text color for readability */
+  cursor: not-allowed; /* Cursor indicates unclickable */
+  opacity: 0.6; /* Reduced opacity for disabled effect */
+  transform: none; /* No transform effect */
+  box-shadow: none; /* No shadow for disabled button */
 }
 
 .reset-button:hover {

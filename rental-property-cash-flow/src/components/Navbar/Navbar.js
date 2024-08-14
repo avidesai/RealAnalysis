@@ -1,17 +1,52 @@
+// Navbar.js
+
 import React, { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'; // Updated to useNavigate
+import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate(); // Updated to useNavigate
+  const { user, logout } = useContext(AuthContext); // Added logout function from context
+  const navigate = useNavigate();
 
-  const handleAccountClick = () => {
-    if (user) {
-      navigate('/myaccount');
-    } else {
+  const handleUpgradeClick = async () => {
+    if (!user) {
       navigate('/login');
+    } else {
+      try {
+        const response = await fetch('http://localhost:8000/api/stripe/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (response.status === 401) {
+          alert('Session expired. Please log in again.');
+          navigate('/login');
+          return;
+        }
+
+        const session = await response.json();
+        if (session.id) {
+          window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
+        } else {
+          alert('Failed to create checkout session');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred during checkout. Please try again.');
+      }
+    }
+  };
+
+  const handleAuthClick = () => {
+    if (user) {
+      logout(); // Logs the user out
+      window.location.reload(); // Refresh the page after logout
+    } else {
+      navigate('/login'); // Navigate to the login page
     }
   };
 
@@ -24,8 +59,15 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-buttons">
-          <NavLink to="/premium" className="navbar-button premium-button">Upgrade to Premium</NavLink>
-          <button className="navbar-button" onClick={handleAccountClick}>My Account</button>
+          <button className="navbar-button premium-button" onClick={handleUpgradeClick}>
+            Upgrade to Premium
+          </button>
+          <button className="navbar-button" onClick={() => navigate('/myaccount')}>
+            My Account
+          </button>
+          <button className="navbar-button" onClick={handleAuthClick}>
+            {user ? 'Logout' : 'Login'}
+          </button>
         </div>
       </div>
     </nav>

@@ -6,13 +6,13 @@ const MyAccount = () => {
   const { user, logout } = useContext(AuthContext);
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <div className="my-account-loading">Loading...</div>;
   }
 
   return (
-    <div className="account-container">
-      <h2>My Account</h2>
-      <div className="account-details">
+    <div className="my-account-container">
+      <h2 className="my-account-title">My Account</h2>
+      <div className="my-account-details">
         <p><strong>First Name:</strong> {user.firstName}</p>
         <p><strong>Last Name:</strong> {user.lastName}</p>
         <p><strong>Email:</strong> {user.email}</p>
@@ -20,7 +20,7 @@ const MyAccount = () => {
         <p><strong>State:</strong> {user.state}</p>
         <p><strong>Premium Status:</strong> {user.premiumStatus ? 'Active' : 'Inactive'}</p>
       </div>
-      <button className="logout-button" onClick={logout}>Log Out</button>
+      <button className="my-account-logout-button" onClick={logout}>Log Out</button>
     </div>
   );
 };

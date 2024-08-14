@@ -12,11 +12,14 @@ const useIpBasedCalculationLimit = () => {
         const response = await axios.post('http://localhost:8000/api/calculations/check', {}, {
           withCredentials: true, // Ensure cookies are sent
         });
+
         const { calculationCount } = response.data;
         setClickCount(calculationCount);
 
         if (calculationCount >= calculationLimit) {
           setIsCalculateDisabled(true);
+        } else {
+          setIsCalculateDisabled(false);
         }
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -32,15 +35,21 @@ const useIpBasedCalculationLimit = () => {
 
   const incrementCalculationCount = async () => {
     try {
-      await axios.post('http://localhost:8000/api/calculations/increment', {}, {
+      const response = await axios.post('http://localhost:8000/api/calculations/increment', {}, {
         withCredentials: true, // Ensure cookies are sent
       });
-      setClickCount((prev) => prev + 1);
-      if (clickCount + 1 >= calculationLimit) {
-        setIsCalculateDisabled(true);
+
+      if (response.status === 200) {
+        setClickCount((prev) => prev + 1);
+        if (clickCount + 1 >= calculationLimit) {
+          setIsCalculateDisabled(true);
+        } else {
+          setIsCalculateDisabled(false);
+        }
       }
     } catch (error) {
       console.error('Error incrementing calculation count:', error);
+      setIsCalculateDisabled(true); // Disable in case of an error
     }
   };
 

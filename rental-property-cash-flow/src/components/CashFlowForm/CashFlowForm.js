@@ -24,11 +24,9 @@ const CashFlowForm = () => {
     calculateValues: originalCalculateValues,
   } = useCashFlowCalculations();
 
-  const calculateValues = () => {
-    if (isCalculateDisabled) {
-      // No need to navigate, the button will handle the upgrade
-    } else {
-      incrementCalculationCount();
+  const calculateValues = async () => {
+    if (!isCalculateDisabled) {
+      await incrementCalculationCount();
       originalCalculateValues();
     }
   };

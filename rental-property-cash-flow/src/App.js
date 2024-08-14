@@ -1,3 +1,5 @@
+// App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -18,7 +20,14 @@ const App = () => {
           <Route path="/premium" element={<CashFlowForm />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/myaccount" element={<PrivateRoute><MyAccount /></PrivateRoute>} />
+          <Route
+            path="/myaccount"
+            element={
+              <PrivateRoute>
+                <MyAccount />
+              </PrivateRoute>
+            }
+          />
           {/* Add other routes as needed */}
         </Routes>
       </div>

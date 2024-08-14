@@ -15,15 +15,17 @@ router.post('/check', async (req, res) => {
     if (!ipCalculation) {
       ipCalculation = new IpCalculation({ ip: userIp });
       await ipCalculation.save();
-    }
+    } else {
+      // Reset calculation count if 5 minutes have passed since the last calculation
+      const now = new Date();
+      const timeDiff = now - ipCalculation.lastCalculationDate;
+      const cooldownPeriod = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-    const now = new Date();
-    const hoursDiff = (now - ipCalculation.lastCalculationDate) / 36e5;
-
-    if (hoursDiff >= 24) {
-      ipCalculation.calculationCount = 0;
-      ipCalculation.lastCalculationDate = now;
-      await ipCalculation.save();
+      if (timeDiff >= cooldownPeriod) {
+        ipCalculation.calculationCount = 0;
+        ipCalculation.lastCalculationDate = now;
+        await ipCalculation.save();
+      }
     }
 
     if (ipCalculation.calculationCount >= 5) {
