@@ -6,47 +6,24 @@ import AuthContext from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext); // Added logout function from context
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleUpgradeClick = async () => {
+  const handleUpgradeClick = () => {
     if (!user) {
       navigate('/login');
     } else {
-      try {
-        const response = await fetch('http://localhost:8000/api/stripe/create-checkout-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-
-        if (response.status === 401) {
-          alert('Session expired. Please log in again.');
-          navigate('/login');
-          return;
-        }
-
-        const session = await response.json();
-        if (session.id) {
-          window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
-        } else {
-          alert('Failed to create checkout session');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred during checkout. Please try again.');
-      }
+      // Directly navigate to the predefined Stripe payment link
+      window.location.href = 'https://buy.stripe.com/test_fZe02w8bz5lM2vmaEE';
     }
   };
 
   const handleAuthClick = () => {
     if (user) {
-      logout(); // Logs the user out
-      window.location.reload(); // Refresh the page after logout
+      logout();
+      window.location.reload();
     } else {
-      navigate('/login'); // Navigate to the login page
+      navigate('/login');
     }
   };
 
