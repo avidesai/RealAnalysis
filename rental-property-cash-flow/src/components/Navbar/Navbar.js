@@ -1,27 +1,24 @@
-// Navbar.js
-
 import React, { useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleUpgradeClick = () => {
-    if (!user) {
+    if (!isAuthenticated) {
       navigate('/login');
     } else {
-      // Directly navigate to the predefined Stripe payment link
       window.location.href = 'https://buy.stripe.com/test_fZe02w8bz5lM2vmaEE';
     }
   };
 
   const handleAuthClick = () => {
-    if (user) {
+    if (isAuthenticated) {
       logout();
-      window.location.reload();
+      navigate('/login');
     } else {
       navigate('/login');
     }
@@ -36,14 +33,18 @@ const Navbar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-buttons">
-          <button className="navbar-button premium-button" onClick={handleUpgradeClick}>
-            Upgrade to Premium
-          </button>
-          <button className="navbar-button" onClick={() => navigate('/myaccount')}>
-            My Account
-          </button>
+          {isAuthenticated && user && !user.premiumStatus && (
+            <button className="navbar-button premium-button" onClick={handleUpgradeClick}>
+              Upgrade to Premium
+            </button>
+          )}
+          {isAuthenticated && (
+            <button className="navbar-button" onClick={() => navigate('/myaccount')}>
+              My Account
+            </button>
+          )}
           <button className="navbar-button" onClick={handleAuthClick}>
-            {user ? 'Logout' : 'Login'}
+            {isAuthenticated ? 'Logout' : 'Login'}
           </button>
         </div>
       </div>

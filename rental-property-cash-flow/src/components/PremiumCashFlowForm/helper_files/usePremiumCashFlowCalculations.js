@@ -1,3 +1,5 @@
+// usePremiumCashFlowCalculations.js
+
 import { useState } from 'react';
 
 const initialFormData = {
@@ -6,7 +8,7 @@ const initialFormData = {
   monthlyRentPerUnit: 3000,
   numberOfUnits: 2,
   propertyTaxRate: 0.02,
-  vacancyRate: 0.05,  // Stored as 0.05 (5%)
+  vacancyRate: 0.05,
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
   hoaFees: 0,
@@ -20,10 +22,10 @@ const initialFormData = {
   desiredCapRate: 0.1,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
-  mortgageRate: 0.068,  // Stored as 0.068 (6.8%)
+  mortgageRate: 0.068,
 };
 
-const usePremiumCashFlowCalculations = () => {
+const useCashFlowCalculations = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [results, setResults] = useState({});
 
@@ -145,4 +147,4 @@ const usePremiumCashFlowCalculations = () => {
   };
 };
 
-export default usePremiumCashFlowCalculations;
+export default useCashFlowCalculations;
