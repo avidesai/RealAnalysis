@@ -1,0 +1,114 @@
+/* ScenarioAnalysisScreen.css */
+
+.scenario-analysis-container {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #e1e1e1;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scenario-analysis-container:hover {
+  background-color: #2a2a2a;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scenario-analysis-container h2 {
+  color: rgb(0, 178, 254);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scenario {
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scenario:hover {
+  background-color: #353535;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scenario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scenario-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.scenario-header button {
+  background-color: rgb(200, 53, 69);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.scenario-header button:hover {
+  background-color: rgb(255, 53, 69);
+  transform: translateY(-2px);
+}
+
+.scenario-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.scenario-field label {
+  color: #cbd4de;
+  font-size: 0.9rem;
+}
+
+.scenario-field input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  background-color: #161b22;
+  color: #c9d1d9;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.scenario-field input:focus {
+  border-color: #00b2fe;
+}
+
+.apply-scenario-button,
+.add-scenario-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.apply-scenario-button:hover,
+.add-scenario-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,53 @@
+/* MultiYearProjections.css */
+
+.multi-year-projections-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #e1e1e1;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .multi-year-projections-container:hover {
+    background-color: #2a2a2a;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .multi-year-projections-container h2 {
+    color: rgb(0, 178, 254);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .projections-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .projections-table th,
+  .projections-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #30363d;
+  }
+  
+  .projections-table th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .projections-table td {
+    background-color: #2e2e2e;
+  }
+  
+  .projections-table tbody tr:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .projections-table tbody tr td {
+    color: #cbd4de;
+  }
+  

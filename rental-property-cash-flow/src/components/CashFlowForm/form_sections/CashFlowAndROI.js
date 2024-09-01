@@ -49,11 +49,6 @@ const CashFlowAndROI = ({
       </button>
       <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
     </div>
-    <div className={`calculations-left ${isCalculateDisabled ? 'zero' : ''}`}>
-      <strong className="count">
-        {isCalculateDisabled ? 'No calculations left' : `${calculationLimit - clickCount} calculations left`}
-      </strong>
-    </div>
   </div>
 );
 

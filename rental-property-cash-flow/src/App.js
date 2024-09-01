@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CashFlowForm from './components/CashFlowForm/CashFlowForm';
-import PremiumCashFlowForm from './components/PremiumCashFlowForm/PremiumCashFlowForm';
+import PremiumAnalysisLayout from './components/PremiumCashFlowForm/PremiumAnalysisLayout'; // Updated to use the layout
 import LogIn from './components/LogInSignUp/LogIn/LogIn';
 import SignUp from './components/LogInSignUp/SignUp/SignUp';
 import MyAccount from './components/MyAccount/MyAccount';
@@ -20,11 +20,11 @@ const App = () => {
         <Routes>
           <Route 
             path="/" 
-            element={user && user.premiumStatus ? <PremiumCashFlowForm /> : <CashFlowForm />} 
+            element={user && user.premiumStatus ? <PremiumAnalysisLayout /> : <CashFlowForm />} 
           />
           <Route 
             path="/premium" 
-            element={user && user.premiumStatus ? <PremiumCashFlowForm /> : <CashFlowForm />} 
+            element={user && user.premiumStatus ? <PremiumAnalysisLayout /> : <CashFlowForm />} 
           />
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
