@@ -9,7 +9,7 @@ const useIpBasedCalculationLimit = () => {
   useEffect(() => {
     const checkCalculationLimit = async () => {
       try {
-        const response = await axios.post('http://localhost:8000/api/calculations/check', {}, {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/calculations/check`, {}, {
           withCredentials: true, // Ensure cookies are sent
         });
 
@@ -35,7 +35,7 @@ const useIpBasedCalculationLimit = () => {
 
   const incrementCalculationCount = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/calculations/increment', {}, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/calculations/increment`, {}, {
         withCredentials: true, // Ensure cookies are sent
       });
 
