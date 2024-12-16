@@ -9,9 +9,7 @@ const { protect, admin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// @route   POST /api/users/register
-// @desc    Register a new user
-// @access  Public
+// Register Route
 router.post(
   '/register',
   [
@@ -32,52 +30,46 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
-      if (user) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
+      if (user) return res.status(400).json({ message: 'User already exists' });
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       user = new User({
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
         city,
         state,
       });
 
       await user.save();
 
-      const payload = {
-        id: user._id,
-      };
-
-      const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: '1h',
-      });
+      const payload = { id: user._id };
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
       res.status(201).json({
         token,
         user: {
           id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          city: user.city,
-          state: user.state,
+          firstName,
+          lastName,
+          email,
+          city,
+          state,
           premiumStatus: user.premiumStatus,
           role: user.role,
         },
       });
     } catch (error) {
-      console.error(error.message);
+      console.error('Error saving user:', error.message);
       res.status(500).send('Server error');
     }
   }
 );
 
-// @route   POST /api/users/login
-// @desc    Authenticate user and get token
-// @access  Public
+// Login Route
 router.post(
   '/login',
   [
@@ -94,22 +86,13 @@ router.post(
 
     try {
       const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-      }
+      if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-      const isMatch = await user.matchPassword(password);
-      if (!isMatch) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-      const payload = {
-        id: user._id,
-      };
-
-      const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: '1h',
-      });
+      const payload = { id: user._id };
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
       res.json({
         token,
@@ -125,21 +108,19 @@ router.post(
         },
       });
     } catch (error) {
-      console.error(error.message);
+      console.error('Login error:', error.message);
       res.status(500).send('Server error');
     }
   }
 );
 
-// @route   GET /api/users/profile
-// @desc    Get logged in user's profile
-// @access  Private
+// Profile Route
 router.get('/profile', protect, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate('properties').select('-password');
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (error) {
-    console.error(error.message);
+    console.error('Profile error:', error.message);
     res.status(500).send('Server error');
   }
 });
