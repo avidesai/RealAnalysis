@@ -1,4 +1,4 @@
-// PrivateRoute.js
+// /src/components/PrivateRoute/PrivateRoute.js
 
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';

@@ -1,27 +1,34 @@
+// /src/components/LoginSignUp/LogIn/LogIn.js
+
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
-import './LogIn.css';
+import './LogIn.css'; // Keep the CSS the same
 
 const LogIn = () => {
   const { login, isAuthenticated } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/'); // Redirect if already authenticated
     }
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+
     const success = await login(email, password);
     if (!success) {
       setError('Invalid email or password');
     }
+    setLoading(false);
   };
 
   return (
@@ -49,7 +56,9 @@ const LogIn = () => {
             required
           />
         </div>
-        <button type="submit" className="login-button">Log In</button>
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? 'Processing...' : 'Log In'}
+        </button>
         <p className="signup-link">
           Don't have an account? <NavLink to="/signup">Sign Up Now</NavLink>
         </p>

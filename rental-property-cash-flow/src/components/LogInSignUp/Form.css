@@ -1,0 +1,83 @@
+.form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 2rem;
+    background: #000;
+    border: 2px solid #6b6b6b;
+    border-radius: 10px;
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form h2 {
+    text-align: center;
+    color: #fff;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    color: #cbd4de;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #0d1117;
+    color: #c9d1d9;
+  }
+  
+  .form-group input:focus {
+    border-color: #00b2fe;
+    outline: none;
+  }
+  
+  .button {
+    background: rgb(0, 115, 255);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .button:hover {
+    background: #6f42c1;
+    transform: translateY(-2px);
+  }
+  
+  .button:disabled {
+    background: #555;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: #ff6b6b;
+    text-align: center;
+  }
+  
+  .form-link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .form-link a {
+    color: #00b2fe;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .form-link a:hover {
+    text-decoration: underline;
+  }
+  

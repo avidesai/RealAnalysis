@@ -1,3 +1,5 @@
+// /src/App.js
+
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -11,7 +13,11 @@ import AuthContext from './context/AuthContext';
 import './App.css';
 
 const App = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or a global spinner component
+  }
 
   return (
     <Router>
@@ -36,11 +42,11 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          {/* Add other routes as needed */}
         </Routes>
       </div>
     </Router>
   );
 };
+
 
 export default App;

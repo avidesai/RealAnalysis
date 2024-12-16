@@ -1,22 +1,29 @@
-// SignUp.js
+// /src/components/LoginSignUp/SignUp/SignUp.js
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
-import './SignUp.css';
+import './SignUp.css'; // Keep the CSS the same
 
 const SignUp = () => {
-  const { login } = useContext(AuthContext); // Assuming login happens automatically after signup
+  const { login, isAuthenticated } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     city: '',
-    state: ''
+    state: '',
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/'); // Redirect if already authenticated
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,20 +31,27 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to sign up');
       }
-      await login(formData.email, formData.password); // Automatically log the user in after sign up
+
+      await login(formData.email, formData.password); // Auto-login
       navigate('/');
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,7 +129,9 @@ const SignUp = () => {
             required
           />
         </div>
-        <button type="submit" className="signup-button">Sign Up</button>
+        <button type="submit" className="signup-button" disabled={loading}>
+          {loading ? 'Processing...' : 'Sign Up'}
+        </button>
       </form>
     </div>
   );
