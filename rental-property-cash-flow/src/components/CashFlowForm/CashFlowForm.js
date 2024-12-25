@@ -1,6 +1,6 @@
-// CashFlowForm.js
+// src/components/CashFlowForm/CashFlowForm.js
 import React, { useState } from 'react';
-import useCashFlowCalculations from './helper_files/useCashFlowCalculations';
+import useCashFlowCalculations from './hooks/useCashFlowCalculations';
 import PropertyInformation from './form_sections/PropertyInformation';
 import GrossIncome from './form_sections/GrossIncome';
 import OperatingExpenses from './form_sections/OperatingExpenses';
@@ -9,6 +9,7 @@ import CapRateAndValuation from './form_sections/CapRateAndValuation';
 import LoanInformation from './form_sections/LoanInformation';
 import CashFlowAndROI from './form_sections/CashFlowAndROI';
 import LoadingSpinner from './LoadingSpinner';
+import CalculationHistory from './components/CalculationHistory';
 import { Alert, AlertDescription } from './Alert';
 import './CashFlowForm.css';
 
@@ -24,6 +25,9 @@ const CashFlowForm = () => {
     results,
     formatCurrency,
     calculateValues: originalCalculateValues,
+    calculationHistory,
+    loadFromHistory,
+    deleteHistoryEntry
   } = useCashFlowCalculations();
 
   const validateForm = () => {
@@ -91,7 +95,6 @@ const CashFlowForm = () => {
 
   const handleInputChange = (e) => {
     const { name } = e.target;
-    // Clear error for the field being changed
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -166,6 +169,15 @@ const CashFlowForm = () => {
           formatCurrency={formatCurrency}
           isCalculating={isCalculating}
         />
+
+        {results && Object.keys(results).length > 0 && (
+          <CalculationHistory
+            history={calculationHistory}
+            onLoad={loadFromHistory}
+            onDelete={deleteHistoryEntry}
+            formatCurrency={formatCurrency}
+          />
+        )}
 
         {isCalculating && <LoadingSpinner />}
       </form>

@@ -314,3 +314,205 @@ h2, h3, h4 {
   color: #ff6b6b;
   border: 1px solid rgba(255, 107, 107, 0.2);
 }
+
+/* Calculation History Styles */
+.calculation-history {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #161b22;
+  border-radius: 8px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-item {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.history-item:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.history-timestamp {
+  color: #8b949e;
+  font-size: 0.875rem;
+}
+
+.history-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.history-button {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.history-button.load {
+  background: #238636;
+  color: white;
+}
+
+.history-button.load:hover {
+  background: #2ea043;
+}
+
+.history-button.delete {
+  background: #21262d;
+  color: #c9d1d9;
+}
+
+.history-button.delete:hover {
+  background: #da3633;
+  color: white;
+}
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #c9d1d9;
+}
+
+@media (max-width: 768px) {
+  .history-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .history-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Add to your existing CashFlowForm.css */
+.calculation-history {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #161b22;
+  border-radius: 8px;
+}
+
+.calculation-history h3 {
+  color: rgb(0, 178, 254);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-item {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.history-item:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.history-timestamp {
+  color: #8b949e;
+  font-size: 0.875rem;
+}
+
+.history-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.history-button {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.history-button.load {
+  background: #238636;
+  color: white;
+}
+
+.history-button.load:hover {
+  background: #2ea043;
+}
+
+.history-button.delete {
+  background: #21262d;
+  color: #c9d1d9;
+}
+
+.history-button.delete:hover {
+  background: #da3633;
+  color: white;
+}
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #c9d1d9;
+}
+
+@media (max-width: 768px) {
+  .history-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .history-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
