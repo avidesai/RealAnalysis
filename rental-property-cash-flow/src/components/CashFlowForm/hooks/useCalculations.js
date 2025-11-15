@@ -27,8 +27,7 @@ const useCalculations = (formData) => {
     const propertyTax = (propertyTaxRate * purchasePrice) / 12;
     const monthlyOperatingExpenses = propertyManagementFees + propertyTax +
       formData.landlordInsurance + formData.hoaFees + formData.waterAndSewer +
-      formData.gasAndElectricity + formData.garbage + formData.snowRemoval +
-      formData.cablePhoneInternet + formData.pestControl + formData.accountingAdvertisingLegal;
+      formData.gasAndElectricity + formData.garbage + formData.snowRemoval;
 
     // Income Calculations
     const monthlyNOI = monthlyGrossIncome - monthlyOperatingExpenses;
@@ -49,7 +48,6 @@ const useCalculations = (formData) => {
     const annualCashFlow = monthlyCashFlow * 12;
     const capRate = annualNOI / purchasePrice;
     const cashOnCashReturn = annualCashFlow / downPayment;
-    const dollarPerSquareFoot = purchasePrice / formData.squareFeet;
     const grossRentMultiplier = purchasePrice / (monthlyRentalIncome * 12);
 
     setCalculationResults({
@@ -68,7 +66,6 @@ const useCalculations = (formData) => {
       annualCashFlow,
       capRate,
       cashOnCashReturn,
-      dollarPerSquareFoot,
       grossRentMultiplier,
     });
   };

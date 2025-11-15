@@ -1,20 +1,13 @@
 // src/components/CashFlowForm/CashFlowForm.js
 import React, { useState } from 'react';
 import useCashFlowCalculations from './hooks/useCashFlowCalculations';
-import PropertyInformation from './form_sections/PropertyInformation';
-import GrossIncome from './form_sections/GrossIncome';
-import OperatingExpenses from './form_sections/OperatingExpenses';
-import NetOperatingIncome from './form_sections/NetOperatingIncome';
-import CapRateAndValuation from './form_sections/CapRateAndValuation';
-import LoanInformation from './form_sections/LoanInformation';
-import CashFlowAndROI from './form_sections/CashFlowAndROI';
 import LoadingSpinner from './LoadingSpinner';
-import CalculationHistory from './components/CalculationHistory';
 import { Alert, AlertDescription } from './Alert';
+import InputsPanel from './components/InputsPanel';
+import ResultsPanel from './components/ResultsPanel';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
-  const [isCalculating, setIsCalculating] = useState(false);
   const [errors, setErrors] = useState({});
   const [globalError, setGlobalError] = useState('');
 
@@ -24,10 +17,8 @@ const CashFlowForm = () => {
     resetForm,
     results,
     formatCurrency,
-    calculateValues: originalCalculateValues,
-    calculationHistory,
-    loadFromHistory,
-    deleteHistoryEntry
+    calculateValues,
+    isCalculating,
   } = useCashFlowCalculations();
 
   const validateForm = () => {
@@ -36,9 +27,6 @@ const CashFlowForm = () => {
     // Property Information Validation
     if (!formData.purchasePrice || formData.purchasePrice <= 0) {
       newErrors.purchasePrice = 'Purchase price must be greater than 0';
-    }
-    if (!formData.squareFeet || formData.squareFeet <= 0) {
-      newErrors.squareFeet = 'Square feet must be greater than 0';
     }
     if (!formData.monthlyRentPerUnit || formData.monthlyRentPerUnit <= 0) {
       newErrors.monthlyRentPerUnit = 'Monthly rent must be greater than 0';
@@ -73,34 +61,35 @@ const CashFlowForm = () => {
   };
 
   const handleCalculate = async () => {
-    try {
-      setIsCalculating(true);
-      setGlobalError('');
-      setErrors({});
-
-      const validationErrors = validateForm();
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-        return;
-      }
-
-      await originalCalculateValues();
-    } catch (error) {
-      setGlobalError('An error occurred while calculating. Please check your inputs and try again.');
-      console.error('Calculation error:', error);
-    } finally {
-      setIsCalculating(false);
+    // Validate form before calculation
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setGlobalError('Please fix the validation errors before calculating.');
+      return;
     }
+
+    // Clear any existing errors
+    setErrors({});
+    setGlobalError('');
+
+    // Perform calculation
+    await calculateValues();
   };
 
   const handleInputChange = (e) => {
     const { name } = e.target;
+    // Clear any existing errors for this field when user starts typing
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
       });
+    }
+    // Clear global error when user starts typing
+    if (globalError) {
+      setGlobalError('');
     }
     handleChange(e);
   };
@@ -113,74 +102,30 @@ const CashFlowForm = () => {
         </Alert>
       )}
 
-      <form className="form" onSubmit={(e) => e.preventDefault()}>
-        <PropertyInformation
-          formData={formData}
-          handleChange={handleInputChange}
-          calculateValues={handleCalculate}
-          resetForm={resetForm}
-          results={results}
-          formatCurrency={formatCurrency}
-          errors={errors}
-          isCalculating={isCalculating}
-        />
-        
-        <GrossIncome
-          formData={formData}
-          handleChange={handleInputChange}
-          results={results}
-          formatCurrency={formatCurrency}
-          errors={errors}
-        />
-        
-        <OperatingExpenses
-          formData={formData}
-          handleChange={handleInputChange}
-          results={results}
-          formatCurrency={formatCurrency}
-          errors={errors}
-        />
-        
-        <NetOperatingIncome
-          results={results}
-          formatCurrency={formatCurrency}
-        />
-        
-        <CapRateAndValuation
-          formData={formData}
-          handleChange={handleInputChange}
-          results={results}
-          formatCurrency={formatCurrency}
-          errors={errors}
-        />
-        
-        <LoanInformation
-          formData={formData}
-          handleChange={handleInputChange}
-          results={results}
-          formatCurrency={formatCurrency}
-          errors={errors}
-        />
-        
-        <CashFlowAndROI
-          calculateValues={handleCalculate}
-          resetForm={resetForm}
-          results={results}
-          formatCurrency={formatCurrency}
-          isCalculating={isCalculating}
-        />
-
-        {results && Object.keys(results).length > 0 && (
-          <CalculationHistory
-            history={calculationHistory}
-            onLoad={loadFromHistory}
-            onDelete={deleteHistoryEntry}
+      <div className="calculator-layout">
+        <div className="inputs-column">
+          <InputsPanel
+            formData={formData}
+            handleChange={handleInputChange}
+            resetForm={resetForm}
+            results={results}
             formatCurrency={formatCurrency}
+            errors={errors}
+            isCalculating={isCalculating}
+            calculateValues={handleCalculate}
           />
-        )}
+        </div>
 
-        {isCalculating && <LoadingSpinner />}
-      </form>
+        <div className="results-column">
+          <ResultsPanel
+            results={results}
+            formatCurrency={formatCurrency}
+            isCalculating={isCalculating}
+          />
+        </div>
+      </div>
+
+      {isCalculating && <LoadingSpinner />}
     </div>
   );
 };
