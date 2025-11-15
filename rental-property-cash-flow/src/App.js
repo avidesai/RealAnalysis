@@ -9,6 +9,7 @@ import MyAccount from './components/MyAccount/MyAccount';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Spinner from './components/common/Spinner';
 import AuthContext from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
 
 const App = () => {
@@ -19,31 +20,33 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={<CashFlowForm />}
-          />
-          <Route
-            path="/premium"
-            element={<CashFlowForm />}
-          />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route
-            path="/myaccount"
-            element={
-              <PrivateRoute>
-                <MyAccount />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route
+              path="/"
+              element={<CashFlowForm />}
+            />
+            <Route
+              path="/premium"
+              element={<CashFlowForm />}
+            />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/myaccount"
+              element={
+                <PrivateRoute>
+                  <MyAccount />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 };
 

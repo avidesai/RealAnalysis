@@ -1,55 +1,185 @@
-/* /src/components/MyAccount/MyAccount.css */
+/* MyAccount.css */
 
 .my-account-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 2rem;
-  background: #000000;
-  border: #6b6b6b solid 2px;
-  border-radius: 10px;
-  box-shadow: 0 10px 16px var(--shadow-color);
+  max-width: 450px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.my-account-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0.8;
 }
 
 .my-account-title {
   text-align: center;
-  color: rgb(0, 178, 254);
-  margin-bottom: 20px;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.025em;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .my-account-details {
-  margin-bottom: 20px;
+  margin-bottom: 2.5rem;
 }
 
 .my-account-details p {
-  font-size: 18px;
-  color: #cbd4de;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.my-account-details strong {
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .my-account-logout-button {
-  font-family: 'Nunito', sans-serif;
-  background: rgb(200, 53, 69);
-  color: #fff;
-  font-weight: 700;
+  background: var(--color-error);
+  color: white;
   border: none;
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 18px;
+  border-radius: var(--radius-lg);
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
   text-align: center;
   display: block;
   width: 100%;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.my-account-logout-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.my-account-logout-button:hover::before {
+  left: 100%;
 }
 
 .my-account-logout-button:hover {
-  background: rgb(255, 53, 69);
+  background: rgb(220, 38, 38);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(239, 68, 68, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .my-account-loading {
   text-align: center;
-  color: rgb(0, 178, 254);
-  margin-top: 50px;
+  color: var(--color-primary);
+  margin-top: 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Account info cards */
+.account-info-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.account-info-card:hover {
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.account-info-card h3 {
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.account-info-card h3::before {
+  content: '';
+  width: 4px;
+  height: 1rem;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
+
+.account-info-card p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.account-info-card .highlight {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Premium status indicator */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: var(--radius-lg);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.premium-badge::before {
+  content: '⭐';
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .my-account-container {
+    margin: 2rem 1rem;
+    padding: 2rem;
+  }
+
+  .my-account-title {
+    font-size: 1.5rem;
+  }
+
+  .account-info-card {
+    padding: 1.25rem;
+  }
 }

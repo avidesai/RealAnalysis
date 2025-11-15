@@ -125,6 +125,21 @@ const CashFlowForm = () => {
         </div>
       </div>
 
+      {/* Floating Action Buttons */}
+      <div className="button-container">
+        <button
+          type="button"
+          className={`calculate-button ${isCalculating ? 'disabled' : ''}`}
+          onClick={handleCalculate}
+          disabled={isCalculating}
+        >
+          {isCalculating ? 'Calculating...' : 'Calculate'}
+        </button>
+        <button type="button" className="reset-button" onClick={resetForm}>
+          Reset Form
+        </button>
+      </div>
+
       {isCalculating && <LoadingSpinner />}
     </div>
   );

@@ -33,7 +33,7 @@ const OperatingExpenses = ({ formData, handleChange, results, formatCurrency }) 
       </label>
       <FormattedNumberInput step="10" name="hoaFees" value={formData.hoaFees} onChange={handleChange} />
     </div>
-    <h3>Utilities + Other Monthly Expenses</h3>
+    <h4>Utilities + Other Monthly Expenses</h4>
     <div className="form-group">
       <label>
         Water and Sewer

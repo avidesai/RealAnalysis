@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import ThemeToggle from '../common/ThemeToggle';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -32,6 +33,7 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-right">
+        <ThemeToggle />
         <div className="navbar-buttons">
           {isAuthenticated && user && !user.premiumStatus && (
             <button className="navbar-button premium-button" onClick={handleUpgradeClick}>

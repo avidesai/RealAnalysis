@@ -18,7 +18,7 @@ const InputsPanel = ({
     <div className="inputs-panel">
       <h3>Property Setup</h3>
 
-      {/* Property & Financing Section */}
+      {/* Property Section */}
       <div className="input-section">
         <h4>Property Details</h4>
         <PropertyInformation
@@ -29,16 +29,6 @@ const InputsPanel = ({
           formatCurrency={formatCurrency}
           errors={errors}
         />
-
-        <div className="input-subsection">
-          <LoanInformation
-            formData={formData}
-            handleChange={handleChange}
-            results={{}} // Remove results from input sections
-            formatCurrency={formatCurrency}
-            errors={errors}
-          />
-        </div>
       </div>
 
       {/* Income Section */}
@@ -65,19 +55,16 @@ const InputsPanel = ({
         />
       </div>
 
-      {/* Action Buttons */}
-      <div className="button-container">
-        <button
-          type="button"
-          className={`calculate-button ${isCalculating ? 'disabled' : ''}`}
-          onClick={calculateValues}
-          disabled={isCalculating}
-        >
-          {isCalculating ? 'Calculating...' : 'Calculate'}
-        </button>
-        <button type="button" className="reset-button" onClick={resetForm}>
-          Reset Form
-        </button>
+      {/* Loan/Mortgage Section */}
+      <div className="input-section">
+        <h4>Loan Information</h4>
+        <LoanInformation
+          formData={formData}
+          handleChange={handleChange}
+          results={{}} // Remove results from input sections
+          formatCurrency={formatCurrency}
+          errors={errors}
+        />
       </div>
     </div>
   );
