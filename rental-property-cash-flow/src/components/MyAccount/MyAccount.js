@@ -30,10 +30,12 @@ const MyAccount = () => {
             <span className="account-label">Email</span>
             <span className="account-value">{user.email}</span>
           </div>
-          <div className="account-row">
-            <span className="account-label">Location</span>
-            <span className="account-value">{user.city}, {user.state}</span>
-          </div>
+          {user.city && user.state && (
+            <div className="account-row">
+              <span className="account-label">Location</span>
+              <span className="account-value">{user.city}, {user.state}</span>
+            </div>
+          )}
           <div className="account-row">
             <span className="account-label">Plan</span>
             <span className="account-value">

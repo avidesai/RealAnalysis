@@ -24,11 +24,9 @@ const UserSchema = new Schema({
   },
   city: {
     type: String,
-    required: true,
   },
   state: {
     type: String,
-    required: true,
   },
   premiumStatus: {
     type: Boolean,

@@ -17,8 +17,6 @@ router.post(
     check('lastName', 'Last name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
-    check('city', 'City is required').not().isEmpty(),
-    check('state', 'State is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -26,7 +24,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { firstName, lastName, email, password, city, state } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -40,8 +38,6 @@ router.post(
         lastName,
         email,
         password: hashedPassword,
-        city,
-        state,
       });
 
       await user.save();
@@ -56,8 +52,6 @@ router.post(
           firstName,
           lastName,
           email,
-          city,
-          state,
           premiumStatus: user.premiumStatus,
           role: user.role,
         },
@@ -101,8 +95,6 @@ router.post(
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
-          city: user.city,
-          state: user.state,
           premiumStatus: user.premiumStatus,
           role: user.role,
         },
