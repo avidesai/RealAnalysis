@@ -7,6 +7,7 @@ import LogIn from './components/LogInSignUp/LogIn/LogIn';
 import SignUp from './components/LogInSignUp/SignUp/SignUp';
 import MyAccount from './components/MyAccount/MyAccount';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import AuthModal from './components/AuthModal/AuthModal';
 import Spinner from './components/common/Spinner';
 import AuthContext from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -47,6 +48,7 @@ const App = () => {
                 }
               />
             </Routes>
+            <AuthModal />
           </div>
         </Router>
       </ToastProvider>

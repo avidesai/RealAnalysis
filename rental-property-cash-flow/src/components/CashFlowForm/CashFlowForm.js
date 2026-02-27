@@ -11,7 +11,7 @@ import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, openAuthModal } = useContext(AuthContext);
   const { addToast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -60,10 +60,6 @@ const CashFlowForm = () => {
 
   // Save / update property
   const handleSave = useCallback(async (meta) => {
-    if (!isAuthenticated) {
-      addToast('Sign in to save properties', 'error');
-      return;
-    }
     setSaving(true);
     try {
       const payload = getPropertyPayload();
@@ -157,7 +153,13 @@ const CashFlowForm = () => {
             className="toolbar-btn toolbar-btn-primary"
             onClick={() => {
               if (!isAuthenticated) {
-                addToast('Sign in to save properties', 'error');
+                openAuthModal(() => {
+                  if (propertyMeta.id && propertyMeta.address) {
+                    handleSave(propertyMeta);
+                  } else {
+                    setShowSaveModal(true);
+                  }
+                });
                 return;
               }
               if (propertyMeta.id && propertyMeta.address) {

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect, useCallback } from 'react';
+import React, { createContext, useReducer, useEffect, useCallback, useState, useRef } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -23,6 +23,8 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const authCallbackRef = useRef(null);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -94,6 +96,23 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGOUT' });
   }, []);
 
+  const openAuthModal = useCallback((callback) => {
+    authCallbackRef.current = callback || null;
+    setShowAuthModal(true);
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    authCallbackRef.current = null;
+    setShowAuthModal(false);
+  }, []);
+
+  const onAuthSuccess = useCallback(() => {
+    const cb = authCallbackRef.current;
+    authCallbackRef.current = null;
+    setShowAuthModal(false);
+    if (cb) cb();
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -103,6 +122,10 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        showAuthModal,
+        openAuthModal,
+        closeAuthModal,
+        onAuthSuccess,
       }}
     >
       {children}

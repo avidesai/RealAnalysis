@@ -5,15 +5,15 @@ import ThemeToggle from '../common/ThemeToggle';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, openAuthModal } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleAuthClick = () => {
     if (isAuthenticated) {
       logout();
-      navigate('/login');
+      navigate('/');
     } else {
-      navigate('/login');
+      openAuthModal();
     }
   };
 
