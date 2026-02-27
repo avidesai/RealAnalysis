@@ -85,7 +85,7 @@ const CashFlowForm = () => {
     } finally {
       setSaving(false);
     }
-  }, [isAuthenticated, propertyMeta.id, getPropertyPayload, setPropertyMeta, loadProperty, refreshProperties, addToast, setSearchParams]);
+  }, [propertyMeta.id, getPropertyPayload, setPropertyMeta, loadProperty, refreshProperties, addToast, setSearchParams]);
 
   // Load a saved property
   const handleLoadProperty = useCallback((property) => {
