@@ -1,118 +1,236 @@
-// src/components/CashFlowForm/CashFlowForm.js
-import React, { useState } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import useCashFlowCalculations from './hooks/useCashFlowCalculations';
-import LoadingSpinner from './LoadingSpinner';
-import { Alert, AlertDescription } from './Alert';
 import InputsPanel from './components/InputsPanel';
 import ResultsPanel from './components/ResultsPanel';
+import SaveModal from './components/SaveModal';
+import AuthContext from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import { fetchProperties, fetchProperty, createProperty, updateProperty, deleteProperty } from '../../services/api';
+import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
 import './CashFlowForm.css';
 
 const CashFlowForm = () => {
-  const [errors, setErrors] = useState({});
-  const [globalError, setGlobalError] = useState('');
+  const { isAuthenticated } = useContext(AuthContext);
+  const { addToast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     formData,
     handleChange,
+    propertyMeta,
+    handleMetaChange,
+    setPropertyMeta,
     resetForm,
+    loadProperty,
+    getPropertyPayload,
     results,
     formatCurrency,
-    calculateValues,
-    isCalculating,
   } = useCashFlowCalculations();
 
-  const validateForm = () => {
-    const newErrors = {};
+  const [savedProperties, setSavedProperties] = useState([]);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-    // Property Information Validation
-    if (!formData.purchasePrice || formData.purchasePrice <= 0) {
-      newErrors.purchasePrice = 'Purchase price must be greater than 0';
+  // Load saved properties list
+  const refreshProperties = useCallback(async () => {
+    if (!isAuthenticated) return;
+    try {
+      const res = await fetchProperties();
+      setSavedProperties(res.data);
+    } catch {
+      // silently fail - user might not be authenticated
     }
-    if (!formData.monthlyRentPerUnit || formData.monthlyRentPerUnit <= 0) {
-      newErrors.monthlyRentPerUnit = 'Monthly rent must be greater than 0';
-    }
-    if (!formData.numberOfUnits || formData.numberOfUnits <= 0) {
-      newErrors.numberOfUnits = 'Number of units must be greater than 0';
-    }
+  }, [isAuthenticated]);
 
-    // Rate Validations
-    if (formData.propertyTaxRate < 0 || formData.propertyTaxRate > 1) {
-      newErrors.propertyTaxRate = 'Property tax rate must be between 0% and 100%';
-    }
-    if (formData.vacancyRate < 0 || formData.vacancyRate > 1) {
-      newErrors.vacancyRate = 'Vacancy rate must be between 0% and 100%';
-    }
-    if (formData.propertyManagementRate < 0 || formData.propertyManagementRate > 1) {
-      newErrors.propertyManagementRate = 'Property management rate must be between 0% and 100%';
-    }
+  useEffect(() => {
+    refreshProperties();
+  }, [refreshProperties]);
 
-    // Financing Validation
-    if (formData.downPaymentPercentage <= 0 || formData.downPaymentPercentage > 1) {
-      newErrors.downPaymentPercentage = 'Down payment must be between 1% and 100%';
+  // Load a property from URL param on mount
+  useEffect(() => {
+    const pid = searchParams.get('id');
+    if (pid && isAuthenticated) {
+      fetchProperty(pid)
+        .then(res => loadProperty(res.data))
+        .catch(() => addToast('Could not load property', 'error'));
     }
-    if (formData.mortgageRate < 0 || formData.mortgageRate > 1) {
-      newErrors.mortgageRate = 'Mortgage rate must be between 0% and 100%';
-    }
-    if (formData.lengthOfMortgage <= 0 || formData.lengthOfMortgage > 50) {
-      newErrors.lengthOfMortgage = 'Mortgage length must be between 1 and 50 years';
-    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    return newErrors;
-  };
-
-  const handleCalculate = async () => {
-    // Validate form before calculation
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      setGlobalError('Please fix the validation errors before calculating.');
+  // Save / update property
+  const handleSave = useCallback(async (meta) => {
+    if (!isAuthenticated) {
+      addToast('Sign in to save properties', 'error');
       return;
     }
+    setSaving(true);
+    try {
+      const payload = getPropertyPayload();
+      payload.name = meta.name;
+      payload.address = meta.address;
+      payload.notes = meta.notes;
 
-    // Clear any existing errors
-    setErrors({});
-    setGlobalError('');
-
-    // Perform calculation
-    await calculateValues();
-  };
-
-  const handleInputChange = (e) => {
-    const { name } = e.target;
-    // Clear any existing errors for this field when user starts typing
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
+      if (propertyMeta.id) {
+        const res = await updateProperty(propertyMeta.id, payload);
+        setPropertyMeta(prev => ({ ...prev, ...meta }));
+        addToast('Property updated', 'success');
+        loadProperty(res.data);
+      } else {
+        const res = await createProperty(payload);
+        addToast('Property saved', 'success');
+        loadProperty(res.data);
+        setSearchParams({ id: res.data._id });
+      }
+      await refreshProperties();
+      setShowSaveModal(false);
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to save', 'error');
+    } finally {
+      setSaving(false);
     }
-    // Clear global error when user starts typing
-    if (globalError) {
-      setGlobalError('');
+  }, [isAuthenticated, propertyMeta.id, getPropertyPayload, setPropertyMeta, loadProperty, refreshProperties, addToast, setSearchParams]);
+
+  // Load a saved property
+  const handleLoadProperty = useCallback((property) => {
+    loadProperty(property);
+    setSearchParams({ id: property._id });
+    addToast('Property loaded', 'success');
+  }, [loadProperty, setSearchParams, addToast]);
+
+  // Delete a saved property
+  const handleDeleteProperty = useCallback(async (id) => {
+    try {
+      await deleteProperty(id);
+      if (propertyMeta.id === id) {
+        resetForm();
+        setSearchParams({});
+      }
+      await refreshProperties();
+      addToast('Property deleted', 'success');
+    } catch {
+      addToast('Failed to delete property', 'error');
     }
-    handleChange(e);
-  };
+  }, [propertyMeta.id, resetForm, refreshProperties, addToast, setSearchParams]);
+
+  // New analysis
+  const handleNew = useCallback(() => {
+    resetForm();
+    setSearchParams({});
+  }, [resetForm, setSearchParams]);
+
+  // Export
+  const handleExport = useCallback((format) => {
+    setShowExportMenu(false);
+    if (format === 'csv') {
+      exportToCSV(formData, results, formatCurrency, propertyMeta);
+      addToast('CSV exported', 'success');
+    } else {
+      exportToXLSX(formData, results, formatCurrency, propertyMeta);
+      addToast('XLSX exported', 'success');
+    }
+  }, [formData, results, formatCurrency, propertyMeta, addToast]);
 
   return (
     <div className="container" role="main">
-      {globalError && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertDescription>{globalError}</AlertDescription>
-        </Alert>
+      {/* Toolbar */}
+      <div className="toolbar">
+        <div className="toolbar-left">
+          <div className="toolbar-property-info">
+            <span className="toolbar-property-name">
+              {propertyMeta.address || propertyMeta.name || 'New Analysis'}
+            </span>
+            {propertyMeta.id && (
+              <span className="toolbar-saved-badge">Saved</span>
+            )}
+          </div>
+        </div>
+        <div className="toolbar-actions">
+          <button className="toolbar-btn" onClick={handleNew} title="New analysis">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M8 3v10M3 8h10" />
+            </svg>
+            New
+          </button>
+
+          <button
+            className="toolbar-btn toolbar-btn-primary"
+            onClick={() => {
+              if (!isAuthenticated) {
+                addToast('Sign in to save properties', 'error');
+                return;
+              }
+              if (propertyMeta.id && propertyMeta.address) {
+                handleSave(propertyMeta);
+              } else {
+                setShowSaveModal(true);
+              }
+            }}
+            disabled={saving}
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M12.667 14H3.333A1.333 1.333 0 012 12.667V3.333A1.333 1.333 0 013.333 2h7.334L14 5.333v7.334A1.333 1.333 0 0112.667 14z" />
+              <path d="M11.333 14V9.333H4.667V14M4.667 2v3.333h5.333" />
+            </svg>
+            {saving ? 'Saving...' : 'Save'}
+          </button>
+
+          <div className="toolbar-export-wrapper">
+            <button
+              className="toolbar-btn"
+              onClick={() => setShowExportMenu(!showExportMenu)}
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M14 10v2.667A1.333 1.333 0 0112.667 14H3.333A1.333 1.333 0 012 12.667V10M4.667 6.667L8 10l3.333-3.333M8 10V2" />
+              </svg>
+              Export
+            </button>
+            {showExportMenu && (
+              <div className="export-menu">
+                <button onClick={() => handleExport('xlsx')}>Export XLSX</button>
+                <button onClick={() => handleExport('csv')}>Export CSV</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Saved properties bar */}
+      {isAuthenticated && savedProperties.length > 0 && (
+        <div className="saved-properties-bar">
+          {savedProperties.map(p => (
+            <button
+              key={p._id}
+              className={`saved-property-chip ${propertyMeta.id === p._id ? 'active' : ''}`}
+              onClick={() => handleLoadProperty(p)}
+              title={p.address || p.name || 'Untitled'}
+            >
+              <span className="chip-text">{p.address || p.name || 'Untitled'}</span>
+              <span
+                className="chip-delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm(`Delete "${p.address || p.name || 'Untitled'}"?`)) {
+                    handleDeleteProperty(p._id);
+                  }
+                }}
+              >
+                &times;
+              </span>
+            </button>
+          ))}
+        </div>
       )}
 
       <div className="calculator-layout">
         <div className="inputs-column">
           <InputsPanel
             formData={formData}
-            handleChange={handleInputChange}
-            resetForm={resetForm}
-            results={results}
+            handleChange={handleChange}
+            propertyMeta={propertyMeta}
+            handleMetaChange={handleMetaChange}
+            resetForm={handleNew}
             formatCurrency={formatCurrency}
-            errors={errors}
-            isCalculating={isCalculating}
-            calculateValues={handleCalculate}
           />
         </div>
 
@@ -120,27 +238,19 @@ const CashFlowForm = () => {
           <ResultsPanel
             results={results}
             formatCurrency={formatCurrency}
-            isCalculating={isCalculating}
           />
         </div>
       </div>
 
-      {/* Floating Action Buttons */}
-      <div className="button-container">
-        <button
-          type="button"
-          className={`calculate-button ${isCalculating ? 'disabled' : ''}`}
-          onClick={handleCalculate}
-          disabled={isCalculating}
-        >
-          {isCalculating ? 'Calculating...' : 'Calculate'}
-        </button>
-        <button type="button" className="reset-button" onClick={resetForm}>
-          Reset Form
-        </button>
-      </div>
-
-      {isCalculating && <LoadingSpinner />}
+      {/* Save Modal */}
+      {showSaveModal && (
+        <SaveModal
+          propertyMeta={propertyMeta}
+          onSave={handleSave}
+          onClose={() => setShowSaveModal(false)}
+          saving={saving}
+        />
+      )}
     </div>
   );
 };

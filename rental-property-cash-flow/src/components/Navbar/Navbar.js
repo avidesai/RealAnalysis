@@ -5,16 +5,8 @@ import ThemeToggle from '../common/ThemeToggle';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const handleUpgradeClick = () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    } else {
-      window.location.href = 'https://buy.stripe.com/test_fZe02w8bz5lM2vmaEE';
-    }
-  };
 
   const handleAuthClick = () => {
     if (isAuthenticated) {
@@ -33,20 +25,25 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-right">
+        {isAuthenticated && (
+          <NavLink
+            to="/properties"
+            className={({ isActive }) =>
+              `navbar-link ${isActive ? 'navbar-link-active' : ''}`
+            }
+          >
+            Properties
+          </NavLink>
+        )}
         <ThemeToggle />
         <div className="navbar-buttons">
-          {isAuthenticated && user && !user.premiumStatus && (
-            <button className="navbar-button premium-button" onClick={handleUpgradeClick}>
-              Upgrade to Premium
-            </button>
-          )}
           {isAuthenticated && (
             <button className="navbar-button" onClick={() => navigate('/myaccount')}>
-              My Account
+              Account
             </button>
           )}
           <button className="navbar-button" onClick={handleAuthClick}>
-            {isAuthenticated ? 'Logout' : 'Login'}
+            {isAuthenticated ? 'Sign out' : 'Sign in'}
           </button>
         </div>
       </div>

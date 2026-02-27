@@ -1,9 +1,7 @@
-// /src/components/LoginSignUp/LogIn/LogIn.js
-
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
-import './LogIn.css'; // Keep the CSS the same
+import '../Form.css';
 
 const LogIn = () => {
   const { login, isAuthenticated } = useContext(AuthContext);
@@ -14,55 +12,70 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/'); // Redirect if already authenticated
-    }
+    if (isAuthenticated) navigate('/');
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
     setLoading(true);
     setError('');
-
-    const success = await login(email, password);
-    if (!success) {
-      setError('Invalid email or password');
+    const result = await login(email, password);
+    if (!result.success) {
+      setError(result.message);
     }
     setLoading(false);
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Log In</h2>
-        {error && <p className="error-message">{error}</p>}
-        <div className="login-form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1>Welcome back</h1>
+          <p>Sign in to access your saved properties</p>
         </div>
-        <div className="login-form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              autoComplete="email"
+              autoFocus
+            />
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Your password"
+              autoComplete="current-password"
+            />
+          </div>
+
+          <button type="submit" className="auth-submit" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          Don't have an account?{' '}
+          <NavLink to="/signup">Create one</NavLink>
         </div>
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? 'Processing...' : 'Log In'}
-        </button>
-        <p className="signup-link">
-          Don't have an account? <NavLink to="/signup">Sign Up Now</NavLink>
-        </p>
-      </form>
+      </div>
     </div>
   );
 };

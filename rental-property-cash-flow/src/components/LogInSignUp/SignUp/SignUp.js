@@ -1,12 +1,10 @@
-// /src/components/LoginSignUp/SignUp/SignUp.js
-
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
-import './SignUp.css'; // Keep the CSS the same
+import '../Form.css';
 
 const SignUp = () => {
-  const { login, isAuthenticated } = useContext(AuthContext);
+  const { register, isAuthenticated } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,9 +18,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/'); // Redirect if already authenticated
-    }
+    if (isAuthenticated) navigate('/');
   }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
@@ -31,108 +27,120 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
     setLoading(true);
     setError('');
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to sign up');
-      }
-
-      await login(formData.email, formData.password); // Auto-login
-      navigate('/');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    const result = await register(formData);
+    if (!result.success) {
+      setError(result.message);
     }
+    setLoading(false);
   };
 
   return (
-    <div className="signup-container">
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
-        <p className="login-link">
-          Already have an account? <NavLink to="/login">Log In</NavLink>
-        </p>
-        {error && <p className="error-message">{error}</p>}
-        <div className="signup-form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1>Create account</h1>
+          <p>Start saving and tracking your property analyses</p>
         </div>
-        <div className="signup-form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-row">
+            <div className="auth-field">
+              <label htmlFor="firstName">First name</label>
+              <input
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="John"
+                required
+                autoFocus
+              />
+            </div>
+            <div className="auth-field">
+              <label htmlFor="lastName">Last name</label>
+              <input
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Doe"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+              required
+            />
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Min 6 characters"
+              autoComplete="new-password"
+              required
+            />
+          </div>
+
+          <div className="auth-row">
+            <div className="auth-field">
+              <label htmlFor="city">City</label>
+              <input
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="Chicago"
+                required
+              />
+            </div>
+            <div className="auth-field">
+              <label htmlFor="state">State</label>
+              <input
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                placeholder="IL"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" className="auth-submit" disabled={loading}>
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          Already have an account?{' '}
+          <NavLink to="/login">Sign in</NavLink>
         </div>
-        <div className="signup-form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="signup-form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="signup-form-group">
-          <label htmlFor="city">City</label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="signup-form-group">
-          <label htmlFor="state">State</label>
-          <input
-            type="text"
-            id="state"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="signup-button" disabled={loading}>
-          {loading ? 'Processing...' : 'Sign Up'}
-        </button>
-      </form>
+      </div>
     </div>
   );
 };

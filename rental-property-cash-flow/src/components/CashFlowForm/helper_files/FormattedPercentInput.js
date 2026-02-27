@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from 'react';
 
-const FormattedPercentInput = ({ name, value, onChange, step = 1, decimalPlaces = 2 }) => {
-  // Initialize with the percentage value
+const FormattedPercentInput = ({
+  name,
+  value,
+  onChange,
+  step = 1,
+  decimalPlaces = 2,
+  min = 0,
+  max = 100,
+}) => {
   const [inputValue, setInputValue] = useState('');
 
-  // Update input when prop value changes
   useEffect(() => {
     if (value !== '' && !isNaN(value)) {
-      // Convert decimal to percentage for display
       setInputValue((value * 100).toFixed(decimalPlaces));
     } else {
       setInputValue('');
     }
   }, [value, decimalPlaces]);
 
+  const clampPercent = (pct) => {
+    if (min !== undefined && pct < min) return min;
+    if (max !== undefined && pct > max) return max;
+    return pct;
+  };
+
   const handleInputChange = (e) => {
     const newValue = e.target.value;
-    // Allow only numbers and a single decimal point
     if (/^\d*\.?\d*$/.test(newValue)) {
       setInputValue(newValue);
-      // Convert percentage to decimal for the onChange handler
       const decimalValue = parseFloat(newValue) / 100;
       if (!isNaN(decimalValue)) {
         onChange({ target: { name, value: decimalValue } });
@@ -30,21 +39,23 @@ const FormattedPercentInput = ({ name, value, onChange, step = 1, decimalPlaces 
   const handleBlur = () => {
     let numericValue = parseFloat(inputValue);
     if (!isNaN(numericValue)) {
-      // Format to fixed decimal places on blur
+      numericValue = clampPercent(numericValue);
       setInputValue(numericValue.toFixed(decimalPlaces));
-      // Ensure the decimal value is stored
       onChange({ target: { name, value: numericValue / 100 } });
     } else {
-      setInputValue('');
-      onChange({ target: { name, value: '' } });
+      const fallback = min !== undefined ? min : 0;
+      setInputValue(fallback.toFixed(decimalPlaces));
+      onChange({ target: { name, value: fallback / 100 } });
     }
   };
 
   const handleStep = (increment) => {
     let currentValue = parseFloat(inputValue) || 0;
-    const newValue = (currentValue + increment).toFixed(decimalPlaces);
-    setInputValue(newValue);
-    onChange({ target: { name, value: parseFloat(newValue) / 100 } });
+    const newValue = clampPercent(
+      parseFloat((currentValue + increment).toFixed(decimalPlaces))
+    );
+    setInputValue(newValue.toFixed(decimalPlaces));
+    onChange({ target: { name, value: newValue / 100 } });
   };
 
   return (

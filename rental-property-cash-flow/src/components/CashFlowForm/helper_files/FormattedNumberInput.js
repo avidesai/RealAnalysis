@@ -1,9 +1,8 @@
-// src/components/CashFlowForm/helper_files/FormattedNumberInput.js
 import React, { useState, useEffect } from 'react';
 
 const formatNumberWithCommas = (value) => {
-  if (!value) return '';
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (value === '' || value === undefined || value === null) return '';
+  return Number(value).toLocaleString('en-US');
 };
 
 const FormattedNumberInput = ({
@@ -15,7 +14,7 @@ const FormattedNumberInput = ({
   error,
   min = 0,
   max,
-  required = false
+  required = false,
 }) => {
   const [inputValue, setInputValue] = useState(formatNumberWithCommas(value));
   const inputId = `${name}-input`;
@@ -25,6 +24,12 @@ const FormattedNumberInput = ({
     setInputValue(formatNumberWithCommas(value));
   }, [value]);
 
+  const clamp = (val) => {
+    if (min !== undefined && val < min) return min;
+    if (max !== undefined && val > max) return max;
+    return val;
+  };
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -32,22 +37,21 @@ const FormattedNumberInput = ({
   const handleBlur = () => {
     const numericValue = parseFloat(inputValue.replace(/,/g, ''));
     if (!isNaN(numericValue)) {
-      setInputValue(formatNumberWithCommas(numericValue));
-      onChange({ target: { name, value: numericValue.toString() } });
+      const clamped = clamp(numericValue);
+      setInputValue(formatNumberWithCommas(clamped));
+      onChange({ target: { name, value: clamped.toString() } });
     } else {
-      setInputValue('');
-      onChange({ target: { name, value: '' } });
+      const fallback = min !== undefined ? min : 0;
+      setInputValue(formatNumberWithCommas(fallback));
+      onChange({ target: { name, value: fallback.toString() } });
     }
   };
 
   const handleStep = (increment) => {
     const numericValue = parseFloat(inputValue.replace(/,/g, '')) || 0;
-    const newValue = numericValue + increment;
-    
-    if ((min === undefined || newValue >= min) && (max === undefined || newValue <= max)) {
-      setInputValue(formatNumberWithCommas(newValue));
-      onChange({ target: { name, value: newValue.toString() } });
-    }
+    const newValue = clamp(numericValue + increment);
+    setInputValue(formatNumberWithCommas(newValue));
+    onChange({ target: { name, value: newValue.toString() } });
   };
 
   return (
@@ -73,14 +77,14 @@ const FormattedNumberInput = ({
         <button
           type="button"
           onClick={() => handleStep(parseFloat(step))}
-          aria-label={`Increase ${label} by ${step}`}
+          aria-label={`Increase ${label || name} by ${step}`}
         >
           ▲
         </button>
         <button
           type="button"
           onClick={() => handleStep(-parseFloat(step))}
-          aria-label={`Decrease ${label} by ${step}`}
+          aria-label={`Decrease ${label || name} by ${step}`}
         >
           ▼
         </button>

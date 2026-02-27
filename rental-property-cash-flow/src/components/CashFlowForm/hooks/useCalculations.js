@@ -1,10 +1,8 @@
 // src/components/CashFlowForm/hooks/useCalculations.js
-import { useState } from 'react';
+import { useMemo } from 'react';
 
 const useCalculations = (formData) => {
-  const [calculationResults, setCalculationResults] = useState({});
-
-  const calculateValues = () => {
+  const results = useMemo(() => {
     const {
       monthlyRentPerUnit,
       numberOfUnits,
@@ -17,6 +15,10 @@ const useCalculations = (formData) => {
       lengthOfMortgage,
     } = formData;
 
+    if (!purchasePrice || !monthlyRentPerUnit || !numberOfUnits) {
+      return null;
+    }
+
     // Monthly Income Calculations
     const monthlyRentalIncome = monthlyRentPerUnit * numberOfUnits;
     const vacancyLoss = monthlyRentalIncome * vacancyRate;
@@ -26,8 +28,8 @@ const useCalculations = (formData) => {
     const propertyManagementFees = monthlyRentalIncome * propertyManagementRate;
     const propertyTax = (propertyTaxRate * purchasePrice) / 12;
     const monthlyOperatingExpenses = propertyManagementFees + propertyTax +
-      formData.landlordInsurance + formData.hoaFees + formData.waterAndSewer +
-      formData.gasAndElectricity + formData.garbage + formData.snowRemoval;
+      (formData.landlordInsurance || 0) + (formData.hoaFees || 0) + (formData.waterAndSewer || 0) +
+      (formData.gasAndElectricity || 0) + (formData.garbage || 0) + (formData.snowRemoval || 0);
 
     // Income Calculations
     const monthlyNOI = monthlyGrossIncome - monthlyOperatingExpenses;
@@ -38,7 +40,7 @@ const useCalculations = (formData) => {
     const loanAmount = purchasePrice - downPayment;
     const monthlyRate = mortgageRate / 12;
     const numPayments = lengthOfMortgage * 12;
-    const monthlyMortgagePayment = loanAmount > 0
+    const monthlyMortgagePayment = loanAmount > 0 && monthlyRate > 0
       ? (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
         (Math.pow(1 + monthlyRate, numPayments) - 1)
       : 0;
@@ -46,11 +48,11 @@ const useCalculations = (formData) => {
     // Final Metrics
     const monthlyCashFlow = monthlyNOI - monthlyMortgagePayment;
     const annualCashFlow = monthlyCashFlow * 12;
-    const capRate = annualNOI / purchasePrice;
-    const cashOnCashReturn = annualCashFlow / downPayment;
-    const grossRentMultiplier = purchasePrice / (monthlyRentalIncome * 12);
+    const capRate = purchasePrice > 0 ? annualNOI / purchasePrice : 0;
+    const cashOnCashReturn = downPayment > 0 ? annualCashFlow / downPayment : 0;
+    const grossRentMultiplier = monthlyRentalIncome > 0 ? purchasePrice / (monthlyRentalIncome * 12) : 0;
 
-    setCalculationResults({
+    return {
       monthlyRentalIncome,
       vacancyLoss,
       monthlyGrossIncome,
@@ -67,10 +69,10 @@ const useCalculations = (formData) => {
       capRate,
       cashOnCashReturn,
       grossRentMultiplier,
-    });
-  };
+    };
+  }, [formData]);
 
-  return [calculationResults, calculateValues];
+  return results;
 };
 
 export default useCalculations;

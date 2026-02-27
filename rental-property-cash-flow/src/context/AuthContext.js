@@ -1,6 +1,4 @@
-// /src/context/AuthContext.js
-
-import React, { createContext, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -14,27 +12,10 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
-      return {
-        ...state,
-        user: action.payload.user,
-        isAuthenticated: true,
-        loading: false,
-      };
+      return { ...state, user: action.payload.user, isAuthenticated: true, loading: false };
     case 'LOGOUT':
-      return {
-        ...state,
-        user: null,
-        isAuthenticated: false,
-        loading: false,
-      };
     case 'AUTH_ERROR':
-    case 'LOGOUT_ERROR':
-      return {
-        ...state,
-        user: null,
-        isAuthenticated: false,
-        loading: false,
-      };
+      return { ...state, user: null, isAuthenticated: false, loading: false };
     default:
       return state;
   }
@@ -44,56 +25,84 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
-    if (loggedInUser && token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload: { user: JSON.parse(loggedInUser) },
-      });
+    if (user && token) {
+      try {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { user: JSON.parse(user) } });
+      } catch {
+        dispatch({ type: 'AUTH_ERROR' });
+      }
     } else {
       dispatch({ type: 'AUTH_ERROR' });
     }
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login`, { email, password });
-      const { token, user } = response.data;
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/login`,
+        { email, password }
+      );
+      const { token, user } = res.data;
 
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
-
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload: { user },
-      });
-      return true;
-    } catch (error) {
-      console.error('Login failed', error);
-      dispatch({ type: 'AUTH_ERROR' });
-      return false;
-    }
-  };
 
-  const logout = () => {
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+      return { success: true };
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.errors?.[0]?.msg ||
+        'Login failed. Please try again.';
+      dispatch({ type: 'AUTH_ERROR' });
+      return { success: false, message };
+    }
+  }, []);
+
+  const register = useCallback(async (formData) => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/register`,
+        formData
+      );
+      const { token, user } = res.data;
+
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+      return { success: true };
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.errors?.[0]?.msg ||
+        'Registration failed. Please try again.';
+      return { success: false, message };
+    }
+  }, []);
+
+  const logout = useCallback(() => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     delete axios.defaults.headers.common['Authorization'];
     dispatch({ type: 'LOGOUT' });
-  };
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
         user: state.user,
         isAuthenticated: state.isAuthenticated,
-        login,
-        logout,
         loading: state.loading,
+        login,
+        register,
+        logout,
       }}
     >
       {children}
