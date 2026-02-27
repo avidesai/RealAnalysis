@@ -11,13 +11,13 @@ const initialFormData = {
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
   hoaFees: 0,
-  waterAndSewer: 200,
+  waterAndSewer: 120,
   gasAndElectricity: 0,
   garbage: 30,
   snowRemoval: 0,
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
-  mortgageRate: 0.068,
+  mortgageRate: 0.064,
 };
 
 const initialPropertyMeta = {
