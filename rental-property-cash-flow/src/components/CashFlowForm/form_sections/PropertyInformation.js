@@ -1,10 +1,12 @@
 import React from 'react';
 import FormattedNumberInput from '../helper_files/FormattedNumberInput';
 import InfoTooltip from '../../InfoTooltip/InfoTooltip';
+import RentEstimate from '../components/RentEstimate';
 
 const PropertyInformation = ({
   formData,
   handleChange,
+  rentEstimate,
 }) => (
   <div className="form-section">
     <div className="form-group">
@@ -21,6 +23,12 @@ const PropertyInformation = ({
       </label>
       <FormattedNumberInput step="100" name="monthlyRentPerUnit" value={formData.monthlyRentPerUnit} onChange={handleChange} min={0} max={1000000} />
     </div>
+    {rentEstimate && (
+      <RentEstimate
+        rentData={rentEstimate}
+        onApply={(val) => handleChange({ target: { name: 'monthlyRentPerUnit', value: val } })}
+      />
+    )}
     <div className="form-group">
       <label>
         Number of Units

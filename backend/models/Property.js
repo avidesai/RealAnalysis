@@ -37,6 +37,17 @@ const propertySchema = new mongoose.Schema({
   downPaymentPercentage: { type: Number, required: true, min: 0.01, max: 1 },
   lengthOfMortgage: { type: Number, required: true, min: 1, max: 50 },
   mortgageRate: { type: Number, required: true, min: 0, max: 1 },
+  // BRRRR fields
+  calculatorMode: { type: String, enum: ['standard', 'brrrr'], default: 'standard' },
+  estimatedRepairCost: { type: Number, default: 0, min: 0 },
+  afterRepairValue: { type: Number, default: 0, min: 0 },
+  holdingPeriodMonths: { type: Number, default: 0, min: 0 },
+  holdingCostsPerMonth: { type: Number, default: 0, min: 0 },
+  refinanceLTV: { type: Number, default: 0.75, min: 0, max: 1 },
+  refinanceInterestRate: { type: Number, default: 0.065, min: 0, max: 1 },
+  refinanceTermYears: { type: Number, default: 30, min: 1, max: 50 },
+  // Sharing
+  shareToken: { type: String, unique: true, sparse: true },
 }, {
   timestamps: true,
 });

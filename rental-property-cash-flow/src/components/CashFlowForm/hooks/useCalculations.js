@@ -52,6 +52,46 @@ const useCalculations = (formData) => {
     const cashOnCashReturn = downPayment > 0 ? annualCashFlow / downPayment : 0;
     const grossRentMultiplier = monthlyRentalIncome > 0 ? purchasePrice / (monthlyRentalIncome * 12) : 0;
 
+    // BRRRR calculations
+    let brrrr = null;
+    if (formData.calculatorMode === 'brrrr') {
+      const repairCost = formData.estimatedRepairCost || 0;
+      const arv = formData.afterRepairValue || 0;
+      const holdMonths = formData.holdingPeriodMonths || 0;
+      const holdCostPerMonth = formData.holdingCostsPerMonth || 0;
+      const refiLTV = formData.refinanceLTV || 0.75;
+      const refiRate = formData.refinanceInterestRate || 0.065;
+      const refiYears = formData.refinanceTermYears || 30;
+
+      const totalInvestment = purchasePrice + repairCost + (holdCostPerMonth * holdMonths);
+      const newLoanAmount = arv * refiLTV;
+      const cashLeftInDeal = totalInvestment - newLoanAmount;
+
+      // New mortgage payment after refinance
+      const refiMonthlyRate = refiRate / 12;
+      const refiNumPayments = refiYears * 12;
+      const newMonthlyMortgage = newLoanAmount > 0 && refiMonthlyRate > 0
+        ? (newLoanAmount * refiMonthlyRate * Math.pow(1 + refiMonthlyRate, refiNumPayments)) /
+          (Math.pow(1 + refiMonthlyRate, refiNumPayments) - 1)
+        : 0;
+
+      const newMonthlyCashFlow = monthlyNOI - newMonthlyMortgage;
+      const newAnnualCashFlow = newMonthlyCashFlow * 12;
+      const brrrrCashOnCash = cashLeftInDeal > 0
+        ? newAnnualCashFlow / cashLeftInDeal
+        : (newAnnualCashFlow > 0 ? Infinity : 0);
+
+      brrrr = {
+        totalInvestment,
+        newLoanAmount,
+        cashLeftInDeal,
+        newMonthlyMortgage,
+        newMonthlyCashFlow,
+        newAnnualCashFlow,
+        brrrrCashOnCash,
+      };
+    }
+
     return {
       monthlyRentalIncome,
       vacancyLoss,
@@ -69,6 +109,7 @@ const useCalculations = (formData) => {
       capRate,
       cashOnCashReturn,
       grossRentMultiplier,
+      brrrr,
     };
   }, [formData]);
 

@@ -11,6 +11,7 @@ const propertyRoutes = require('./routes/propertyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const calculationRoutes = require('./routes/calculationRoutes');
 const stripeRoutes = require('./routes/stripeRoutes');
+const externalRoutes = require('./routes/externalRoutes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/properties', propertyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/calculations', calculationRoutes);
 app.use('/api/stripe', stripeRoutes);
+app.use('/api/external', externalRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

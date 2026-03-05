@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
+import { useToast } from '../../../context/ToastContext';
 import '../Form.css';
 
 const EyeIcon = () => (
@@ -19,6 +20,7 @@ const EyeOffIcon = () => (
 
 const SignUp = () => {
   const { register, isAuthenticated } = useContext(AuthContext);
+  const { addToast } = useToast();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -54,7 +56,9 @@ const SignUp = () => {
     setError('');
 
     const result = await register(formData);
-    if (!result.success) {
+    if (result.success) {
+      addToast('Account created! Welcome to CapRate.io', 'success');
+    } else {
       setError(result.message);
     }
     setLoading(false);

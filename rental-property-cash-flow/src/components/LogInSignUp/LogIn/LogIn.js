@@ -90,6 +90,10 @@ const LogIn = () => {
             </button>
           </div>
 
+          <div className="auth-forgot">
+            <NavLink to="/forgot-password">Forgot password?</NavLink>
+          </div>
+
           <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

@@ -3,6 +3,9 @@ import PropertyInformation from '../form_sections/PropertyInformation';
 import GrossIncome from '../form_sections/GrossIncome';
 import OperatingExpenses from '../form_sections/OperatingExpenses';
 import LoanInformation from '../form_sections/LoanInformation';
+import BRRRRInputs from '../form_sections/BRRRRInputs';
+import AddressAutocomplete from './AddressAutocomplete';
+import AutoFillBanner from './AutoFillBanner';
 
 const ChevronIcon = ({ isOpen }) => (
   <svg
@@ -29,12 +32,21 @@ const InputsPanel = ({
   handleMetaChange,
   resetForm,
   formatCurrency,
+  onAddressSelect,
+  taxSuggestion,
+  onApplyTax,
+  onDismissTax,
+  rentEstimate,
+  autoFillData,
+  onApplyAutoFill,
+  onDismissAutoFill,
 }) => {
   const [openSections, setOpenSections] = useState({
     property: true,
     income: true,
     expenses: true,
     loan: true,
+    brrrr: true,
   });
 
   const toggleSection = (section) => {
@@ -50,17 +62,42 @@ const InputsPanel = ({
         </button>
       </div>
 
+      {/* Mode Toggle */}
+      <div className="mode-toggle-wrapper">
+        <button
+          type="button"
+          className={`mode-toggle-btn ${formData.calculatorMode !== 'brrrr' ? 'active' : ''}`}
+          onClick={() => handleChange({ target: { name: 'calculatorMode', value: 'standard' } })}
+        >
+          Standard
+        </button>
+        <button
+          type="button"
+          className={`mode-toggle-btn ${formData.calculatorMode === 'brrrr' ? 'active' : ''}`}
+          onClick={() => handleChange({ target: { name: 'calculatorMode', value: 'brrrr' } })}
+        >
+          BRRRR
+        </button>
+      </div>
+
       {/* Address field */}
       <div className="address-field">
-        <input
-          type="text"
-          name="address"
+        <AddressAutocomplete
           value={propertyMeta?.address || ''}
           onChange={handleMetaChange}
-          placeholder="Property address (e.g. 123 Main St, Chicago, IL)"
-          className="address-input"
+          onAddressSelect={onAddressSelect}
         />
       </div>
+
+      {/* Auto-fill banner */}
+      {autoFillData && (
+        <AutoFillBanner
+          data={autoFillData}
+          onApply={onApplyAutoFill}
+          onDismiss={onDismissAutoFill}
+          formatCurrency={formatCurrency}
+        />
+      )}
 
       {/* Property Section */}
       <div className="input-section">
@@ -81,6 +118,7 @@ const InputsPanel = ({
               resetForm={resetForm}
               results={{}}
               formatCurrency={formatCurrency}
+              rentEstimate={rentEstimate}
             />
           </div>
         )}
@@ -128,6 +166,13 @@ const InputsPanel = ({
               results={{}}
               formatCurrency={formatCurrency}
             />
+            {taxSuggestion && (
+              <div className="tax-suggestion">
+                <span>Avg tax rate for this area: {(taxSuggestion * 100).toFixed(2)}%</span>
+                <button type="button" className="tax-suggestion-apply" onClick={onApplyTax}>Apply</button>
+                <button type="button" className="tax-suggestion-dismiss" onClick={onDismissTax}>&times;</button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -154,6 +199,29 @@ const InputsPanel = ({
           </div>
         )}
       </div>
+
+      {/* BRRRR Section */}
+      {formData.calculatorMode === 'brrrr' && (
+        <div className="input-section">
+          <button
+            type="button"
+            className="section-toggle"
+            onClick={() => toggleSection('brrrr')}
+            aria-expanded={openSections.brrrr}
+          >
+            <span className="section-toggle-label">BRRRR Details</span>
+            <ChevronIcon isOpen={openSections.brrrr} />
+          </button>
+          {openSections.brrrr && (
+            <div className="section-content">
+              <BRRRRInputs
+                formData={formData}
+                handleChange={handleChange}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import '../LogInSignUp/Form.css';
 import './AuthModal.css';
 
@@ -19,6 +21,7 @@ const EyeOffIcon = () => (
 
 const AuthModal = () => {
   const { login, register, showAuthModal, closeAuthModal, onAuthSuccess } = useContext(AuthContext);
+  const { addToast } = useToast();
   const [tab, setTab] = useState('login');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -97,6 +100,7 @@ const AuthModal = () => {
     setError('');
     const result = await register(signupData);
     if (result.success) {
+      addToast('Account created! Welcome to CapRate.io', 'success');
       onAuthSuccess();
     } else {
       setError(result.message);
@@ -163,6 +167,10 @@ const AuthModal = () => {
               >
                 {showLoginPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
+            </div>
+
+            <div className="auth-forgot">
+              <Link to="/forgot-password" onClick={closeAuthModal}>Forgot password?</Link>
             </div>
 
             <button type="submit" className="auth-submit" disabled={loading}>

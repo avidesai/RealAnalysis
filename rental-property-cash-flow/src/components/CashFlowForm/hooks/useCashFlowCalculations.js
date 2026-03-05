@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import useLocalStorage from './useLocalStorage';
 import useCalculations from './useCalculations';
+import useUndoRedo from './useUndoRedo';
 
 const initialFormData = {
   purchasePrice: 225000,
@@ -18,6 +19,15 @@ const initialFormData = {
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
   mortgageRate: 0.064,
+  // BRRRR
+  calculatorMode: 'standard',
+  estimatedRepairCost: 0,
+  afterRepairValue: 0,
+  holdingPeriodMonths: 0,
+  holdingCostsPerMonth: 0,
+  refinanceLTV: 0.75,
+  refinanceInterestRate: 0.065,
+  refinanceTermYears: 30,
 };
 
 const initialPropertyMeta = {
@@ -30,6 +40,7 @@ const initialPropertyMeta = {
 const useCashFlowCalculations = () => {
   const [formData, setFormData] = useLocalStorage('cashflow-form-data', initialFormData);
   const [propertyMeta, setPropertyMeta] = useLocalStorage('cashflow-property-meta', initialPropertyMeta);
+  const { setValue: setFormDataWithHistory, undo, redo, canUndo, canRedo } = useUndoRedo(formData, setFormData);
   const results = useCalculations(formData);
 
   const formatCurrency = (value) => {
@@ -42,11 +53,12 @@ const useCashFlowCalculations = () => {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    const parsed = typeof value === 'string' && value !== '' ? parseFloat(value) : value;
+    setFormDataWithHistory(prev => ({
       ...prev,
-      [name]: value === '' ? 0 : parseFloat(value),
+      [name]: value === '' ? 0 : (isNaN(parsed) ? value : parsed),
     }));
-  }, [setFormData]);
+  }, [setFormDataWithHistory]);
 
   const handleMetaChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -84,6 +96,10 @@ const useCashFlowCalculations = () => {
     getPropertyPayload,
     results,
     formatCurrency,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
   };
 };
 

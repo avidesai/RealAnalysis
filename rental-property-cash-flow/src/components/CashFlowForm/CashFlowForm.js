@@ -6,7 +6,7 @@ import ResultsPanel from './components/ResultsPanel';
 import SaveModal from './components/SaveModal';
 import AuthContext from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { fetchProperties, fetchProperty, createProperty, updateProperty, deleteProperty } from '../../services/api';
+import { fetchProperties, fetchProperty, createProperty, updateProperty, deleteProperty, shareProperty, lookupPropertyTax, estimateRent, lookupPropertyDetails } from '../../services/api';
 import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
 import './CashFlowForm.css';
 
@@ -26,12 +26,89 @@ const CashFlowForm = () => {
     getPropertyPayload,
     results,
     formatCurrency,
+    undo,
+    redo,
   } = useCashFlowCalculations();
 
   const [savedProperties, setSavedProperties] = useState([]);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  // Address lookup state
+  const [taxSuggestion, setTaxSuggestion] = useState(null);
+  const [rentEstimate, setRentEstimate] = useState(null);
+  const [autoFillData, setAutoFillData] = useState(null);
+
+  // Address selected — fire parallel API calls
+  const handleAddressSelect = useCallback(async ({ formatted, zip }) => {
+    if (!isAuthenticated || !zip) return;
+    setTaxSuggestion(null);
+    setRentEstimate(null);
+    setAutoFillData(null);
+
+    // Fire all three in parallel
+    const [taxRes, rentRes, detailsRes] = await Promise.allSettled([
+      lookupPropertyTax(zip),
+      estimateRent(zip),
+      lookupPropertyDetails(formatted),
+    ]);
+
+    // Tax suggestion
+    if (taxRes.status === 'fulfilled' && taxRes.value.data) {
+      const taxData = Array.isArray(taxRes.value.data) ? taxRes.value.data[0] : taxRes.value.data;
+      if (taxData?.median_tax_rate != null) {
+        setTaxSuggestion(taxData.median_tax_rate);
+      }
+    }
+
+    // Rent estimate
+    if (rentRes.status === 'fulfilled' && rentRes.value.data?.data?.basicdata) {
+      setRentEstimate(rentRes.value.data.data.basicdata);
+    }
+
+    // Property details (auto-fill)
+    if (detailsRes.status === 'fulfilled' && detailsRes.value.data) {
+      const detail = Array.isArray(detailsRes.value.data) ? detailsRes.value.data[0] : detailsRes.value.data;
+      if (detail) {
+        setAutoFillData({
+          lastSalePrice: detail.lastSalePrice,
+          bedrooms: detail.bedrooms,
+          bathrooms: detail.bathrooms,
+          squareFootage: detail.squareFootage,
+          taxAssessment: detail.taxAssessment,
+        });
+      }
+    }
+  }, [isAuthenticated]);
+
+  const handleApplyTax = useCallback(() => {
+    if (taxSuggestion != null) {
+      handleChange({ target: { name: 'propertyTaxRate', value: taxSuggestion } });
+      setTaxSuggestion(null);
+    }
+  }, [taxSuggestion, handleChange]);
+
+  const handleApplyAutoFill = useCallback(() => {
+    if (!autoFillData) return;
+    if (autoFillData.lastSalePrice) {
+      handleChange({ target: { name: 'purchasePrice', value: autoFillData.lastSalePrice } });
+    }
+    setAutoFillData(null);
+  }, [autoFillData, handleChange]);
+
+  // Sharing
+  const handleShare = useCallback(async () => {
+    if (!propertyMeta.id) return;
+    try {
+      const res = await shareProperty(propertyMeta.id);
+      const url = `${window.location.origin}/shared/${res.data.shareToken}`;
+      await navigator.clipboard.writeText(url);
+      addToast('Share link copied to clipboard', 'success');
+    } catch {
+      addToast('Failed to generate share link', 'error');
+    }
+  }, [propertyMeta.id, addToast]);
 
   // Load saved properties list
   const refreshProperties = useCallback(async () => {
@@ -115,6 +192,45 @@ const CashFlowForm = () => {
     setSearchParams({});
   }, [resetForm, setSearchParams]);
 
+  // Trigger save logic (used by both Save button and Cmd+S)
+  const triggerSave = useCallback(() => {
+    if (!isAuthenticated) {
+      openAuthModal(() => {
+        if (propertyMeta.id && propertyMeta.address) {
+          handleSave(propertyMeta);
+        } else {
+          setShowSaveModal(true);
+        }
+      });
+      return;
+    }
+    if (propertyMeta.id && propertyMeta.address) {
+      handleSave(propertyMeta);
+    } else {
+      setShowSaveModal(true);
+    }
+  }, [isAuthenticated, openAuthModal, propertyMeta, handleSave]);
+
+  // Keyboard shortcuts: Cmd+S (save), Cmd+Z (undo), Cmd+Shift+Z (redo)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        triggerSave();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'z' && e.shiftKey) {
+        e.preventDefault();
+        redo();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [triggerSave, undo, redo]);
+
   // Export
   const handleExport = useCallback((format) => {
     setShowExportMenu(false);
@@ -151,23 +267,7 @@ const CashFlowForm = () => {
 
           <button
             className="toolbar-btn toolbar-btn-primary"
-            onClick={() => {
-              if (!isAuthenticated) {
-                openAuthModal(() => {
-                  if (propertyMeta.id && propertyMeta.address) {
-                    handleSave(propertyMeta);
-                  } else {
-                    setShowSaveModal(true);
-                  }
-                });
-                return;
-              }
-              if (propertyMeta.id && propertyMeta.address) {
-                handleSave(propertyMeta);
-              } else {
-                setShowSaveModal(true);
-              }
-            }}
+            onClick={triggerSave}
             disabled={saving}
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -176,6 +276,18 @@ const CashFlowForm = () => {
             </svg>
             {saving ? 'Saving...' : 'Save'}
           </button>
+
+          {propertyMeta.id && (
+            <button className="toolbar-btn" onClick={handleShare} title="Share analysis">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <circle cx="12" cy="3" r="2" />
+                <circle cx="4" cy="8" r="2" />
+                <circle cx="12" cy="13" r="2" />
+                <path d="M5.7 9.1l4.6 2.8M10.3 4.1L5.7 6.9" />
+              </svg>
+              Share
+            </button>
+          )}
 
           <div className="toolbar-export-wrapper">
             <button
@@ -233,12 +345,21 @@ const CashFlowForm = () => {
             handleMetaChange={handleMetaChange}
             resetForm={handleNew}
             formatCurrency={formatCurrency}
+            onAddressSelect={handleAddressSelect}
+            taxSuggestion={taxSuggestion}
+            onApplyTax={handleApplyTax}
+            onDismissTax={() => setTaxSuggestion(null)}
+            rentEstimate={rentEstimate}
+            autoFillData={autoFillData}
+            onApplyAutoFill={handleApplyAutoFill}
+            onDismissAutoFill={() => setAutoFillData(null)}
           />
         </div>
 
         <div className="results-column">
           <ResultsPanel
             results={results}
+            formData={formData}
             formatCurrency={formatCurrency}
           />
         </div>

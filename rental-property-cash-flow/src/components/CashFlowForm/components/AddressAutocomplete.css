@@ -1,0 +1,65 @@
+.address-autocomplete {
+  position: relative;
+}
+
+.address-loading-indicator {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--color-accent, #3b82f6);
+  border-radius: 50%;
+  animation: address-spin 0.6s linear infinite;
+}
+
+@keyframes address-spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.address-dropdown {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.address-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.address-dropdown-item:hover,
+.address-dropdown-item.active {
+  background: var(--bg-tertiary);
+}
+
+.address-pin-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.address-dropdown-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

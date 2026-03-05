@@ -1001,3 +1001,231 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ============================================
+   MODE TOGGLE
+   ============================================ */
+
+.mode-toggle-wrapper {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.1875rem;
+}
+
+.mode-toggle-btn {
+  flex: 1;
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-md) - 2px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-toggle-btn.active {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   TAX SUGGESTION
+   ============================================ */
+
+.tax-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  background: var(--color-accent-subtle, rgba(59, 130, 246, 0.08));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.tax-suggestion-apply {
+  background: var(--color-accent, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.1875rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.tax-suggestion-apply:hover {
+  opacity: 0.9;
+}
+
+.tax-suggestion-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.tax-suggestion-dismiss:hover {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   RENT ESTIMATE CHIPS
+   ============================================ */
+
+.rent-estimate {
+  margin-bottom: 0.75rem;
+}
+
+.rent-estimate-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.375rem;
+}
+
+.rent-estimate-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.rent-chip {
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rent-chip:hover {
+  border-color: var(--color-accent, #3b82f6);
+  color: var(--color-accent, #3b82f6);
+  background: var(--color-accent-subtle, rgba(59, 130, 246, 0.08));
+}
+
+/* ============================================
+   AUTO-FILL BANNER
+   ============================================ */
+
+.autofill-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--color-success-subtle);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+}
+
+.autofill-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.autofill-icon {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.autofill-text {
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.autofill-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+
+.autofill-apply {
+  background: var(--color-success);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.1875rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.autofill-apply:hover {
+  opacity: 0.9;
+}
+
+.autofill-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.autofill-dismiss:hover {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   SHARED ANALYSIS
+   ============================================ */
+
+.shared-loading,
+.shared-error {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--text-muted);
+}
+
+.shared-error h2 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.shared-inputs-table {
+  margin-top: 1rem;
+}
+
+.shared-notes {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { fetchProperties, deleteProperty } from '../../services/api';
+import { fetchProperties, deleteProperty, createProperty } from '../../services/api';
 import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
 import './Properties.css';
 
@@ -66,6 +66,18 @@ const PropertiesPage = () => {
       addToast('Property deleted', 'success');
     } catch {
       addToast('Failed to delete', 'error');
+    }
+  };
+
+  const handleDuplicate = async (property) => {
+    try {
+      const { _id, user, createdAt, updatedAt, __v, ...data } = property;
+      data.name = (data.name || '') ? `${data.name} (Copy)` : 'Copy';
+      await createProperty(data);
+      await load();
+      addToast('Property duplicated', 'success');
+    } catch {
+      addToast('Failed to duplicate', 'error');
     }
   };
 
@@ -168,6 +180,16 @@ const PropertiesPage = () => {
                 </div>
 
                 <div className="property-card-actions" onClick={e => e.stopPropagation()}>
+                  <button
+                    className="card-action-btn"
+                    onClick={() => handleDuplicate(p)}
+                    title="Duplicate"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <rect x="5" y="5" width="9" height="9" rx="1" />
+                      <path d="M3 11V3a1 1 0 011-1h8" />
+                    </svg>
+                  </button>
                   <button
                     className="card-action-btn"
                     onClick={() => handleExport(p, 'xlsx')}

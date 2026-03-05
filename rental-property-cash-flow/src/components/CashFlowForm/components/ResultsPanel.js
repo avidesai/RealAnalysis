@@ -21,12 +21,14 @@ const ChevronIcon = ({ isOpen }) => (
 
 const ResultsPanel = ({
   results,
+  formData,
   formatCurrency,
 }) => {
   const [openDetails, setOpenDetails] = useState({
     financing: true,
     income: false,
     expenses: false,
+    brrrr: true,
   });
 
   const toggleDetail = (section) => {
@@ -195,6 +197,54 @@ const ResultsPanel = ({
             </div>
           )}
         </div>
+
+        {/* BRRRR Analysis */}
+        {formData?.calculatorMode === 'brrrr' && results.brrrr && (
+          <div className="detail-section">
+            <button
+              type="button"
+              className="detail-toggle"
+              onClick={() => toggleDetail('brrrr')}
+            >
+              <span>BRRRR Analysis</span>
+              <ChevronIcon isOpen={openDetails.brrrr} />
+            </button>
+            {openDetails.brrrr && (
+              <div className="detail-content">
+                <div className="detail-row">
+                  <span>Total Investment</span>
+                  <span className="detail-value">{formatCurrency(results.brrrr.totalInvestment)}</span>
+                </div>
+                <div className="detail-row">
+                  <span>New Loan (Refinance)</span>
+                  <span className="detail-value">{formatCurrency(results.brrrr.newLoanAmount)}</span>
+                </div>
+                <div className="detail-row highlight-row">
+                  <span>Cash Left in Deal</span>
+                  <span className={`detail-value ${results.brrrr.cashLeftInDeal <= 0 ? 'positive' : ''}`}>
+                    {formatCurrency(results.brrrr.cashLeftInDeal)}
+                  </span>
+                </div>
+                <div className="detail-row">
+                  <span>New Mortgage Payment</span>
+                  <span className="detail-value negative">-{formatCurrency(results.brrrr.newMonthlyMortgage)}/mo</span>
+                </div>
+                <div className="detail-row">
+                  <span>New Monthly Cash Flow</span>
+                  <span className={`detail-value ${results.brrrr.newMonthlyCashFlow >= 0 ? 'positive' : 'negative'}`}>
+                    {formatCurrency(results.brrrr.newMonthlyCashFlow)}/mo
+                  </span>
+                </div>
+                <div className="detail-row highlight-row">
+                  <span>BRRRR CoC Return</span>
+                  <span className={`detail-value ${results.brrrr.brrrrCashOnCash >= 0.08 ? 'positive' : results.brrrr.brrrrCashOnCash >= 0 ? '' : 'negative'}`}>
+                    {results.brrrr.brrrrCashOnCash === Infinity ? 'Infinite' : `${(results.brrrr.brrrrCashOnCash * 100).toFixed(2)}%`}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
