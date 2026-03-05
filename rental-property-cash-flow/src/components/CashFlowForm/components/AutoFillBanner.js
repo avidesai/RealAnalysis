@@ -1,10 +1,9 @@
 import React from 'react';
 
-const AutoFillBanner = ({ data, onApply, onDismiss, formatCurrency }) => {
+const AutoFillBanner = ({ data, onDismiss }) => {
   if (!data) return null;
 
   const parts = [];
-  if (data.lastSalePrice) parts.push(formatCurrency(data.lastSalePrice) + ' (last sale)');
   if (data.bedrooms != null && data.bathrooms != null) parts.push(`${data.bedrooms}bd/${data.bathrooms}ba`);
   if (data.squareFootage) parts.push(`${data.squareFootage.toLocaleString()} sqft`);
 
@@ -17,10 +16,9 @@ const AutoFillBanner = ({ data, onApply, onDismiss, formatCurrency }) => {
           <circle cx="8" cy="8" r="7" />
           <path d="M8 5v3M8 10.5v.5" strokeLinecap="round" />
         </svg>
-        <span className="autofill-text">Auto-fill: {parts.join(' | ')}</span>
+        <span className="autofill-text">Property: {parts.join(' | ')}</span>
       </div>
       <div className="autofill-banner-actions">
-        <button type="button" className="autofill-apply" onClick={onApply}>Apply</button>
         <button type="button" className="autofill-dismiss" onClick={onDismiss}>&times;</button>
       </div>
     </div>

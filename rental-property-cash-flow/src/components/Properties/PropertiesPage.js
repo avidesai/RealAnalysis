@@ -16,7 +16,7 @@ const calcMetrics = (p) => {
   const grossIncome = monthlyRent - vacancy;
   const mgmt = monthlyRent * p.propertyManagementRate;
   const tax = (p.propertyTaxRate * p.purchasePrice) / 12;
-  const opex = mgmt + tax + (p.landlordInsurance || 0) + (p.hoaFees || 0) +
+  const opex = mgmt + tax + (p.landlordInsurance || 0) + (p.maintenanceReserve || 0) + (p.hoaFees || 0) +
     (p.waterAndSewer || 0) + (p.gasAndElectricity || 0) + (p.garbage || 0) + (p.snowRemoval || 0);
   const noi = grossIncome - opex;
   const down = p.purchasePrice * p.downPaymentPercentage;

@@ -16,6 +16,7 @@ const buildExportData = (formData, results, formatCurrency, propertyMeta) => {
     ['Property Management Rate', `${(formData.propertyManagementRate * 100).toFixed(0)}%`],
     ['Property Tax Rate', `${(formData.propertyTaxRate * 100).toFixed(2)}%`],
     ['Insurance', formatCurrency(formData.landlordInsurance)],
+    ['Maintenance Reserve', formatCurrency(formData.maintenanceReserve)],
     ['HOA Dues', formatCurrency(formData.hoaFees)],
     ['Water & Sewer', formatCurrency(formData.waterAndSewer)],
     ['Gas & Electricity', formatCurrency(formData.gasAndElectricity)],

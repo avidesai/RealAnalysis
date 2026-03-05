@@ -10,6 +10,23 @@ import { fetchProperties, fetchProperty, createProperty, updateProperty, deleteP
 import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
 import './CashFlowForm.css';
 
+// Pick HUD FMR rent matching bedroom count, falling back down then up
+const pickRentByBedrooms = (rentData, bedrooms) => {
+  if (!rentData || bedrooms == null) return null;
+  const keyMap = { 0: 'rent_br0', 1: 'rent_br1', 2: 'rent_br2', 3: 'rent_br3', 4: 'rent_br4' };
+  // Exact match
+  if (keyMap[bedrooms] && rentData[keyMap[bedrooms]]) return rentData[keyMap[bedrooms]];
+  // Fall back down
+  for (let b = bedrooms - 1; b >= 0; b--) {
+    if (keyMap[b] && rentData[keyMap[b]]) return rentData[keyMap[b]];
+  }
+  // Fall back up
+  for (let b = bedrooms + 1; b <= 4; b++) {
+    if (keyMap[b] && rentData[keyMap[b]]) return rentData[keyMap[b]];
+  }
+  return null;
+};
+
 const CashFlowForm = () => {
   const { isAuthenticated, openAuthModal } = useContext(AuthContext);
   const { addToast } = useToast();
@@ -18,6 +35,7 @@ const CashFlowForm = () => {
   const {
     formData,
     handleChange,
+    batchUpdate,
     propertyMeta,
     handleMetaChange,
     setPropertyMeta,
@@ -36,14 +54,12 @@ const CashFlowForm = () => {
   const [saving, setSaving] = useState(false);
 
   // Address lookup state
-  const [taxSuggestion, setTaxSuggestion] = useState(null);
   const [rentEstimate, setRentEstimate] = useState(null);
   const [autoFillData, setAutoFillData] = useState(null);
 
-  // Address selected — fire parallel API calls
+  // Address selected — fire parallel API calls and auto-fill form fields
   const handleAddressSelect = useCallback(async ({ formatted, zip }) => {
     if (!isAuthenticated || !zip) return;
-    setTaxSuggestion(null);
     setRentEstimate(null);
     setAutoFillData(null);
 
@@ -54,48 +70,67 @@ const CashFlowForm = () => {
       lookupPropertyDetails(formatted),
     ]);
 
-    // Tax suggestion
-    if (taxRes.status === 'fulfilled' && taxRes.value.data) {
-      const taxData = Array.isArray(taxRes.value.data) ? taxRes.value.data[0] : taxRes.value.data;
-      if (taxData?.median_tax_rate != null) {
-        setTaxSuggestion(taxData.median_tax_rate);
-      }
-    }
+    const updates = {};
+    const filledFields = [];
 
-    // Rent estimate
-    if (rentRes.status === 'fulfilled' && rentRes.value.data?.data?.basicdata) {
-      setRentEstimate(rentRes.value.data.data.basicdata);
-    }
-
-    // Property details (auto-fill)
+    // Property details (RentCast)
+    let bedrooms = null;
     if (detailsRes.status === 'fulfilled' && detailsRes.value.data) {
       const detail = Array.isArray(detailsRes.value.data) ? detailsRes.value.data[0] : detailsRes.value.data;
       if (detail) {
+        bedrooms = detail.bedrooms;
+        // Set informational banner data (beds/baths/sqft only)
         setAutoFillData({
-          lastSalePrice: detail.lastSalePrice,
           bedrooms: detail.bedrooms,
           bathrooms: detail.bathrooms,
           squareFootage: detail.squareFootage,
-          taxAssessment: detail.taxAssessment,
         });
+        // Auto-fill purchase price
+        if (detail.lastSalePrice) {
+          updates.purchasePrice = detail.lastSalePrice;
+          filledFields.push('purchase price');
+        }
       }
     }
-  }, [isAuthenticated]);
 
-  const handleApplyTax = useCallback(() => {
-    if (taxSuggestion != null) {
-      handleChange({ target: { name: 'propertyTaxRate', value: taxSuggestion } });
-      setTaxSuggestion(null);
+    // Tax rate (API Ninjas)
+    if (taxRes.status === 'fulfilled' && taxRes.value.data) {
+      const taxData = Array.isArray(taxRes.value.data) ? taxRes.value.data[0] : taxRes.value.data;
+      if (taxData?.median_tax_rate != null) {
+        updates.propertyTaxRate = taxData.median_tax_rate;
+        filledFields.push('tax rate');
+      }
     }
-  }, [taxSuggestion, handleChange]);
 
-  const handleApplyAutoFill = useCallback(() => {
-    if (!autoFillData) return;
-    if (autoFillData.lastSalePrice) {
-      handleChange({ target: { name: 'purchasePrice', value: autoFillData.lastSalePrice } });
+    // Rent estimate (HUD FMR)
+    if (rentRes.status === 'fulfilled' && rentRes.value.data?.data?.basicdata) {
+      const rentData = rentRes.value.data.data.basicdata;
+      setRentEstimate(rentData);
+      const matchedRent = pickRentByBedrooms(rentData, bedrooms);
+      if (matchedRent) {
+        updates.monthlyRentPerUnit = matchedRent;
+        filledFields.push('rent estimate');
+      }
     }
-    setAutoFillData(null);
-  }, [autoFillData, handleChange]);
+
+    // Insurance + maintenance estimates from purchase price
+    const price = updates.purchasePrice || formData.purchasePrice;
+    if (updates.purchasePrice) {
+      const insuranceEstimate = Math.round(price * 0.005 / 12);
+      updates.landlordInsurance = insuranceEstimate;
+      filledFields.push('insurance estimate');
+
+      const maintenanceEstimate = Math.round(price * 0.01 / 12);
+      updates.maintenanceReserve = maintenanceEstimate;
+      filledFields.push('maintenance reserve');
+    }
+
+    // Apply all updates in a single batch (one undo reverts all)
+    if (Object.keys(updates).length > 0) {
+      batchUpdate(updates);
+      addToast(`Auto-filled: ${filledFields.join(', ')}`, 'success');
+    }
+  }, [isAuthenticated, batchUpdate, addToast, formData.purchasePrice]);
 
   // Sharing
   const handleShare = useCallback(async () => {
@@ -346,12 +381,8 @@ const CashFlowForm = () => {
             resetForm={handleNew}
             formatCurrency={formatCurrency}
             onAddressSelect={handleAddressSelect}
-            taxSuggestion={taxSuggestion}
-            onApplyTax={handleApplyTax}
-            onDismissTax={() => setTaxSuggestion(null)}
             rentEstimate={rentEstimate}
             autoFillData={autoFillData}
-            onApplyAutoFill={handleApplyAutoFill}
             onDismissAutoFill={() => setAutoFillData(null)}
           />
         </div>

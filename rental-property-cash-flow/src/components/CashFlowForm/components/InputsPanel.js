@@ -33,12 +33,8 @@ const InputsPanel = ({
   resetForm,
   formatCurrency,
   onAddressSelect,
-  taxSuggestion,
-  onApplyTax,
-  onDismissTax,
   rentEstimate,
   autoFillData,
-  onApplyAutoFill,
   onDismissAutoFill,
 }) => {
   const [openSections, setOpenSections] = useState({
@@ -93,9 +89,7 @@ const InputsPanel = ({
       {autoFillData && (
         <AutoFillBanner
           data={autoFillData}
-          onApply={onApplyAutoFill}
           onDismiss={onDismissAutoFill}
-          formatCurrency={formatCurrency}
         />
       )}
 
@@ -166,13 +160,6 @@ const InputsPanel = ({
               results={{}}
               formatCurrency={formatCurrency}
             />
-            {taxSuggestion && (
-              <div className="tax-suggestion">
-                <span>Avg tax rate for this area: {(taxSuggestion * 100).toFixed(2)}%</span>
-                <button type="button" className="tax-suggestion-apply" onClick={onApplyTax}>Apply</button>
-                <button type="button" className="tax-suggestion-dismiss" onClick={onDismissTax}>&times;</button>
-              </div>
-            )}
           </div>
         )}
       </div>

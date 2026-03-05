@@ -29,6 +29,7 @@ const propertySchema = new mongoose.Schema({
   vacancyRate: { type: Number, required: true, min: 0, max: 1 },
   propertyManagementRate: { type: Number, required: true, min: 0, max: 1 },
   landlordInsurance: { type: Number, default: 0, min: 0 },
+  maintenanceReserve: { type: Number, default: 0, min: 0 },
   hoaFees: { type: Number, default: 0, min: 0 },
   waterAndSewer: { type: Number, default: 0, min: 0 },
   gasAndElectricity: { type: Number, default: 0, min: 0 },

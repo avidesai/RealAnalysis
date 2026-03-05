@@ -11,6 +11,7 @@ const initialFormData = {
   vacancyRate: 0.05,
   propertyManagementRate: 0.1,
   landlordInsurance: 120,
+  maintenanceReserve: 188,
   hoaFees: 0,
   waterAndSewer: 120,
   gasAndElectricity: 0,
@@ -60,6 +61,10 @@ const useCashFlowCalculations = () => {
     }));
   }, [setFormDataWithHistory]);
 
+  const batchUpdate = useCallback((updates) => {
+    setFormDataWithHistory(prev => ({ ...prev, ...updates }));
+  }, [setFormDataWithHistory]);
+
   const handleMetaChange = useCallback((e) => {
     const { name, value } = e.target;
     setPropertyMeta(prev => ({ ...prev, [name]: value }));
@@ -88,6 +93,7 @@ const useCashFlowCalculations = () => {
   return {
     formData,
     handleChange,
+    batchUpdate,
     propertyMeta,
     handleMetaChange,
     setPropertyMeta,

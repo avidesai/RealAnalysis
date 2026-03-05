@@ -33,6 +33,13 @@ const OperatingExpenses = ({ formData, handleChange }) => (
       </label>
       <FormattedNumberInput step="10" name="hoaFees" value={formData.hoaFees} onChange={handleChange} min={0} max={50000} />
     </div>
+    <div className="form-group">
+      <label>
+        Maintenance Reserve
+        <InfoTooltip description="Monthly reserve for repairs and maintenance (commonly ~1% of property value per year)" />
+      </label>
+      <FormattedNumberInput step="10" name="maintenanceReserve" value={formData.maintenanceReserve} onChange={handleChange} min={0} max={50000} />
+    </div>
 
     <h4>Utilities + Other Monthly Expenses</h4>
 
