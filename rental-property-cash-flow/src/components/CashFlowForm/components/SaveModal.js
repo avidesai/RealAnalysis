@@ -5,6 +5,7 @@ const SaveModal = ({ propertyMeta, onSave, onClose, saving }) => {
     name: propertyMeta.name || '',
     address: propertyMeta.address || '',
     notes: propertyMeta.notes || '',
+    listingUrl: propertyMeta.listingUrl || '',
   });
   const addressRef = useRef(null);
 
@@ -54,6 +55,17 @@ const SaveModal = ({ propertyMeta, onSave, onClose, saving }) => {
               value={meta.name}
               onChange={e => setMeta(prev => ({ ...prev, name: e.target.value }))}
               placeholder="e.g. The Duplex on Main"
+            />
+          </div>
+
+          <div className="modal-field">
+            <label htmlFor="save-listing-url">Listing URL (optional)</label>
+            <input
+              id="save-listing-url"
+              type="url"
+              value={meta.listingUrl}
+              onChange={e => setMeta(prev => ({ ...prev, listingUrl: e.target.value }))}
+              placeholder="https://zillow.com/..."
             />
           </div>
 

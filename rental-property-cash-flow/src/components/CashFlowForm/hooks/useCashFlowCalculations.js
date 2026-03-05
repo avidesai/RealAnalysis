@@ -36,6 +36,7 @@ const initialPropertyMeta = {
   name: '',
   address: '',
   notes: '',
+  listingUrl: '',
 };
 
 const useCashFlowCalculations = () => {
@@ -78,7 +79,7 @@ const useCashFlowCalculations = () => {
   const loadProperty = useCallback((property) => {
     const { _id, name, address, notes, user, createdAt, updatedAt, __v, ...data } = property;
     setFormData(prev => ({ ...prev, ...data }));
-    setPropertyMeta({ id: _id, name: name || '', address: address || '', notes: notes || '' });
+    setPropertyMeta({ id: _id, name: name || '', address: address || '', notes: notes || '', listingUrl: property.listingUrl || '' });
   }, [setFormData, setPropertyMeta]);
 
   const getPropertyPayload = useCallback(() => {

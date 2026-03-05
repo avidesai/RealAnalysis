@@ -28,23 +28,6 @@
   flex: 1;
 }
 
-.toolbar-property-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.toolbar-property-name {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .toolbar-saved-badge {
   font-size: 0.5625rem;
   font-weight: 600;
@@ -56,6 +39,109 @@
   border-radius: 999px;
   border: 1px solid rgba(16, 185, 129, 0.2);
   flex-shrink: 0;
+}
+
+/* ---- Property Selector Dropdown ---- */
+
+.property-selector {
+  position: relative;
+}
+
+.property-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  max-width: 320px;
+}
+
+.property-selector-btn:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-tertiary);
+}
+
+.property-selector-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.property-selector-chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.property-selector-menu {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  min-width: 220px;
+  max-width: 360px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.property-selector-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.875rem;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.property-selector-item:hover {
+  background: var(--bg-tertiary);
+}
+
+.property-selector-item.active {
+  color: var(--color-accent, #3b82f6);
+  background: var(--color-accent-subtle, rgba(59, 130, 246, 0.08));
+}
+
+.property-selector-item-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.property-selector-item-delete {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--text-muted);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.1s ease;
+}
+
+.property-selector-item-delete:hover {
+  color: var(--color-error);
+  background: var(--color-error-subtle);
 }
 
 .toolbar-actions {
@@ -139,70 +225,6 @@
 
 .export-menu button:hover {
   background: var(--bg-tertiary);
-}
-
-/* ============================================
-   SAVED PROPERTIES BAR
-   ============================================ */
-
-.saved-properties-bar {
-  display: flex;
-  gap: 0.375rem;
-  margin-bottom: 1.25rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.saved-properties-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.saved-property-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.3125rem 0.625rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.saved-property-chip:hover {
-  border-color: var(--border-hover);
-  color: var(--text-primary);
-}
-
-.saved-property-chip.active {
-  border-color: var(--color-accent, #3b82f6);
-  color: var(--color-accent, #3b82f6);
-  background: var(--color-accent-subtle, rgba(59, 130, 246, 0.08));
-}
-
-.chip-text {
-  max-width: 160px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.chip-delete {
-  font-size: 0.875rem;
-  line-height: 1;
-  color: var(--text-muted);
-  transition: color 0.1s ease;
-}
-
-.chip-delete:hover {
-  color: var(--color-error);
 }
 
 /* ============================================

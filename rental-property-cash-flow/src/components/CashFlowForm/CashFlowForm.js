@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useCashFlowCalculations from './hooks/useCashFlowCalculations';
 import InputsPanel from './components/InputsPanel';
@@ -51,11 +51,24 @@ const CashFlowForm = () => {
   const [savedProperties, setSavedProperties] = useState([]);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showPropertyMenu, setShowPropertyMenu] = useState(false);
   const [saving, setSaving] = useState(false);
+  const propertyMenuRef = useRef(null);
 
   // Address lookup state
   const [rentEstimate, setRentEstimate] = useState(null);
   const [autoFillData, setAutoFillData] = useState(null);
+
+  // Close property dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (propertyMenuRef.current && !propertyMenuRef.current.contains(e.target)) {
+        setShowPropertyMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Address selected — fire parallel API calls and auto-fill form fields
   const handleAddressSelect = useCallback(async ({ formatted, zip }) => {
@@ -178,6 +191,7 @@ const CashFlowForm = () => {
       payload.name = meta.name;
       payload.address = meta.address;
       payload.notes = meta.notes;
+      payload.listingUrl = meta.listingUrl;
 
       if (propertyMeta.id) {
         const res = await updateProperty(propertyMeta.id, payload);
@@ -283,23 +297,58 @@ const CashFlowForm = () => {
       {/* Toolbar */}
       <div className="toolbar">
         <div className="toolbar-left">
-          <div className="toolbar-property-info">
-            <span className="toolbar-property-name">
-              {propertyMeta.address || propertyMeta.name || 'New Analysis'}
-            </span>
-            {propertyMeta.id && (
-              <span className="toolbar-saved-badge">Saved</span>
+          <div className="property-selector" ref={propertyMenuRef}>
+            <button
+              className="property-selector-btn"
+              onClick={() => setShowPropertyMenu(prev => !prev)}
+            >
+              <span className="property-selector-label">
+                {propertyMeta.address || propertyMeta.name || 'New Analysis'}
+              </span>
+              {propertyMeta.id && (
+                <span className="toolbar-saved-badge">Saved</span>
+              )}
+              <svg className="property-selector-chevron" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M4 6l4 4 4-4" />
+              </svg>
+            </button>
+            {showPropertyMenu && (
+              <div className="property-selector-menu">
+                <button
+                  className={`property-selector-item ${!propertyMeta.id ? 'active' : ''}`}
+                  onClick={() => { handleNew(); setShowPropertyMenu(false); }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M8 3v10M3 8h10" />
+                  </svg>
+                  New Analysis
+                </button>
+                {savedProperties.map(p => (
+                  <button
+                    key={p._id}
+                    className={`property-selector-item ${propertyMeta.id === p._id ? 'active' : ''}`}
+                    onClick={() => { handleLoadProperty(p); setShowPropertyMenu(false); }}
+                    title={p.address || p.name || 'Untitled'}
+                  >
+                    <span className="property-selector-item-text">{p.address || p.name || 'Untitled'}</span>
+                    <span
+                      className="property-selector-item-delete"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (window.confirm(`Delete "${p.address || p.name || 'Untitled'}"?`)) {
+                          handleDeleteProperty(p._id);
+                        }
+                      }}
+                    >
+                      &times;
+                    </span>
+                  </button>
+                ))}
+              </div>
             )}
           </div>
         </div>
         <div className="toolbar-actions">
-          <button className="toolbar-btn" onClick={handleNew} title="New analysis">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M8 3v10M3 8h10" />
-            </svg>
-            New
-          </button>
-
           <button
             className="toolbar-btn toolbar-btn-primary"
             onClick={triggerSave}
@@ -343,33 +392,6 @@ const CashFlowForm = () => {
           </div>
         </div>
       </div>
-
-      {/* Saved properties bar */}
-      {isAuthenticated && savedProperties.length > 0 && (
-        <div className="saved-properties-bar">
-          {savedProperties.map(p => (
-            <button
-              key={p._id}
-              className={`saved-property-chip ${propertyMeta.id === p._id ? 'active' : ''}`}
-              onClick={() => handleLoadProperty(p)}
-              title={p.address || p.name || 'Untitled'}
-            >
-              <span className="chip-text">{p.address || p.name || 'Untitled'}</span>
-              <span
-                className="chip-delete"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (window.confirm(`Delete "${p.address || p.name || 'Untitled'}"?`)) {
-                    handleDeleteProperty(p._id);
-                  }
-                }}
-              >
-                &times;
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
 
       <div className="calculator-layout">
         <div className="inputs-column">

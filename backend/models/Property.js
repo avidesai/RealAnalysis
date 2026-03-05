@@ -22,6 +22,11 @@ const propertySchema = new mongoose.Schema({
     default: '',
     trim: true,
   },
+  listingUrl: {
+    type: String,
+    default: '',
+    trim: true,
+  },
   purchasePrice: { type: Number, required: true, min: 0 },
   monthlyRentPerUnit: { type: Number, required: true, min: 0 },
   numberOfUnits: { type: Number, required: true, min: 1, max: 1000 },
