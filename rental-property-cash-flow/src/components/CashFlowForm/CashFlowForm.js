@@ -73,6 +73,13 @@ const CashFlowForm = () => {
   // Address selected — fire parallel API calls and auto-fill form fields
   const handleAddressSelect = useCallback(async ({ formatted, zip }) => {
     if (!isAuthenticated || !zip) return;
+
+    // If currently viewing a saved property, detach into a new analysis
+    if (propertyMeta.id) {
+      setPropertyMeta(prev => ({ ...prev, id: null, name: '', notes: '', listingUrl: '' }));
+      setSearchParams({});
+    }
+
     setRentEstimate(null);
     setAutoFillData(null);
 
@@ -143,7 +150,7 @@ const CashFlowForm = () => {
       batchUpdate(updates);
       addToast(`Auto-filled: ${filledFields.join(', ')}`, 'success');
     }
-  }, [isAuthenticated, batchUpdate, addToast, formData.purchasePrice]);
+  }, [isAuthenticated, batchUpdate, addToast, formData.purchasePrice, propertyMeta.id, setPropertyMeta, setSearchParams]);
 
   // Sharing
   const handleShare = useCallback(async () => {
