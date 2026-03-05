@@ -61,7 +61,7 @@
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
-  max-width: 320px;
+  max-width: 480px;
 }
 
 .property-selector-btn:hover {
@@ -90,8 +90,8 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   z-index: 50;
-  min-width: 220px;
-  max-width: 360px;
+  min-width: 280px;
+  max-width: 480px;
   max-height: 320px;
   overflow-y: auto;
 }

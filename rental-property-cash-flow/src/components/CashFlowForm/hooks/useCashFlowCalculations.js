@@ -56,10 +56,15 @@ const useCashFlowCalculations = () => {
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     const parsed = typeof value === 'string' && value !== '' ? parseFloat(value) : value;
-    setFormDataWithHistory(prev => ({
-      ...prev,
-      [name]: value === '' ? 0 : (isNaN(parsed) ? value : parsed),
-    }));
+    const numericValue = value === '' ? 0 : (isNaN(parsed) ? value : parsed);
+    setFormDataWithHistory(prev => {
+      const next = { ...prev, [name]: numericValue };
+      if (name === 'purchasePrice' && typeof numericValue === 'number') {
+        next.maintenanceReserve = Math.round(numericValue * 0.01 / 12);
+        next.landlordInsurance = Math.round(numericValue * 0.005 / 12);
+      }
+      return next;
+    });
   }, [setFormDataWithHistory]);
 
   const batchUpdate = useCallback((updates) => {
