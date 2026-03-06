@@ -93,6 +93,7 @@ const useCashFlowCalculations = () => {
       name: propertyMeta.name,
       address: propertyMeta.address,
       notes: propertyMeta.notes,
+      listingUrl: propertyMeta.listingUrl,
     };
   }, [formData, propertyMeta]);
 

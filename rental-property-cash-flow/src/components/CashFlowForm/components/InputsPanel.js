@@ -43,6 +43,7 @@ const InputsPanel = ({
     expenses: true,
     loan: true,
     brrrr: true,
+    notes: false,
   });
 
   const toggleSection = (section) => {
@@ -209,6 +210,62 @@ const InputsPanel = ({
           )}
         </div>
       )}
+
+      {/* Notes & Details Section */}
+      <div className="input-section">
+        <button
+          type="button"
+          className="section-toggle"
+          onClick={() => toggleSection('notes')}
+          aria-expanded={openSections.notes}
+        >
+          <span className="section-toggle-label">Notes & Details</span>
+          <ChevronIcon isOpen={openSections.notes} />
+        </button>
+        {openSections.notes && (
+          <div className="section-content">
+            <div className="notes-detail-field">
+              <label htmlFor="meta-listing-url">Listing URL</label>
+              <div className="listing-url-row">
+                <input
+                  id="meta-listing-url"
+                  type="url"
+                  name="listingUrl"
+                  value={propertyMeta?.listingUrl || ''}
+                  onChange={handleMetaChange}
+                  placeholder="https://zillow.com/..."
+                  className="notes-detail-input"
+                />
+                {propertyMeta?.listingUrl && (
+                  <a
+                    href={propertyMeta.listingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="listing-url-link"
+                    title="Open listing"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 8.667v4A1.333 1.333 0 0110.667 14H3.333A1.333 1.333 0 012 12.667V5.333A1.333 1.333 0 013.333 4h4M10 2h4v4M6.667 9.333L14 2" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+            <div className="notes-detail-field">
+              <label htmlFor="meta-notes">Notes</label>
+              <textarea
+                id="meta-notes"
+                name="notes"
+                value={propertyMeta?.notes || ''}
+                onChange={handleMetaChange}
+                placeholder="Any notes about this property..."
+                rows={4}
+                className="notes-detail-textarea"
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
