@@ -1,18 +1,28 @@
 import * as XLSX from 'xlsx';
 
 const buildExportData = (formData, results, formatCurrency, propertyMeta) => {
+  const isSTR = formData.calculatorMode === 'str';
   const inputs = [
     ['Property Analysis Report'],
     [],
     ['Property', propertyMeta?.address || 'N/A'],
     ['Name', propertyMeta?.name || 'Untitled'],
+    ['Mode', isSTR ? 'Short Term Rental' : formData.calculatorMode === 'brrrr' ? 'BRRRR' : 'Long Term Rental'],
     ['Date', new Date().toLocaleDateString()],
     [],
     ['--- INPUTS ---'],
     ['Purchase Price', formatCurrency(formData.purchasePrice)],
-    ['Monthly Rent per Unit', formatCurrency(formData.monthlyRentPerUnit)],
+    ...(isSTR
+      ? [
+          ['Nightly Rate', formatCurrency(formData.nightlyRate)],
+          ['Occupancy Rate', `${((formData.occupancyRate || 0.70) * 100).toFixed(1)}%`],
+          ['Average Stay Length', `${formData.averageStayLength || 3} nights`],
+          ['Cleaning Cost per Turnover', formatCurrency(formData.cleaningCostPerTurnover || 0)],
+          ['Platform Fee Rate', `${((formData.platformFeeRate || 0.03) * 100).toFixed(1)}%`],
+        ]
+      : [['Monthly Rent per Unit', formatCurrency(formData.monthlyRentPerUnit)]]),
     ['Number of Units', formData.numberOfUnits],
-    ['Vacancy Rate', `${(formData.vacancyRate * 100).toFixed(1)}%`],
+    ...(isSTR ? [] : [['Vacancy Rate', `${(formData.vacancyRate * 100).toFixed(1)}%`]]),
     ['Property Management Rate', `${(formData.propertyManagementRate * 100).toFixed(0)}%`],
     ['Property Tax Rate', `${(formData.propertyTaxRate * 100).toFixed(2)}%`],
     ['Insurance', formatCurrency(formData.landlordInsurance)],
@@ -44,9 +54,21 @@ const buildExportData = (formData, results, formatCurrency, propertyMeta) => {
     ['Monthly Mortgage Payment', formatCurrency(results.monthlyMortgagePayment)],
     [],
     ['--- INCOME ---'],
-    ['Monthly Rental Income', formatCurrency(results.monthlyRentalIncome)],
-    ['Vacancy Loss', formatCurrency(results.vacancyLoss)],
-    ['Monthly Gross Income', formatCurrency(results.monthlyGrossIncome)],
+    ...(isSTR && results.str
+      ? [
+          ['Monthly Gross Revenue', formatCurrency(results.str.monthlyGrossRevenue)],
+          ['Platform Fees', formatCurrency(results.str.monthlyPlatformFees)],
+          ['Cleaning Costs', formatCurrency(results.str.monthlyCleaningCosts)],
+          ['Occupied Nights / mo', results.str.monthlyOccupiedNights.toFixed(1)],
+          ['Turnovers / mo', results.str.monthlyTurnovers.toFixed(1)],
+          ['RevPAR', formatCurrency(results.str.revPAR)],
+          ['Net Income', formatCurrency(results.monthlyGrossIncome)],
+        ]
+      : [
+          ['Monthly Rental Income', formatCurrency(results.monthlyRentalIncome)],
+          ['Vacancy Loss', formatCurrency(results.vacancyLoss)],
+          ['Monthly Gross Income', formatCurrency(results.monthlyGrossIncome)],
+        ]),
     [],
     ['--- EXPENSES ---'],
     ['Property Management Fees', formatCurrency(results.propertyManagementFees)],

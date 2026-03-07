@@ -4,6 +4,7 @@ import GrossIncome from '../form_sections/GrossIncome';
 import OperatingExpenses from '../form_sections/OperatingExpenses';
 import LoanInformation from '../form_sections/LoanInformation';
 import BRRRRInputs from '../form_sections/BRRRRInputs';
+import STRInputs from '../form_sections/STRInputs';
 import AddressAutocomplete from './AddressAutocomplete';
 import AutoFillBanner from './AutoFillBanner';
 
@@ -43,6 +44,7 @@ const InputsPanel = ({
     expenses: true,
     loan: true,
     brrrr: true,
+    str: true,
     notes: false,
   });
 
@@ -63,10 +65,17 @@ const InputsPanel = ({
       <div className="mode-toggle-wrapper">
         <button
           type="button"
-          className={`mode-toggle-btn ${formData.calculatorMode !== 'brrrr' ? 'active' : ''}`}
+          className={`mode-toggle-btn ${formData.calculatorMode === 'standard' || !formData.calculatorMode ? 'active' : ''}`}
           onClick={() => handleChange({ target: { name: 'calculatorMode', value: 'standard' } })}
         >
-          Standard
+          Long Term
+        </button>
+        <button
+          type="button"
+          className={`mode-toggle-btn ${formData.calculatorMode === 'str' ? 'active' : ''}`}
+          onClick={() => handleChange({ target: { name: 'calculatorMode', value: 'str' } })}
+        >
+          Short Term
         </button>
         <button
           type="button"
@@ -187,6 +196,29 @@ const InputsPanel = ({
           </div>
         )}
       </div>
+
+      {/* STR Section */}
+      {formData.calculatorMode === 'str' && (
+        <div className="input-section">
+          <button
+            type="button"
+            className="section-toggle"
+            onClick={() => toggleSection('str')}
+            aria-expanded={openSections.str}
+          >
+            <span className="section-toggle-label">Short Term Rental Details</span>
+            <ChevronIcon isOpen={openSections.str} />
+          </button>
+          {openSections.str && (
+            <div className="section-content">
+              <STRInputs
+                formData={formData}
+                handleChange={handleChange}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* BRRRR Section */}
       {formData.calculatorMode === 'brrrr' && (

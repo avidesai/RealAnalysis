@@ -13,19 +13,62 @@ const useCalculations = (formData) => {
       downPaymentPercentage,
       mortgageRate,
       lengthOfMortgage,
+      calculatorMode,
     } = formData;
 
-    if (!purchasePrice || !monthlyRentPerUnit || !numberOfUnits) {
+    const isSTR = calculatorMode === 'str';
+
+    if (!purchasePrice || !numberOfUnits) {
+      return null;
+    }
+
+    if (isSTR && !formData.nightlyRate) {
+      return null;
+    }
+
+    if (!isSTR && !monthlyRentPerUnit) {
       return null;
     }
 
     // Monthly Income Calculations
-    const monthlyRentalIncome = monthlyRentPerUnit * numberOfUnits;
-    const vacancyLoss = monthlyRentalIncome * vacancyRate;
-    const monthlyGrossIncome = monthlyRentalIncome - vacancyLoss;
+    let monthlyRentalIncome, vacancyLoss, monthlyGrossIncome;
+    let str = null;
+
+    if (isSTR) {
+      const nightlyRate = formData.nightlyRate || 0;
+      const occupancyRate = formData.occupancyRate || 0.70;
+      const avgStay = formData.averageStayLength || 3;
+      const cleaningCost = formData.cleaningCostPerTurnover || 0;
+      const platformFeeRate = formData.platformFeeRate || 0.03;
+
+      const monthlyOccupiedNights = 30 * occupancyRate * numberOfUnits;
+      const monthlyTurnovers = monthlyOccupiedNights / avgStay;
+      const monthlyGrossRevenue = nightlyRate * monthlyOccupiedNights;
+      const monthlyPlatformFees = monthlyGrossRevenue * platformFeeRate;
+      const monthlyCleaningCosts = cleaningCost * monthlyTurnovers;
+
+      monthlyRentalIncome = monthlyGrossRevenue;
+      vacancyLoss = nightlyRate * (30 - 30 * occupancyRate) * numberOfUnits;
+      monthlyGrossIncome = monthlyGrossRevenue - monthlyPlatformFees - monthlyCleaningCosts;
+
+      str = {
+        nightlyRate,
+        occupancyRate,
+        monthlyOccupiedNights,
+        monthlyTurnovers,
+        monthlyGrossRevenue,
+        monthlyPlatformFees,
+        monthlyCleaningCosts,
+        revPAR: monthlyGrossRevenue / (30 * numberOfUnits),
+      };
+    } else {
+      monthlyRentalIncome = monthlyRentPerUnit * numberOfUnits;
+      vacancyLoss = monthlyRentalIncome * vacancyRate;
+      monthlyGrossIncome = monthlyRentalIncome - vacancyLoss;
+    }
 
     // Operating Expense Calculations
-    const propertyManagementFees = monthlyRentalIncome * propertyManagementRate;
+    const propertyManagementFees = monthlyGrossIncome * propertyManagementRate;
     const propertyTax = (propertyTaxRate * purchasePrice) / 12;
     const monthlyOperatingExpenses = propertyManagementFees + propertyTax +
       (formData.landlordInsurance || 0) + (formData.hoaFees || 0) + (formData.waterAndSewer || 0) +
@@ -111,6 +154,7 @@ const useCalculations = (formData) => {
       cashOnCashReturn,
       grossRentMultiplier,
       brrrr,
+      str,
     };
   }, [formData]);
 

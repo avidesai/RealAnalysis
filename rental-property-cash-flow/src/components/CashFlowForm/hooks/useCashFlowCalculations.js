@@ -20,7 +20,7 @@ const initialFormData = {
   downPaymentPercentage: 0.25,
   lengthOfMortgage: 30,
   mortgageRate: 0.064,
-  // BRRRR
+  // Mode
   calculatorMode: 'standard',
   estimatedRepairCost: 0,
   afterRepairValue: 0,
@@ -29,6 +29,12 @@ const initialFormData = {
   refinanceLTV: 0.75,
   refinanceInterestRate: 0.065,
   refinanceTermYears: 30,
+  // STR
+  nightlyRate: 150,
+  occupancyRate: 0.70,
+  averageStayLength: 3,
+  cleaningCostPerTurnover: 100,
+  platformFeeRate: 0.03,
 };
 
 const initialPropertyMeta = {

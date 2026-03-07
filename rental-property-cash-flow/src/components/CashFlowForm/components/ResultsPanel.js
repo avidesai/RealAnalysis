@@ -29,6 +29,7 @@ const ResultsPanel = ({
     income: false,
     expenses: false,
     brrrr: true,
+    str: true,
   });
 
   const toggleDetail = (section) => {
@@ -148,18 +149,41 @@ const ResultsPanel = ({
           </button>
           {openDetails.income && (
             <div className="detail-content">
-              <div className="detail-row">
-                <span>Rental Income</span>
-                <span className="detail-value positive">{formatCurrency(results.monthlyRentalIncome)}/mo</span>
-              </div>
-              <div className="detail-row">
-                <span>Vacancy Loss</span>
-                <span className="detail-value negative">-{formatCurrency(results.vacancyLoss)}/mo</span>
-              </div>
-              <div className="detail-row highlight-row">
-                <span>Gross Income</span>
-                <span className="detail-value">{formatCurrency(results.monthlyGrossIncome)}/mo</span>
-              </div>
+              {formData?.calculatorMode === 'str' && results.str ? (
+                <>
+                  <div className="detail-row">
+                    <span>Gross Revenue</span>
+                    <span className="detail-value positive">{formatCurrency(results.str.monthlyGrossRevenue)}/mo</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Platform Fees</span>
+                    <span className="detail-value negative">-{formatCurrency(results.str.monthlyPlatformFees)}/mo</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Cleaning Costs</span>
+                    <span className="detail-value negative">-{formatCurrency(results.str.monthlyCleaningCosts)}/mo</span>
+                  </div>
+                  <div className="detail-row highlight-row">
+                    <span>Net Income</span>
+                    <span className="detail-value">{formatCurrency(results.monthlyGrossIncome)}/mo</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="detail-row">
+                    <span>Rental Income</span>
+                    <span className="detail-value positive">{formatCurrency(results.monthlyRentalIncome)}/mo</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Vacancy Loss</span>
+                    <span className="detail-value negative">-{formatCurrency(results.vacancyLoss)}/mo</span>
+                  </div>
+                  <div className="detail-row highlight-row">
+                    <span>Gross Income</span>
+                    <span className="detail-value">{formatCurrency(results.monthlyGrossIncome)}/mo</span>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -197,6 +221,44 @@ const ResultsPanel = ({
             </div>
           )}
         </div>
+
+        {/* STR Analysis */}
+        {formData?.calculatorMode === 'str' && results.str && (
+          <div className="detail-section">
+            <button
+              type="button"
+              className="detail-toggle"
+              onClick={() => toggleDetail('str')}
+            >
+              <span>Short Term Rental Breakdown</span>
+              <ChevronIcon isOpen={openDetails.str} />
+            </button>
+            {openDetails.str && (
+              <div className="detail-content">
+                <div className="detail-row">
+                  <span>Nightly Rate</span>
+                  <span className="detail-value">{formatCurrency(results.str.nightlyRate)}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Occupancy Rate</span>
+                  <span className="detail-value">{(results.str.occupancyRate * 100).toFixed(1)}%</span>
+                </div>
+                <div className="detail-row">
+                  <span>Occupied Nights / mo</span>
+                  <span className="detail-value">{results.str.monthlyOccupiedNights.toFixed(1)}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Turnovers / mo</span>
+                  <span className="detail-value">{results.str.monthlyTurnovers.toFixed(1)}</span>
+                </div>
+                <div className="detail-row highlight-row">
+                  <span>RevPAR</span>
+                  <span className="detail-value">{formatCurrency(results.str.revPAR)}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* BRRRR Analysis */}
         {formData?.calculatorMode === 'brrrr' && results.brrrr && (

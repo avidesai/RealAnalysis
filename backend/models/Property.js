@@ -44,7 +44,7 @@ const propertySchema = new mongoose.Schema({
   lengthOfMortgage: { type: Number, required: true, min: 1, max: 50 },
   mortgageRate: { type: Number, required: true, min: 0, max: 1 },
   // BRRRR fields
-  calculatorMode: { type: String, enum: ['standard', 'brrrr'], default: 'standard' },
+  calculatorMode: { type: String, enum: ['standard', 'brrrr', 'str'], default: 'standard' },
   estimatedRepairCost: { type: Number, default: 0, min: 0 },
   afterRepairValue: { type: Number, default: 0, min: 0 },
   holdingPeriodMonths: { type: Number, default: 0, min: 0 },
@@ -52,6 +52,12 @@ const propertySchema = new mongoose.Schema({
   refinanceLTV: { type: Number, default: 0.75, min: 0, max: 1 },
   refinanceInterestRate: { type: Number, default: 0.065, min: 0, max: 1 },
   refinanceTermYears: { type: Number, default: 30, min: 1, max: 50 },
+  // STR fields
+  nightlyRate: { type: Number, default: 0, min: 0 },
+  occupancyRate: { type: Number, default: 0.70, min: 0, max: 1 },
+  averageStayLength: { type: Number, default: 3, min: 1 },
+  cleaningCostPerTurnover: { type: Number, default: 0, min: 0 },
+  platformFeeRate: { type: Number, default: 0.03, min: 0, max: 1 },
   // Sharing
   shareToken: { type: String, unique: true, sparse: true },
 }, {
