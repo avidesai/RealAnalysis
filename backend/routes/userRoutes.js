@@ -45,7 +45,7 @@ router.post(
       await user.save();
 
       const payload = { id: user._id };
-      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
       res.status(201).json({
         token,
@@ -88,7 +88,7 @@ router.post(
       if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
       const payload = { id: user._id };
-      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
       res.json({
         token,
@@ -116,6 +116,18 @@ router.get('/profile', protect, async (req, res) => {
   } catch (error) {
     console.error('Profile error:', error.message);
     res.status(500).send('Server error');
+  }
+});
+
+// Refresh Token Route - issues a new token if the current one is still valid
+router.post('/refresh', protect, async (req, res) => {
+  try {
+    const payload = { id: req.user._id };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token });
+  } catch (error) {
+    console.error('Token refresh error:', error.message);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

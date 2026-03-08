@@ -4,6 +4,7 @@ const API = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
+// Request interceptor — attach token to every request
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -11,6 +12,33 @@ API.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Response interceptor — handle 401 (expired/invalid token) globally
+let logoutHandler = null;
+
+export const registerLogoutHandler = (handler) => {
+  logoutHandler = handler;
+};
+
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Don't intercept login/register failures — those are credential errors
+      const url = error.config?.url || '';
+      if (!url.includes('/users/login') && !url.includes('/users/register')) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+
+        if (logoutHandler) {
+          logoutHandler();
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Properties
 export const fetchProperties = () => API.get('/api/properties');
@@ -32,5 +60,6 @@ export const lookupPropertyDetails = (address) => API.get('/api/external/propert
 // Auth
 export const forgotPassword = (email) => API.post('/api/users/forgot-password', { email });
 export const resetPassword = (token, password) => API.put(`/api/users/reset-password/${token}`, { password });
+export const refreshToken = () => API.post('/api/users/refresh');
 
 export default API;
