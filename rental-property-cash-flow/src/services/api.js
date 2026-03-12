@@ -47,6 +47,8 @@ export const createProperty = (data) => API.post('/api/properties', data);
 export const updateProperty = (id, data) => API.put(`/api/properties/${id}`, data);
 export const deleteProperty = (id) => API.delete(`/api/properties/${id}`);
 
+export const duplicateProperty = (id) => API.post(`/api/properties/${id}/duplicate`);
+
 // Sharing
 export const shareProperty = (id) => API.post(`/api/properties/${id}/share`);
 export const fetchSharedProperty = (token) => API.get(`/api/properties/shared/${token}`);

@@ -23,6 +23,8 @@
   --color-success-subtle: rgba(16, 185, 129, 0.08);
   --color-error: #ef4444;
   --color-error-subtle: rgba(239, 68, 68, 0.08);
+  --color-warning: #f59e0b;
+  --color-warning-subtle: rgba(245, 158, 11, 0.08);
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   /* Backward-compat aliases for login/signup pages */
@@ -47,6 +49,8 @@
   --color-accent-subtle: rgba(59, 130, 246, 0.1);
   --color-success-subtle: rgba(16, 185, 129, 0.1);
   --color-error-subtle: rgba(239, 68, 68, 0.1);
+  --color-warning: #f59e0b;
+  --color-warning-subtle: rgba(245, 158, 11, 0.12);
 }
 
 * {

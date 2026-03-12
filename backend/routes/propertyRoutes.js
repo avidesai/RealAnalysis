@@ -73,6 +73,35 @@ router.get('/shared/:token', async (req, res) => {
   }
 });
 
+// @route   POST /api/properties/:id/duplicate
+// @desc    Duplicate a property
+// @access  Private
+router.post('/:id/duplicate', protect, async (req, res) => {
+  try {
+    const property = await Property.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!property) {
+      return res.status(404).json({ message: 'Property not found' });
+    }
+    const data = property.toObject();
+    delete data._id;
+    delete data.shareToken;
+    delete data.createdAt;
+    delete data.updatedAt;
+    delete data.__v;
+    const duplicate = new Property({
+      ...data,
+      name: `${property.name || property.address || 'Untitled'} (Copy)`,
+    });
+    const saved = await duplicate.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // @route   GET /api/properties/:id
 // @desc    Get a specific property
 // @access  Private

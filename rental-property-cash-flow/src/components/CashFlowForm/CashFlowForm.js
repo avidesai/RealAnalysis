@@ -3,11 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 import useCashFlowCalculations from './hooks/useCashFlowCalculations';
 import InputsPanel from './components/InputsPanel';
 import ResultsPanel from './components/ResultsPanel';
+import WhatIfPanel from './components/WhatIfPanel';
 import SaveModal from './components/SaveModal';
 import AuthContext from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { fetchProperties, fetchProperty, createProperty, updateProperty, deleteProperty, shareProperty, lookupPropertyTax, estimateRent, lookupPropertyDetails } from '../../services/api';
-import { exportToCSV, exportToXLSX } from '../../utils/exportAnalysis';
+import { exportToCSV, exportToXLSX, exportToPDF } from '../../utils/exportAnalysis';
 import './CashFlowForm.css';
 
 // Pick HUD FMR rent matching bedroom count, falling back down then up
@@ -52,6 +53,7 @@ const CashFlowForm = () => {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [showPropertyMenu, setShowPropertyMenu] = useState(false);
+  const [showWhatIf, setShowWhatIf] = useState(false);
   const [saving, setSaving] = useState(false);
   const propertyMenuRef = useRef(null);
 
@@ -293,6 +295,9 @@ const CashFlowForm = () => {
     if (format === 'csv') {
       exportToCSV(formData, results, formatCurrency, propertyMeta);
       addToast('CSV exported', 'success');
+    } else if (format === 'pdf') {
+      exportToPDF(formData, results, formatCurrency, propertyMeta);
+      addToast('PDF exported', 'success');
     } else {
       exportToXLSX(formData, results, formatCurrency, propertyMeta);
       addToast('XLSX exported', 'success');
@@ -392,13 +397,33 @@ const CashFlowForm = () => {
             </button>
             {showExportMenu && (
               <div className="export-menu">
+                <button onClick={() => handleExport('pdf')}>Export PDF</button>
                 <button onClick={() => handleExport('xlsx')}>Export XLSX</button>
                 <button onClick={() => handleExport('csv')}>Export CSV</button>
               </div>
             )}
           </div>
+          <button
+            className={`toolbar-btn ${showWhatIf ? 'toolbar-btn-active' : ''}`}
+            onClick={() => setShowWhatIf(prev => !prev)}
+            title="What If scenario analysis"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M2 8h2l2-4 4 8 2-4h2" />
+            </svg>
+            What If
+          </button>
         </div>
       </div>
+
+      {/* What If Panel */}
+      {showWhatIf && (
+        <WhatIfPanel
+          formData={formData}
+          batchUpdate={batchUpdate}
+          onClose={() => setShowWhatIf(false)}
+        />
+      )}
 
       <div className="calculator-layout">
         <div className="inputs-column">

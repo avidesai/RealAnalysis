@@ -179,6 +179,12 @@
   cursor: not-allowed;
 }
 
+.toolbar-btn-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
+}
+
 .toolbar-btn-primary {
   background: var(--color-accent, #3b82f6);
   color: white;
@@ -541,6 +547,11 @@
   background: var(--color-error-subtle);
 }
 
+.kpi-card.warning {
+  border-color: rgba(245, 158, 11, 0.2);
+  background: var(--color-warning-subtle);
+}
+
 .kpi-card.neutral {
   border-color: var(--border);
   background: var(--bg-tertiary);
@@ -570,12 +581,20 @@
   color: var(--color-success);
 }
 
+.kpi-card.warning .kpi-value {
+  color: var(--color-warning);
+}
+
 .kpi-card.negative .kpi-value {
   color: var(--color-error);
 }
 
 [data-theme="dark"] .kpi-card.positive .kpi-value {
   text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .kpi-card.warning .kpi-value {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 }
 
 [data-theme="dark"] .kpi-card.negative .kpi-value {
@@ -1311,6 +1330,176 @@
 
 .notes-detail-textarea::placeholder {
   color: var(--text-muted);
+}
+
+/* ============================================
+   WHAT IF PANEL
+   ============================================ */
+
+.whatif-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.whatif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.whatif-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.01em;
+}
+
+.whatif-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.whatif-btn {
+  padding: 0.3125rem 0.625rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.whatif-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.whatif-btn-apply {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+.whatif-btn-apply:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.whatif-btn-close {
+  border: none;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  padding: 0.125rem 0.375rem;
+  line-height: 1;
+}
+
+.whatif-btn-close:hover {
+  color: var(--text-primary);
+}
+
+.whatif-sliders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.whatif-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.whatif-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.whatif-slider-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.whatif-slider-value {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.whatif-delta {
+  font-size: 0.625rem;
+  font-weight: 600;
+  margin-left: 0.375rem;
+  padding: 0.0625rem 0.3125rem;
+  border-radius: 999px;
+}
+
+.whatif-delta.positive {
+  color: var(--color-success);
+  background: var(--color-success-subtle);
+}
+
+.whatif-delta.negative {
+  color: var(--color-error);
+  background: var(--color-error-subtle);
+}
+
+/* Custom range slider */
+.whatif-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.whatif-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.whatif-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.whatif-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .whatif-sliders {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============================================

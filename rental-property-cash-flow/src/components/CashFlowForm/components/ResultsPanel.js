@@ -56,10 +56,10 @@ const ResultsPanel = ({
   const cocPct = results.cashOnCashReturn * 100;
   const capPct = results.capRate * 100;
 
-  // Tiered color: green (good), neutral (normal), red (bad)
-  const cocTier = cocPct >= 8 ? 'positive' : cocPct >= 0 ? 'neutral' : 'negative';
-  const capTier = capPct >= 6 ? 'positive' : capPct >= 3 ? 'neutral' : 'negative';
-  const cashFlowTier = results.monthlyCashFlow >= 200 ? 'positive' : results.monthlyCashFlow >= 0 ? 'neutral' : 'negative';
+  // Tiered color: green (great), yellow (okay), red (poor)
+  const cocTier = cocPct >= 10 ? 'positive' : cocPct >= 5 ? 'warning' : cocPct >= 0 ? 'neutral' : 'negative';
+  const capTier = capPct >= 6 ? 'positive' : capPct >= 3 ? 'warning' : capPct >= 0 ? 'neutral' : 'negative';
+  const cashFlowTier = results.monthlyCashFlow >= 200 ? 'positive' : results.monthlyCashFlow >= 0 ? 'warning' : 'negative';
 
   return (
     <div className="results-panel">
