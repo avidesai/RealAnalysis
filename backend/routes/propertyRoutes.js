@@ -93,7 +93,8 @@ router.post('/:id/duplicate', protect, async (req, res) => {
     delete data.__v;
     const duplicate = new Property({
       ...data,
-      name: `${property.name || property.address || 'Untitled'} (Copy)`,
+      address: property.address ? `${property.address} (Copy)` : '',
+      name: property.name ? `${property.name} (Copy)` : '',
     });
     const saved = await duplicate.save();
     res.status(201).json(saved);
